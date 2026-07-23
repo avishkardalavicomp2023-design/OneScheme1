@@ -1,0 +1,322 @@
+/* ==========================================================
+                    GLOBAL
+========================================================== */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    background:#F5F8FD;
+    color:#1F2937;
+}
+
+/* ==========================================================
+                    NAVBAR
+========================================================== */
+.navbar{
+    padding:15px 0;
+}
+
+.navbar-brand{
+    font-size:28px;
+    font-weight:700;
+    color:#2563EB !important;
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.navbar-brand img{
+    border-radius:50%;
+}
+
+/* ==========================================================
+                    HERO
+========================================================== */
+.hero-section{
+    background:linear-gradient(135deg,#2563EB,#7C3AED);
+    color:white;
+    padding:80px 0;
+    text-align:center;
+    border-radius:0 0 40px 40px;
+    margin-bottom:50px;
+}
+
+.hero-section h1{
+    font-size:48px;
+    font-weight:700;
+    margin-bottom:15px;
+}
+
+.hero-section p{
+    font-size:18px;
+    opacity:.95;
+}
+
+/* ==========================================================
+                    STATS
+========================================================== */
+.stats{
+    margin-top:-40px;
+    margin-bottom:40px;
+}
+
+.stat-card{
+    background:white;
+    border-radius:20px;
+    padding:30px;
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+    transition:.3s;
+}
+
+.stat-card:hover{
+    transform:translateY(-8px);
+}
+
+.stat-card h2{
+    color:#2563EB;
+    font-size:38px;
+    font-weight:700;
+}
+
+.stat-card p{
+    color:#666;
+    margin-top:8px;
+}
+
+/* ==========================================================
+                    SEARCH
+========================================================== */
+.search-box{
+    height:58px;
+    border-radius:40px;
+    padding-left:25px;
+    border:1px solid #ddd;
+    box-shadow:0 5px 15px rgba(0,0,0,.05);
+}
+
+.form-select{
+    height:58px;
+    border-radius:40px;
+}
+
+/* ==========================================================
+                    SCHEME CARD
+========================================================== */
+.scheme-card{
+    background:white;
+    border-radius:25px;
+    padding:28px;
+    box-shadow:0 15px 35px rgba(0,0,0,.08);
+    transition:.35s;
+    height:100%;
+    position:relative;
+    overflow:hidden;
+}
+
+.scheme-card:hover{
+    transform:translateY(-10px);
+    box-shadow:0 20px 45px rgba(0,0,0,.15);
+}
+
+/* top gradient */
+.scheme-card::before{
+    content:"";
+    position:absolute;
+    left:0;
+    top:0;
+    width:100%;
+    height:6px;
+    background:linear-gradient(90deg,#2563EB,#7C3AED);
+}
+
+/* ==========================================================
+                    TITLE
+========================================================== */
+.scheme-title{
+    font-size:24px;
+    font-weight:700;
+    margin-bottom:15px;
+}
+
+/* ==========================================================
+                    BADGES
+========================================================== */
+.badge-category{
+    background:#DBEAFE;
+    color:#2563EB;
+    padding:8px 16px;
+    border-radius:30px;
+    font-weight:600;
+    display:inline-block;
+    margin-bottom:18px;
+}
+
+.badge-type{
+    float:right;
+    background:#DCFCE7;
+    color:#15803D;
+    padding:8px 16px;
+    border-radius:30px;
+    font-size:13px;
+}
+
+/* ==========================================================
+                    DETAILS
+========================================================== */
+.scheme-info{
+    margin-top:20px;
+}
+
+.scheme-info p{
+    margin-bottom:12px;
+    font-size:15px;
+}
+
+.scheme-info i{
+    color:#2563EB;
+    margin-right:10px;
+}
+
+/* ==========================================================
+                    BUTTONS
+========================================================== */
+.scheme-buttons{
+    display:flex;
+    gap:10px;
+    margin-top:25px;
+}
+
+.scheme-buttons .btn{
+    flex:1;
+    border-radius:30px;
+    padding:10px;
+    font-weight:600;
+}
+
+.btn-view{
+    background:#2563EB;
+    color:white;
+}
+
+.btn-view:hover{
+    background:#1D4ED8;
+    color:white;
+}
+
+.btn-apply{
+    border:2px solid #2563EB;
+    color:#2563EB;
+}
+
+.btn-apply:hover{
+    background:#2563EB;
+    color:white;
+}
+
+/* ==========================================================
+                    MODAL
+========================================================== */
+.modal-content{
+    border-radius:25px;
+}
+
+.modal-header{
+    background:#2563EB;
+    color:white;
+    border-radius:25px 25px 0 0;
+}
+
+.modal-body{
+    padding:30px;
+}
+
+.modal-body h4{
+    color:#2563EB;
+    margin-bottom:20px;
+}
+
+/* ==========================================================
+                    NO RESULT
+========================================================== */
+.no-result{
+    text-align:center;
+    padding:80px;
+    background:white;
+    border-radius:20px;
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+}
+
+.no-result i{
+    font-size:70px;
+    color:#EF4444;
+    margin-bottom:20px;
+}
+
+/* ==========================================================
+                    SCROLLBAR
+========================================================== */
+::-webkit-scrollbar{
+    width:8px;
+}
+
+::-webkit-scrollbar-thumb{
+    background:#2563EB;
+    border-radius:20px;
+}
+
+/* ==========================================================
+                    ANIMATION
+========================================================== */
+.scheme-card{
+    animation:fadeUp .5s ease;
+}
+
+@keyframes fadeUp{
+    from{
+        opacity:0;
+        transform:translateY(30px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+/* ==========================================================
+                    RESPONSIVE
+========================================================== */
+@media(max-width:992px){
+    .hero-section h1{
+        font-size:38px;
+    }
+
+    .stat-card{
+        margin-bottom:20px;
+    }
+}
+
+@media(max-width:768px){
+    .hero-section{
+        padding:60px 20px;
+    }
+
+    .hero-section h1{
+        font-size:30px;
+    }
+
+    .scheme-title{
+        font-size:20px;
+    }
+
+    .scheme-buttons{
+        flex-direction:column;
+    }
+
+    .search-box{
+        margin-bottom:15px;
+    }
+}

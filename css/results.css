@@ -1,0 +1,354 @@
+/* =====================================================
+   GLOBAL
+===================================================== */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    background:#F4F8FC;
+    color:#222;
+}
+
+/* =====================================================
+   HEADER
+===================================================== */
+.page-title{
+    text-align:center;
+    margin-bottom:50px;
+}
+
+.page-title h1{
+    font-size:42px;
+    font-weight:700;
+    color:#2563EB;
+}
+
+.page-title p{
+    color:#666;
+    margin-top:10px;
+    font-size:18px;
+}
+
+/* =====================================================
+   SECTION TITLE
+===================================================== */
+.section-heading{
+    font-size:30px;
+    font-weight:700;
+    margin-bottom:30px;
+}
+
+/* =====================================================
+   CARD
+===================================================== */
+.scheme-card{
+    background:#fff;
+    border-radius:20px;
+    padding:30px;
+    margin-bottom:30px;
+    box-shadow:0 12px 35px rgba(0,0,0,.08);
+    transition:.35s;
+    border-left:6px solid #2563EB;
+}
+
+.scheme-card:hover{
+    transform:translateY(-8px);
+    box-shadow:0 20px 45px rgba(0,0,0,.12);
+}
+
+/* =====================================================
+   CARD HEADER
+===================================================== */
+.scheme-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.scheme-name{
+    font-size:25px;
+    font-weight:700;
+}
+
+.scheme-badge{
+    background:#D1FAE5;
+    color:#047857;
+    padding:8px 18px;
+    border-radius:30px;
+    font-size:14px;
+    font-weight:600;
+}
+
+/* =====================================================
+   DETAILS
+===================================================== */
+.scheme-details{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:18px;
+    margin-top:20px;
+}
+
+.detail{
+    background:#F8FAFC;
+    border-radius:15px;
+    padding:18px;
+}
+
+.detail h6{
+    color:#666;
+    margin-bottom:6px;
+    font-size:14px;
+}
+
+.detail p{
+    margin:0;
+    font-size:17px;
+    font-weight:600;
+}
+
+/* =====================================================
+   BUTTON
+===================================================== */
+.apply-btn{
+    margin-top:25px;
+    background:#2563EB;
+    color:#fff;
+    border:none;
+    padding:12px 28px;
+    border-radius:30px;
+    text-decoration:none;
+    display:inline-block;
+    font-weight:600;
+    transition:.3s;
+}
+
+.apply-btn:hover{
+    background:#1D4ED8;
+    color:white;
+    transform:translateY(-3px);
+}
+
+/* =====================================================
+   HOME BUTTON
+===================================================== */
+.home-btn{
+    margin-top:40px;
+    padding:14px 35px;
+    border-radius:40px;
+    font-size:18px;
+    font-weight:600;
+}
+
+/* =====================================================
+   NO RESULT
+===================================================== */
+.no-result{
+    background:white;
+    border-radius:20px;
+    padding:60px;
+    text-align:center;
+    box-shadow:0 15px 35px rgba(0,0,0,.08);
+}
+
+.no-result i{
+    font-size:70px;
+    color:#EF4444;
+    margin-bottom:20px;
+}
+
+.no-result h3{
+    font-weight:700;
+    margin-bottom:15px;
+}
+
+.no-result p{
+    color:#666;
+}
+
+/* =====================================================
+   SUCCESS BOX
+===================================================== */
+.success-box{
+    background:linear-gradient(135deg,#2563EB,#7C3AED);
+    color:white;
+    padding:40px;
+    border-radius:25px;
+    text-align:center;
+    margin-bottom:50px;
+    box-shadow:0 15px 35px rgba(37,99,235,.3);
+}
+
+.success-box h2{
+    font-size:34px;
+    font-weight:700;
+}
+
+.success-box p{
+    margin-top:15px;
+    font-size:18px;
+}
+
+/* =====================================================
+   ICONS
+===================================================== */
+.icon{
+    width:55px;
+    height:55px;
+    background:#EFF6FF;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#2563EB;
+    font-size:24px;
+}
+
+/* =====================================================
+   ANIMATION
+===================================================== */
+.scheme-card{
+    animation:fadeUp .5s ease;
+}
+
+@keyframes fadeUp{
+    from{
+        opacity:0;
+        transform:translateY(40px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+@media(max-width:768px){
+    .page-title h1{
+        font-size:32px;
+    }
+
+    .scheme-header{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:15px;
+    }
+
+    .scheme-name{
+        font-size:22px;
+    }
+
+    .scheme-details{
+        grid-template-columns:1fr;
+    }
+
+    .success-box h2{
+        font-size:28px;
+    }
+}
+
+/* ===========================================
+            COMPARE TOOLBAR
+=========================================== */
+.compare-toolbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+    flex-wrap:wrap;
+    gap:15px;
+}
+
+.compare-toolbar h2{
+    font-weight:700;
+    color:#1E3A8A;
+}
+
+.compare-toolbar .btn{
+    border-radius:30px;
+    padding:10px 24px;
+    font-weight:600;
+}
+
+/* ===========================================
+            CHECKBOX
+=========================================== */
+.compare-checkbox{
+    position:absolute;
+    top:18px;
+    right:18px;
+    transform:scale(1.4);
+    display:none;
+    cursor:pointer;
+}
+
+.scheme-card{
+    position:relative;
+}
+
+.scheme-card.compare-active{
+    border:2px solid #2563EB;
+}
+
+.scheme-card.selected{
+    border:2px solid #16A34A;
+    box-shadow:0 10px 30px rgba(22,163,74,.25);
+}
+
+/* ===========================================
+            RESPONSIVE
+=========================================== */
+@media(max-width:768px){
+    .compare-toolbar{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+    .compare-toolbar .right{
+        width:100%;
+        display:flex;
+        gap:10px;
+    }
+
+    .compare-toolbar .btn{
+        flex:1;
+    }
+}
+
+/* ==========================================
+                HOME BUTTON
+========================================== */
+
+.home-btn{
+    background:linear-gradient(135deg,#2563EB,#4F46E5);
+    color:#fff;
+    border:none;
+    border-radius:50px;
+    padding:14px 35px;
+    font-size:18px;
+    font-weight:600;
+    transition:.3s;
+    text-decoration:none;
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    box-shadow:0 10px 25px rgba(37,99,235,.25);
+}
+
+.home-btn:hover{
+    background:linear-gradient(135deg,#1D4ED8,#4338CA);
+    transform:translateY(-3px);
+    color:#fff;
+    box-shadow:0 15px 30px rgba(37,99,235,.35);
+}
+
+.home-btn i{
+    font-size:20px;
+}

@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Eligibility Checker | One Nation One Scheme</title>
+
+    <link rel="icon" type="image/png" href="../images/logo.png">
+
+    <!-- Bootstrap -->
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Google Font -->
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- CSS -->
+
+    <link rel="stylesheet" href="../css/eligibility.css">
+
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-lg bg-white shadow-sm">
+
+    <div class="container">
+
+        <a class="navbar-brand fw-bold text-primary fs-2" href="../index.html">
+
+            <i class="bi bi-bank2"></i>
+
+            One Scheme
+
+        </a>
+
+        <div class="ms-auto">
+
+            <a href="../index.html" class="btn btn-outline-primary home-btn">
+
+                <i class="bi bi-house-door-fill"></i>
+
+                Home
+
+            </a>
+
+        </div>
+
+    </div>
+
+</nav>
+
+    <!-- Wizard -->
+
+    <section class="wizard-section">
+
+        <div class="container">
+
+            <div class="wizard-card">
+
+                <!-- Heading -->
+
+                <div class="text-center mb-5">
+
+                    <span class="wizard-badge">
+
+                        AI Powered Eligibility Checker
+
+                    </span>
+
+                    <h2>
+
+                        Search Personalized Scheme For You
+
+                    </h2>
+
+                    <p>
+
+                        Complete the following information to discover
+                        government schemes that match your profile.
+
+                    </p>
+
+                </div>
+
+                <!-- Progress -->
+
+                <div class="progress-container">
+
+                    <div class="progress">
+
+                        <div class="progress-bar" id="progressBar"></div>
+
+                    </div>
+
+                    <div class="step-text">
+
+                        Step
+
+                        <span id="currentStep">1</span>
+
+                        of 6
+
+                    </div>
+
+                </div>
+
+                <!-- ========================= -->
+
+                <!-- STEP 1 -->
+
+                <!-- ========================= -->
+
+                <div class="form-step active">
+
+                    <h4>
+
+                        Basic Information
+
+                    </h4>
+
+                    <div class="mb-4">
+
+                        <label class="form-label">
+
+                            Gender
+
+                        </label>
+
+                        <select class="form-select" id="gender">
+
+                            <option>Select Gender</option>
+
+                            <option>Male</option>
+
+                            <option>Female</option>
+
+                            <option>Other</option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="mb-4">
+
+                        <label class="form-label">
+
+                            Age
+
+                        </label>
+
+                        <input type="number"
+                        class="form-control"
+                        id="age"
+                        placeholder="Enter your age"
+                        min="1"
+                        max="100"
+                        step="1"
+                        required>
+
+                    </div>
+
+                    <div class="buttons">
+
+                        <button class="btn btn-secondary resetBtn">
+
+                            Reset
+
+                        </button>
+
+                        <button class="btn btn-primary nextBtn">
+
+                            Next
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <!-- ========================= -->
+
+                <!-- STEP 2 -->
+
+                <!-- ========================= -->
+
+                <div class="form-step">
+
+                    <h4>
+
+                        Location Details
+
+                    </h4>
+
+                    <div class="mb-4">
+
+                        <label class="form-label">
+
+                            State
+
+                        </label>
+
+                        <select id="state" class="form-select">
+
+                            <option>Select State / UT</option>
+                            <option>Andaman and Nicobar Islands</option>
+                            <option>Andhra Pradesh</option>
+                            <option>Arunachal Pradesh</option>
+                            <option>Assam</option>
+                            <option>Bihar</option>
+                            <option>Chandigarh</option>
+                            <option>Chhattisgarh</option>
+                            <option>Dadra and Nagar Haveli and Daman and Diu</option>
+                            <option>Delhi</option>
+                            <option>Goa</option>
+                            <option>Gujarat</option>
+                            <option>Haryana</option>
+                            <option>Himachal Pradesh</option>
+                            <option>Jammu and Kashmir</option>
+                            <option>Jharkhand</option>
+                            <option>Karnataka</option>
+                            <option>Kerala</option>
+                            <option>Ladakh</option>
+                            <option>Lakshadweep</option>
+                            <option>Madhya Pradesh</option>
+                            <option>Maharashtra</option>
+                            <option>Manipur</option>
+                            <option>Meghalaya</option>
+                            <option>Mizoram</option>
+                            <option>Nagaland</option>
+                            <option>Odisha</option>
+                            <option>Puducherry</option>
+                            <option>Punjab</option>
+                            <option>Rajasthan</option>
+                            <option>Sikkim</option>
+                            <option>Tamil Nadu</option>
+                            <option>Telangana</option>
+                            <option>Tripura</option>
+                            <option>Uttar Pradesh</option>
+                            <option>Uttarakhand</option>
+                            <option>West Bengal</option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="mb-4">
+
+                        <label class="form-label">
+
+                            Area
+
+                        </label>
+
+                        <select id="area" class="form-select">
+
+                            <option>Select Area</option>
+
+                            <option>Urban</option>
+
+                            <option>Rural</option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="buttons">
+
+                        <button class="btn btn-outline-primary prevBtn">
+
+                            Previous
+
+                        </button>
+
+                        <button class="btn btn-secondary resetBtn">
+
+                            Reset
+
+                        </button>
+
+                        <button class="btn btn-primary nextBtn">
+
+                            Next
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <!-- ========================= -->
+
+                <!-- STEP 3 -->
+
+                <!-- ========================= -->
+
+                <div class="form-step">
+
+                    <h4>
+
+                        Category
+
+                    </h4>
+
+                    <div class="mb-4">
+
+                        <label class="form-label">
+
+                            Select Category
+
+                        </label>
+
+                        <select id="category" class="form-select">
+
+                            <option>Select Category</option>
+
+                            <option>General</option>
+
+                            <option>OBC</option>
+
+                            <option>SC</option>
+
+                            <option>ST</option>
+
+                            <option>EWS</option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="buttons">
+
+                        <button class="btn btn-outline-primary prevBtn">
+
+                            Previous
+
+                        </button>
+
+                        <button class="btn btn-secondary resetBtn">
+
+                            Reset
+
+                        </button>
+
+                        <button class="btn btn-primary nextBtn">
+
+                            Next
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <!-- ========================= -->
+
+                <!-- STEP 4 -->
+
+                <!-- ========================= -->
+
+                <div class="form-step">
+
+                    <h4>
+
+                        Disability Information
+
+                    </h4>
+
+                    <div class="mb-4">
+
+                        <label class="form-label">
+
+                            Are you physically disabled?
+
+                        </label>
+
+                        <select class="form-select"
+                            id="disabled">
+
+                            <option>Select</option>
+
+                            <option>Yes</option>
+
+                            <option>No</option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="mb-4"
+                        id="percentageBox">
+
+                        <label class="form-label">
+
+                            Disability Percentage
+
+                        </label>
+
+                        <input type="number"
+                            id="percentage"
+                            class="form-control"
+                            placeholder="Enter Percentage">
+
+                    </div>
+
+                    <div class="buttons">
+
+                        <button class="btn btn-outline-primary prevBtn">
+
+                            Previous
+
+                        </button>
+
+                        <button class="btn btn-secondary resetBtn">
+
+                            Reset
+
+                        </button>
+
+                        <button class="btn btn-primary nextBtn">
+
+                            Next
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <!-- ========================= -->
+                <!-- STEP 5 -->
+                <!-- Student Details -->
+                <div class="form-step">
+
+                    <h4>Occupation Details</h4>
+
+                    <div class="mb-4">
+                        <label class="form-label">What is your occupation?</label>
+
+                        <select class="form-select" id="occupation">
+                            <option value="">Select Occupation</option>
+                            <option value="Student">Student</option>
+                            <option value="Farmer">Farmer</option>
+                            <option value="Business Owner">Business Owner</option>
+                            <option value="Startup Founder">Startup Founder</option>
+                            <option value="Government Employee">Government Employee</option>
+                            <option value="Private Employee">Private Employee</option>
+                            <option value="Self Employed">Self Employed</option>
+                            <option value="Unemployed">Unemployed</option>
+                            <option value="Retired">Retired</option>
+                            <option value="Homemaker">Homemaker</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+
+                    <!-- Student Details -->
+                    <div id="studentSection" style="display:none;">
+
+                        <hr>
+                        <h5 class="mb-4">Student Details</h5>
+
+                        <div class="mb-3">
+                            <label class="form-label">Student Type</label>
+
+                            <select class="form-select" id="studentType">
+                                <option value="">Select Student Type</option>
+                                <option value="School Student">School Student</option>
+                                <option value="College Student">College Student</option>
+                                <option value="Diploma Student">Diploma Student</option>
+                                <option value="ITI Student">ITI Student</option>
+                                <option value="Research Scholar">Research Scholar</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Academic Level</label>
+
+                            <select class="form-select" id="academicLevel">
+                                <option value="">Select Academic Level</option>
+                                <option value="10th">10th</option>
+                                <option value="12th">12th</option>
+                                <option value="Diploma">Diploma</option>
+                                <option value="Undergraduate">Undergraduate</option>
+                                <option value="Postgraduate">Postgraduate</option>
+                                <option value="PhD">PhD</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Course</label>
+
+                            <input
+                                type="text"
+                                id="course"
+                                class="form-control"
+                                placeholder="Example: B.Tech Computer Engineering">
+                        </div>
+                    </div>
+
+                    <div class="buttons">
+                        <button class="btn btn-outline-primary prevBtn">
+                            Previous
+                        </button>
+
+                        <button class="btn btn-secondary resetBtn">
+                            Reset
+                        </button>
+
+                        <button class="btn btn-primary nextBtn">
+                            Next
+                        </button>
+                    </div>
+
+                </div>
+
+
+                <!-- ========================= -->
+
+                <!-- STEP 6 -->
+
+                <!-- ========================= -->
+
+                <div  class="form-step">
+
+                    <h4>
+
+                        Income Details
+
+                    </h4>
+
+                    <div class="mb-4">
+
+                        <label class="form-label">
+
+                            Annual Family Income
+
+                        </label>
+
+                        <input type="number"
+                            id="income"
+                            class="form-control"
+                            placeholder="Enter Annual Income">
+
+                    </div>
+
+                    <div class="buttons">
+
+                        <button class="btn btn-outline-primary prevBtn">
+
+                            Previous
+
+                        </button>
+
+                        <button class="btn btn-secondary resetBtn">
+
+                            Reset
+
+                        </button>
+
+                        <button class="btn btn-success">
+
+                            Submit
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <script src="../js/schemes.js"></script>
+    <script src="../js/eligibility.js"></script>
+
+</body>
+
+</html>

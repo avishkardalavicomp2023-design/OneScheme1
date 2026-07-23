@@ -1,0 +1,478 @@
+/* ===================================================
+   Google Font & Global
+=================================================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+
+    background:#F4F8FD;
+
+    color:#222;
+
+}
+
+
+/* ===================================================
+   Navbar
+=================================================== */
+
+.navbar{
+
+    padding:18px 0;
+
+}
+
+.navbar-brand{
+
+    color:#2563EB !important;
+
+}
+
+.navbar-brand i{
+
+    margin-right:8px;
+
+}
+
+
+/* ===================================================
+   Main Section
+=================================================== */
+
+.wizard-section{
+
+    min-height:100vh;
+
+    display:flex;
+
+    align-items:center;
+
+    padding:70px 0;
+
+}
+
+
+/* ===================================================
+   Wizard Card
+=================================================== */
+
+.wizard-card{
+
+    background:#fff;
+
+    border-radius:30px;
+
+    padding:50px;
+
+    box-shadow:0 20px 50px rgba(0,0,0,.08);
+
+    overflow:hidden;
+
+}
+
+
+/* ===================================================
+   Badge
+=================================================== */
+
+.wizard-badge{
+
+    display:inline-block;
+
+    padding:10px 20px;
+
+    border-radius:30px;
+
+    background:#DBEAFE;
+
+    color:#2563EB;
+
+    font-weight:600;
+
+    margin-bottom:20px;
+
+}
+
+
+/* ===================================================
+   Heading
+=================================================== */
+
+.wizard-card h2{
+
+    font-size:42px;
+
+    font-weight:700;
+
+    margin-bottom:15px;
+
+}
+
+.wizard-card p{
+
+    color:#666;
+
+    font-size:17px;
+
+    margin-bottom:35px;
+
+}
+
+
+/* ===================================================
+   Progress
+=================================================== */
+
+.progress-container{
+
+    margin-bottom:45px;
+
+}
+
+.progress{
+
+    height:12px;
+
+    border-radius:20px;
+
+    background:#E5E7EB;
+
+}
+
+.progress-bar{
+
+    width:16.66%;
+
+    background:linear-gradient(90deg,#2563EB,#7C3AED);
+
+    transition:.4s;
+
+}
+
+.step-text{
+
+    margin-top:12px;
+
+    font-weight:600;
+
+    color:#555;
+
+}
+
+
+/* ===================================================
+   Form Steps
+=================================================== */
+
+.form-step{
+
+    display:none;
+
+    animation:fade .4s ease;
+
+}
+
+.form-step.active{
+
+    display:block;
+
+}
+
+@keyframes fade{
+
+    from{
+
+        opacity:0;
+
+        transform:translateX(30px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateX(0);
+
+    }
+
+}
+
+
+/* ===================================================
+   Step Heading
+=================================================== */
+
+.form-step h4{
+
+    font-size:28px;
+
+    font-weight:700;
+
+    margin-bottom:35px;
+
+}
+
+
+/* ===================================================
+   Labels
+=================================================== */
+
+.form-label{
+
+    font-weight:600;
+
+    margin-bottom:10px;
+
+}
+
+
+/* ===================================================
+   Inputs
+=================================================== */
+
+.form-control,
+
+.form-select{
+
+    height:58px;
+
+    border-radius:15px;
+
+    border:1px solid #D9DCE3;
+
+    padding:12px 18px;
+
+    transition:.3s;
+
+    font-size:16px;
+
+}
+
+.form-control:focus,
+
+.form-select:focus{
+
+    border-color:#2563EB;
+
+    box-shadow:0 0 0 .2rem rgba(37,99,235,.15);
+
+}
+
+
+/* ===================================================
+   Buttons
+=================================================== */
+
+.buttons{
+
+    display:flex;
+
+    justify-content:flex-end;
+
+    gap:15px;
+
+    margin-top:40px;
+
+}
+
+.buttons .btn{
+
+    min-width:130px;
+
+    height:48px;
+
+    border-radius:30px;
+
+    font-weight:600;
+
+}
+
+
+/* ===================================================
+   Primary
+=================================================== */
+
+.btn-primary{
+
+    background:#2563EB;
+
+    border:none;
+
+}
+
+.btn-primary:hover{
+
+    background:#1D4ED8;
+
+}
+
+
+/* ===================================================
+   Success
+=================================================== */
+
+.btn-success{
+
+    background:#10B981;
+
+    border:none;
+
+}
+
+.btn-success:hover{
+
+    background:#059669;
+
+}
+
+
+/* ===================================================
+   Reset
+=================================================== */
+
+.btn-secondary{
+
+    background:#6B7280;
+
+    border:none;
+
+}
+
+
+/* ===================================================
+   Previous
+=================================================== */
+
+.btn-outline-primary{
+
+    border-radius:30px;
+
+}
+
+
+/* ===================================================
+   Percentage Box
+=================================================== */
+
+#percentageBox{
+
+    display:none;
+
+}
+
+
+/* ===================================================
+   Hover
+=================================================== */
+
+.btn{
+
+    transition:.3s;
+
+}
+
+.btn:hover{
+
+    transform:translateY(-3px);
+
+}
+
+
+/* ===================================================
+   Responsive
+=================================================== */
+
+@media(max-width:992px){
+
+    .wizard-card{
+
+        padding:35px;
+
+    }
+
+    .wizard-card h2{
+
+        font-size:34px;
+
+    }
+
+}
+
+@media(max-width:768px){
+
+    .wizard-card{
+
+        padding:25px;
+
+    }
+
+    .wizard-card h2{
+
+        font-size:28px;
+
+    }
+
+    .form-step h4{
+
+        font-size:22px;
+
+    }
+
+    .buttons{
+
+        flex-direction:column;
+
+    }
+
+    .buttons .btn{
+
+        width:100%;
+
+    }
+
+}
+
+@media(max-width:576px){
+
+    .wizard-card{
+
+        border-radius:20px;
+
+    }
+
+    .wizard-badge{
+
+        font-size:14px;
+
+    }
+
+    .wizard-card p{
+
+        font-size:15px;
+
+    }
+
+}
+
+#studentSection{
+
+    display:none;
+
+    margin-top:35px;
+
+    padding:30px;
+
+    border-radius:20px;
+
+    background:#F8FAFC;
+
+    border:1px solid #E5E7EB;
+
+}
