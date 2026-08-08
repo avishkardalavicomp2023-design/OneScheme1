@@ -38,6 +38,8 @@
     <link rel="stylesheet"
           href="css/style.css">
 
+    <link rel="stylesheet" href="css/eligibility.css">
+
 </head>
 
 <body>
@@ -118,7 +120,7 @@
 
                     <span class="hero-badge">
 
-                        Discover Government Benefits
+                        Discover Benefits
 
                     </span>
 
@@ -137,33 +139,12 @@
 
                     </p>
 
-                    <div class="search-box">
+                </div>
 
-                        <input
-                            type="text"
-                            id="homeSearch"
-                            class="form-control"
-                            placeholder="Search any scheme...">
+                <!-- RIGHT SIDE - EXISTING ELIGIBILITY FORM -->
+                <div class="col-lg-5">
 
-                        <button>
-
-                            <i class="bi bi-search"></i>
-
-                        </button>
-
-                    </div>
-
-                    <div id="searchResults" class="search-results"></div>
-
-                    <div class="hero-tags">
-
-                        <span>Student</span>
-
-                        <span>Women</span>
-
-                        <span>Farmer</span>
-
-                        <span>Business</span>
+                    <div id="eligibilityContainer"></div>
 
                     </div>
 
@@ -183,16 +164,25 @@
 
     <div class="container">
 
-        <!-- Personalized Scheme Button -->
+        <div class="search-box">
 
-        <div class="text-center mb-5">
-            <a href="pages/eligibility.html"
-            class="personalized-btn text-decoration-none">
-                <i class="bi bi-stars"></i>
-                    Search Personalized Scheme For You →
-            </a>
+            <input
+                type="text"
+                id="homeSearch"
+                class="form-control"
+                placeholder="Search any scheme...">
+
+            <button>
+
+                <i class="bi bi-search"></i>
+
+            </button>
+
         </div>
 
+        <div id="searchResults" class="search-results"></div>
+
+        <br><br>
         <div class="section-title text-center mb-5">
 
             <h2>Explore by Category</h2>
@@ -358,9 +348,39 @@
 
 </section>
 
+<script>
+fetch("pages/eligibility.html")
+    .then(response => response.text())
+    .then(html => {
+
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, "text/html");
+
+        const wizard = doc.querySelector(".wizard-card");
+
+        if (wizard) {
+
+            document.getElementById("eligibilityContainer")
+                .appendChild(wizard);
+
+            // Load eligibility.js AFTER the form is inserted
+            const script = document.createElement("script");
+
+            script.src = "js/eligibility.js";
+
+            document.body.appendChild(script);
+        }
+
+    })
+    .catch(error => {
+        console.error("Error loading eligibility form:", error);
+    });
+</script>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
 <script src="js/schemes.js"></script>
 <script src="js/script.js"></script>
+
 
 </body>
 

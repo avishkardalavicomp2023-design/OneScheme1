@@ -73,7 +73,7 @@
 
                     <span class="wizard-badge">
 
-                        AI Powered Eligibility Checker
+                        Eligibility Checker
 
                     </span>
 
@@ -86,7 +86,7 @@
                     <p>
 
                         Complete the following information to discover
-                        government schemes that match your profile.
+                        schemes that match your profile.
 
                     </p>
 
@@ -124,29 +124,47 @@
 
                     <h4>
 
-                        Basic Information
+                        Give Us Your Basic Information
 
                     </h4>
 
                     <div class="mb-4">
 
-                        <label class="form-label">
+                        <label class="form-label">Gender</label>
 
-                            Gender
+                        <div class="gender-options">
 
-                        </label>
+                            <button type="button"
+                                    class="gender-option"
+                                    data-value="Male">
 
-                        <select class="form-select" id="gender">
+                                <i class="bi bi-gender-male"></i>
+                                <span>Male</span>
 
-                            <option>Select Gender</option>
+                            </button>
 
-                            <option>Male</option>
+                            <button type="button"
+                                    class="gender-option"
+                                    data-value="Female">
 
-                            <option>Female</option>
+                                <i class="bi bi-gender-female"></i>
+                                <span>Female</span>
 
-                            <option>Other</option>
+                            </button>
 
-                        </select>
+                            <button type="button"
+                                    class="gender-option"
+                                    data-value="Other">
+
+                                <i class="bi bi-gender-ambiguous"></i>
+                                <span>Other</span>
+
+                            </button>
+
+                        </div>
+
+                        <!-- Hidden value used by existing JavaScript -->
+                        <input type="hidden" id="gender" value="">
 
                     </div>
 
@@ -255,21 +273,31 @@
 
                     <div class="mb-4">
 
-                        <label class="form-label">
+                        <label class="form-label">Area</label>
 
-                            Area
+                        <div class="area-options">
 
-                        </label>
+                            <button type="button"
+                                    class="area-option"
+                                    data-value="Urban">
 
-                        <select id="area" class="form-select">
+                                <i class="bi bi-buildings-fill"></i>
+                                <span>Urban</span>
 
-                            <option>Select Area</option>
+                            </button>
 
-                            <option>Urban</option>
+                            <button type="button"
+                                    class="area-option"
+                                    data-value="Rural">
 
-                            <option>Rural</option>
+                                <i class="bi bi-tree-fill"></i>
+                                <span>Rural</span>
 
-                        </select>
+                            </button>
+
+                        </div>
+
+                        <input type="hidden" id="area" value="">
 
                     </div>
 
@@ -307,7 +335,7 @@
 
                     <h4>
 
-                        Category
+                        What's Your Category?
 
                     </h4>
 
@@ -321,7 +349,7 @@
 
                         <select id="category" class="form-select">
 
-                            <option>Select Category</option>
+                            <option value="">Select Category</option>
 
                             <option>General</option>
 
@@ -377,22 +405,31 @@
 
                     <div class="mb-4">
 
-                        <label class="form-label">
+                        <label class="form-label">Do you have a disability?</label>
 
-                            Are you physically disabled?
+                        <div class="disability-options">
 
-                        </label>
+                            <button type="button"
+                                    class="disability-option"
+                                    data-value="Yes">
 
-                        <select class="form-select"
-                            id="disabled">
+                                <i class="bi bi-person-wheelchair"></i>
+                                <span>Yes</span>
 
-                            <option>Select</option>
+                            </button>
 
-                            <option>Yes</option>
+                            <button type="button"
+                                    class="disability-option"
+                                    data-value="No">
 
-                            <option>No</option>
+                                <i class="bi bi-universal-access"></i>
+                                <span>No</span>
 
-                        </select>
+                            </button>
+
+                        </div>
+
+                        <input type="hidden" id="disabled" value="">
 
                     </div>
 
@@ -401,7 +438,7 @@
 
                         <label class="form-label">
 
-                            Disability Percentage
+                            What is Your Disability Percentage?
 
                         </label>
 
@@ -441,10 +478,9 @@
                 <!-- Student Details -->
                 <div class="form-step">
 
-                    <h4>Occupation Details</h4>
+                    <h4>Tell Us What do You Do?</h4>
 
                     <div class="mb-4">
-                        <label class="form-label">What is your occupation?</label>
 
                         <select class="form-select" id="occupation">
                             <option value="">Select Occupation</option>
@@ -504,6 +540,48 @@
                                 class="form-control"
                                 placeholder="Example: B.Tech Computer Engineering">
                         </div>
+
+                        <!-- Institution Type -->
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Institution Type
+                            </label>
+
+                            <div class="institution-options">
+
+                                <button type="button"
+                                        class="institution-option"
+                                        data-value="Government">
+
+                                    <i class="bi bi-bank"></i>
+                                    <span>Government</span>
+
+                                </button>
+
+                                <button type="button"
+                                        class="institution-option"
+                                        data-value="Private">
+
+                                    <i class="bi bi-building"></i>
+                                    <span>Private</span>
+
+                                </button>
+
+                                <button type="button"
+                                        class="institution-option"
+                                        data-value="Aided">
+
+                                    <i class="bi bi-building-check"></i>
+                                    <span>Aided</span>
+
+                                </button>
+
+                            </div>
+
+                            <input type="hidden" id="institutionType" value="">
+
+                        </div>
                     </div>
 
                     <div class="buttons">
@@ -521,6 +599,8 @@
                     </div>
 
                 </div>
+
+                
 
 
                 <!-- ========================= -->

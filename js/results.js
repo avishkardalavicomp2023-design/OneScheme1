@@ -104,9 +104,9 @@ if(eligibleSchemes.length > 0){
 
                 <div class="scheme-info">
                     <p>
-                        <i class="bi bi-building"></i>
-                        <strong>Organization :</strong>
-                        ${scheme.organization}
+                        <i class="bi bi-calendar3"></i>
+                        <strong>Age Limit :</strong>
+                        ${scheme.minAge} - ${scheme.maxAge} years
                     </p>
 
                     <p>
@@ -116,9 +116,9 @@ if(eligibleSchemes.length > 0){
                     </p>
 
                     <p>
-                        <i class="bi bi-person"></i>
-                        <strong>Occupation :</strong>
-                        ${scheme.occupation}
+                        <i class="bi bi-currency-rupee"></i>
+                        <strong>Income Limit :</strong>
+                        ₹${scheme.incomeLimit.toLocaleString()}
                     </p>
 
                     <p>

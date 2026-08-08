@@ -14,7 +14,7 @@ const schemes = [
         category: "Education",
         state: "All",
         gender: "Any",
-        minAge: 0,
+        minAge: 17,
         maxAge: 40,
         student: true,
         academicLevel: "Any",
@@ -26,9 +26,18 @@ const schemes = [
         website: "https://www.parivartanecss.com/",
         eligibility(user){
             return(
-                user.occupation === "Student" &&
-                user.academicLevel === "Undergraduate" &&
-                user.income <= 250000
+                    user.occupation === "Student" &&
+                    user.studentType === "College Student" &&
+                    user.academicLevel === "Undergraduate" &&
+                    user.course === "Engineering"&&
+                    (
+                        user.institutionType === "Government" ||
+                        user.institutionType === "Private" ||
+                        user.institutionType === "Aided"
+                    ) &&
+                    user.age >= 17 &&
+                    user.age <= 40 &&
+                    user.income <= 250000
             );
         }
     },
@@ -57,9 +66,18 @@ const schemes = [
         website:"https://scholarships.reliancefoundation.org",
         eligibility(user){
             return(
-                user.occupation === "Student" &&
-                user.academicLevel === "Undergraduate" &&
-                user.income <= 250000
+                    user.occupation === "Student" &&
+                    user.studentType === "College Student" &&
+                    user.academicLevel === "Undergraduate" &&
+                    user.course === "Engineering" &&
+                    (
+                        user.institutionType === "Government" ||
+                        user.institutionType === "Private" ||
+                        user.institutionType === "Aided"
+                    )&&
+                    user.age>=17 &&
+                    user.age<=25 &&
+                    user.income <= 250000
             );
         }
 
@@ -78,8 +96,8 @@ const schemes = [
         category:"Education",
         state:"All",
         gender:"Any",
-        minAge:0,
-        maxAge:100,
+        minAge:17,
+        maxAge:25,
         student:true,
         academicLevel:"Any",
         incomeLimit:250000,
@@ -90,10 +108,19 @@ const schemes = [
         website:"https://www.buddy4study.com/page/the-tata-capital-pankh-scholarship-programme",
         eligibility(user){
             return(
-                user.occupation === "Student" &&
-                user.academicLevel === "Undergraduate" &&
-                user.income <= 250000
-            );
+                    user.occupation === "Student"&&
+                    user.studentType === "College Student"&&
+                    user.academicLevel === "Any"&&
+                    user.course === "All"&&
+                    (
+                        user.institutionType === "Government" ||
+                        user.institutionType === "Private" ||
+                        user.institutionType === "Aided"
+                    ),
+                    user.age>=17 &&
+                    user.age<=25 &&
+                    user.income <= 250000
+                );
         }
     },
 
@@ -123,7 +150,14 @@ const schemes = [
             return(
                 user.gender==="Female" &&
                 user.occupation==="Student" &&
+                user.studentType==="College Student" &&
                 user.academicLevel==="Undergraduate" &&
+                user.course==="Engineering" &&
+                (
+                    user.institutionType === "Government" ||
+                    user.institutionType === "Private" ||
+                    user.institutionType === "Aided"
+                ) &&
                 user.age>=17 &&
                 user.age<=22 &&
                 user.income<=800000
@@ -156,7 +190,14 @@ const schemes = [
         eligibility(user){
             return(
                 user.occupation==="Student" &&
-                user.academicLevel==="Engineering" &&
+                user.studentType==="College Student" &&
+                user.academicLevel==="Undergraduate" &&
+                user.course==="Engineering" &&
+                (
+                    user.institutionType === "Government" ||
+                    user.institutionType === "Private" ||
+                    user.institutionType === "Aided"
+                ) &&
                 user.age>=17 &&
                 user.age<=25 &&
                 user.income<=200000
@@ -325,7 +366,14 @@ const schemes = [
         eligibility(user){
             return(
                 user.occupation==="Student" &&
+                user.studentType === "College Student" &&
                 user.academicLevel==="Undergraduate" &&
+                user.course === "Engineering" &&
+                (
+                        user.institutionType === "Government" ||
+                        user.institutionType === "Private" ||
+                        user.institutionType === "Aided"
+                ) &&
                 user.age>=17 &&
                 user.age<=30 &&
                 user.income<=800000

@@ -16,7 +16,79 @@ const occupation = document.getElementById("occupation");
 const studentSection = document.getElementById("studentSection");
 const percentageBox = document.getElementById("percentageBox");
 
+
 let currentStep = 0;
+
+// ===============================================
+// GENDER SELECTION
+// ===============================================
+
+document.addEventListener("click", function(e) {
+
+    const option = e.target.closest(".gender-option");
+
+    if (!option) return;
+
+    // Remove selection from all buttons
+    document.querySelectorAll(".gender-option").forEach(item => {
+        item.classList.remove("active");
+    });
+
+    // Highlight selected button
+    option.classList.add("active");
+
+    // Store selected gender
+    const genderInput = document.getElementById("gender");
+
+    if (genderInput) {
+        genderInput.value = option.dataset.value;
+    }
+
+});
+
+// =====================================
+// OCCUPATION
+// =====================================
+
+occupation.addEventListener("change",()=>{
+
+    if(occupation.value==="Student"){
+
+        studentSection.style.display="block";
+
+    }
+    else{
+
+        studentSection.style.display="none";
+
+    }
+
+});
+
+document.addEventListener("click", function(e) {
+
+    const option = e.target.closest(".area-option");
+
+    if (!option) return;
+
+    // Remove selection from all area buttons
+    document.querySelectorAll(".area-option").forEach(item => {
+        item.classList.remove("active");
+    });
+
+    // Highlight selected area
+    option.classList.add("active");
+
+    // Store selected area
+    const areaInput = document.getElementById("area");
+
+    if (areaInput) {
+        areaInput.value = option.dataset.value;
+    }
+
+});
+
+
 
 
 // ===============================================
@@ -63,7 +135,7 @@ function validateStep(step){
     for(let input of inputs){
 
         // Skip hidden fields
-        if(input.offsetParent === null){
+        if(input.offsetParent === null && input.type !== "hidden"){
         continue;
         }
 
@@ -95,6 +167,8 @@ function validateStep(step){
         }
 
     }
+
+
 
     // Age Validation
     if(step === 0){
@@ -138,6 +212,16 @@ function validateStep(step){
                 course.focus();
                 return false;
             }
+
+const institutionType = document.getElementById("institutionType");
+
+if(institutionType.value === "") {
+
+    alert("Please select Institution Type.");
+
+    return false;
+
+}
 
         }
     }
@@ -246,19 +330,44 @@ resetBtns.forEach(btn=>{
 // DISABILITY
 // ===============================================
 
-disabilitySelect.addEventListener("change",()=>{
+document.addEventListener("click", function(e) {
 
-    if(disabilitySelect.value==="Yes"){
+    const option = e.target.closest(".disability-option");
 
-        percentageBox.style.display="block";
+    if (!option) return;
 
+    // Remove selection from all buttons
+    document.querySelectorAll(".disability-option").forEach(item => {
+        item.classList.remove("active");
+    });
+
+    // Highlight selected option
+    option.classList.add("active");
+
+    // Store selected value
+    const disabilityInput = document.getElementById("disabled");
+
+    if (disabilityInput) {
+        disabilityInput.value = option.dataset.value;
     }
 
-    else{
+    // Show / hide percentage field
+    const percentageBox = document.getElementById("percentageBox");
 
-        percentageBox.style.display="none";
+    if (option.dataset.value === "Yes") {
 
-        percentageBox.querySelector("input").value="";
+        percentageBox.style.display = "block";
+
+    } else {
+
+        percentageBox.style.display = "none";
+
+        const percentageInput =
+            percentageBox.querySelector("input");
+
+        if (percentageInput) {
+            percentageInput.value = "";
+        }
 
     }
 
@@ -281,6 +390,34 @@ occupation.addEventListener("change",()=>{
 
         studentSection.style.display="none";
 
+    }
+
+});
+
+// ===============================================
+// INSTITUTION TYPE SELECTION
+// ===============================================
+
+document.addEventListener("click", function(e) {
+
+    const option = e.target.closest(".institution-option");
+
+    if (!option) return;
+
+    // Remove selection
+    document.querySelectorAll(".institution-option").forEach(item => {
+        item.classList.remove("active");
+    });
+
+    // Highlight selected option
+    option.classList.add("active");
+
+    // Store value
+    const institutionInput =
+        document.getElementById("institutionType");
+
+    if (institutionInput) {
+        institutionInput.value = option.dataset.value;
     }
 
 });
@@ -322,12 +459,14 @@ document.querySelector(".btn-success").addEventListener("click",(e)=>{
 
         course: document.getElementById("course").value,
 
+        institutionType: document.getElementById("institutionType").value,
+
         income: Number(document.getElementById("income").value)
 
     };
 
     localStorage.setItem("userData",JSON.stringify(user));
 
-    window.location.href="results.html";
+    window.location.href="pages/results.html";
 
 });
