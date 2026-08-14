@@ -282,11 +282,12 @@ body{
 =========================================== */
 .compare-checkbox{
     position:absolute;
-    top:18px;
+    top:60px;
     right:18px;
     transform:scale(1.4);
     display:none;
     cursor:pointer;
+    z-index:3;
 }
 
 .scheme-card{
@@ -351,4 +352,110 @@ body{
 
 .home-btn i{
     font-size:20px;
+}
+
+/* ===========================================
+        MATCH PERCENTAGE RING
+=========================================== */
+.match-wrap{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-bottom:20px;
+}
+
+.match-ring{
+    width:56px;
+    height:56px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-shrink:0;
+}
+
+.match-ring-inner{
+    width:44px;
+    height:44px;
+    border-radius:50%;
+    background:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:13px;
+    font-weight:700;
+    color:#2563EB;
+}
+
+.match-label{
+    font-size:14px;
+    font-weight:600;
+    color:#555;
+}
+
+/* ===========================================
+        WHY YOU'RE ELIGIBLE CARD
+=========================================== */
+.why-eligible-card{
+    margin-top:18px;
+    padding:18px;
+    border-radius:18px;
+    background:#F0FDF4;
+    border:1px solid #BBF7D0;
+}
+
+.why-eligible-card h6{
+    color:#15803D;
+    font-weight:700;
+    margin-bottom:10px;
+}
+
+.why-eligible-card ul{
+    list-style:none;
+    margin:0;
+    padding:0;
+    display:grid;
+    gap:6px;
+}
+
+.why-eligible-card li{
+    font-size:13px;
+    color:#166534;
+    display:flex;
+    align-items:flex-start;
+    gap:8px;
+}
+
+.why-eligible-card li i{
+    color:#16A34A;
+    margin-top:2px;
+    flex-shrink:0;
+}
+
+
+/* Remove scrollbar from scheme details modal */
+
+#schemeModal .modal-dialog {
+    max-height: none;
+}
+
+#schemeModal .modal-content {
+    max-height: none;
+}
+
+#schemeModal .modal-body {
+    overflow: visible !important;
+    max-height: none !important;
+}
+
+#schemeModal .modal-body {
+    padding: 20px 30px;
+}
+
+#schemeModal .modal-body p {
+    margin-bottom: 10px;
+}
+
+#schemeModal .modal-body hr {
+    margin: 12px 0;
 }

@@ -320,3 +320,175 @@ body{
         margin-bottom:15px;
     }
 }
+
+/* ==========================================================
+                    TOP ROW (badges + save button)
+========================================================== */
+.card-top-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:10px;
+    margin-bottom:18px;
+}
+
+.card-top-badges{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    flex-wrap:wrap;
+}
+
+.card-top-badges .badge-category,
+.card-top-badges .badge-type{
+    margin-bottom:0;
+    float:none;
+}
+
+/* ==========================================================
+                    SAVE / SHORTLIST BUTTON
+========================================================== */
+.save-btn{
+    flex-shrink:0;
+    background:white;
+    border:2px solid #E5E7EB;
+    color:#6B7280;
+    border-radius:30px;
+    padding:6px 14px;
+    font-size:13px;
+    font-weight:600;
+    display:flex;
+    align-items:center;
+    gap:6px;
+    transition:.25s;
+    white-space:nowrap;
+}
+
+.save-btn:hover{
+    border-color:#EF4444;
+    color:#EF4444;
+    transform:translateY(-2px);
+}
+
+.save-btn.saved{
+    background:#FEF2F2;
+    border-color:#EF4444;
+    color:#EF4444;
+}
+
+/* ==========================================================
+                    REQUIRED DOCUMENTS CARD
+========================================================== */
+.documents-card{
+    margin-top:20px;
+    padding:20px;
+    border-radius:18px;
+    background:#FFFBEB;
+    border:2px dashed #F59E0B;
+}
+
+.documents-card h6{
+    color:#B45309;
+    font-weight:700;
+    margin-bottom:12px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.documents-card ul{
+    list-style:none;
+    margin:0;
+    padding:0;
+    display:grid;
+    gap:8px;
+}
+
+.documents-card li{
+    font-size:14px;
+    color:#78350F;
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.documents-card li i{
+    color:#F59E0B;
+}
+
+.documents-card-empty{
+    background:#F8FAFC;
+    border:2px dashed #CBD5E1;
+}
+
+.documents-card-empty p{
+    color:#64748B;
+    font-size:14px;
+    margin:0;
+}
+
+/* ==========================================================
+                    DEADLINE BADGE
+========================================================== */
+.deadline-note{
+    margin-top:16px;
+    font-size:13px;
+    color:#6B7280;
+    display:flex;
+    align-items:center;
+    gap:6px;
+}
+
+.deadline-badge{
+    margin-top:16px;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:8px 16px;
+    border-radius:30px;
+    font-size:13px;
+    font-weight:600;
+}
+
+.deadline-green{
+    background:#DCFCE7;
+    color:#15803D;
+}
+
+.deadline-orange{
+    background:#FEF3C7;
+    color:#B45309;
+}
+
+.deadline-red{
+    background:#FEE2E2;
+    color:#B91C1C;
+}
+
+
+/* Remove scrollbar from scheme details modal */
+
+#schemeModal .modal-dialog {
+    max-height: none;
+}
+
+#schemeModal .modal-content {
+    max-height: none;
+}
+
+#schemeModal .modal-body {
+    overflow: visible !important;
+    max-height: none !important;
+}
+
+#schemeModal .modal-body {
+    padding: 20px 30px;
+}
+
+#schemeModal .modal-body p {
+    margin-bottom: 10px;
+}
+
+#schemeModal .modal-body hr {
+    margin: 12px 0;
+}

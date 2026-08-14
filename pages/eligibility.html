@@ -130,7 +130,8 @@
 
                     <div class="mb-4">
 
-                        <label class="form-label">Gender</label>
+                        <label class="form-label">Which gender best describes you?</label>
+                        <p class="field-helper">Don't worry — this helps us find schemes that are relevant to you.</p>
 
                         <div class="gender-options">
 
@@ -172,18 +173,32 @@
 
                         <label class="form-label">
 
-                            Age
+                            How old are you?
 
                         </label>
+                        <p class="field-helper">Slide to select — this helps us match age-based schemes.</p>
 
-                        <input type="number"
-                        class="form-control"
-                        id="age"
-                        placeholder="Enter your age"
-                        min="1"
-                        max="100"
-                        step="1"
-                        required>
+                        <div class="slider-field">
+
+                            <div class="slider-value-display">
+                                Age: <span id="ageValueLabel">18</span> years
+                            </div>
+
+                            <input type="range"
+                            class="form-range styled-range"
+                            id="age"
+                            min="1"
+                            max="100"
+                            step="1"
+                            value="18"
+                            required>
+
+                            <div class="slider-minmax">
+                                <span>1</span>
+                                <span>100</span>
+                            </div>
+
+                        </div>
 
                     </div>
 
@@ -223,9 +238,10 @@
 
                         <label class="form-label">
 
-                            State
+                            Where do you live?
 
                         </label>
+                        <p class="field-helper">Some schemes are only available in certain states.</p>
 
                         <select id="state" class="form-select">
 
@@ -273,7 +289,7 @@
 
                     <div class="mb-4">
 
-                        <label class="form-label">Area</label>
+                        <label class="form-label">Do you live in an urban or rural area?</label>
 
                         <div class="area-options">
 
@@ -338,6 +354,7 @@
                         What's Your Category?
 
                     </h4>
+                    <p class="field-helper">This helps us check category-specific reservations and benefits.</p>
 
                     <div class="mb-4">
 
@@ -438,14 +455,30 @@
 
                         <label class="form-label">
 
-                            What is Your Disability Percentage?
+                            What is your disability percentage?
 
                         </label>
 
-                        <input type="number"
-                            id="percentage"
-                            class="form-control"
-                            placeholder="Enter Percentage">
+                        <div class="slider-field">
+
+                            <div class="slider-value-display">
+                                <span id="percentageValueLabel">1</span>%
+                            </div>
+
+                            <input type="range"
+                                id="percentage"
+                                class="form-range styled-range"
+                                min="1"
+                                max="100"
+                                step="1"
+                                value="1">
+
+                            <div class="slider-minmax">
+                                <span>1%</span>
+                                <span>100%</span>
+                            </div>
+
+                        </div>
 
                     </div>
 
@@ -478,7 +511,8 @@
                 <!-- Student Details -->
                 <div class="form-step">
 
-                    <h4>Tell Us What do You Do?</h4>
+                    <h4>What do you do?</h4>
+                    <p class="field-helper">This tells us which schemes are designed for your profile.</p>
 
                     <div class="mb-4">
 
@@ -621,9 +655,10 @@
 
                         <label class="form-label">
 
-                            Annual Family Income
+                            What is your family's yearly income?
 
                         </label>
+                        <p class="field-helper">This helps us find schemes with matching income limits.</p>
 
                         <input type="number"
                             id="income"

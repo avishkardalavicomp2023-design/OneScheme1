@@ -22,7 +22,12 @@
                 One Nation One Scheme
             </a>
 
-            <div>
+            <div class="d-flex gap-2">
+                <button id="viewSavedBtn" class="btn btn-outline-primary">
+                    <i class="bi bi-heart"></i>
+                    Saved Schemes (<span id="savedCount">0</span>)
+                </button>
+
                 <a href="../index.html" class="btn btn-outline-primary">
                     <i class="bi bi-house"></i>
                     Home
@@ -99,6 +104,16 @@
                     <option>Healthcare</option>
                     <option>Housing</option>
                     <option>Women</option>
+                </select>
+            </div>
+
+        </div>
+
+        <div class="row mt-3">
+
+            <div class="col-lg-4 offset-lg-8">
+                <select id="documentFilter" class="form-select">
+                    <option value="All">Filter by Required Document</option>
                 </select>
             </div>
 

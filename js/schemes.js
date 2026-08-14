@@ -24,6 +24,14 @@ const schemes = [
         benefit: "₹15,000 - ₹75,000",
         applyMode: "Online",
         website: "https://www.parivartanecss.com/",
+        documents: [
+            "Aadhaar Card",
+            "Income Certificate",
+            "Previous Year Marksheet",
+            "Bank Account Details",
+            "Admission / Bonafide Certificate"
+        ],
+
         eligibility(user){
             return(
                     user.occupation === "Student" &&
@@ -64,6 +72,14 @@ const schemes = [
         benefit:"Up to ₹2,00,000",
         applyMode:"Online",
         website:"https://scholarships.reliancefoundation.org",
+        documents: [
+            "Aadhaar Card",
+            "Income Certificate",
+            "Previous Year Marksheet",
+            "Bank Account Details",
+            "Admission Letter"
+        ],
+
         eligibility(user){
             return(
                     user.occupation === "Student" &&
@@ -106,6 +122,13 @@ const schemes = [
         benefit:"₹10,000 - ₹1,00,000",
         applyMode:"Online",
         website:"https://www.buddy4study.com/page/the-tata-capital-pankh-scholarship-programme",
+        documents: [
+            "Aadhaar Card",
+            "Income Certificate",
+            "Previous Year Marksheet",
+            "Bank Account Details"
+        ],
+
         eligibility(user){
             return(
                     user.occupation === "Student"&&
@@ -146,6 +169,13 @@ const schemes = [
         benefit:"₹50,000 - ₹1,00,000",
         applyMode:"Online",
         website:"https://www.buddy4study.com/page/infosys-stem-stars-scholarship",
+        documents: [
+            "Aadhaar Card",
+            "Income Certificate",
+            "Previous Year Marksheet",
+            "Bank Account Details"
+        ],
+
         eligibility(user){
             return(
                 user.gender==="Female" &&
@@ -187,6 +217,14 @@ const schemes = [
         benefit:"Tuition Fees + Internship + Training",
         applyMode:"Online",
         website:"https://www.siemens.com/en-us/company/sustainability/corporate-citizenship-india/scholarship-program/",
+        documents: [
+            "Aadhaar Card",
+            "Income Certificate",
+            "Previous Year Marksheet",
+            "Bank Account Details",
+            "College ID Card"
+        ],
+
         eligibility(user){
             return(
                 user.occupation==="Student" &&
@@ -224,6 +262,12 @@ const schemes = [
         benefit: "₹6,000 per year (DBT)",
         applyMode: "Online",
         website: "https://pmkisan.gov.in",
+        documents: [
+            "Aadhaar Card",
+            "Land Ownership Documents",
+            "Bank Account Details"
+        ],
+
         eligibility(user){
             return(
                 user.age>=18 &&
@@ -252,6 +296,12 @@ const schemes = [
         benefit:"Solar Pump Subsidy",
         applyMode:"Online",
         website:"https://pmkusum.mnre.gov.in",
+        documents: [
+            "Aadhaar Card",
+            "Land Ownership Documents",
+            "Bank Account Details"
+        ],
+
         eligibility(user){
             return(
                 user.age>=18 &&
@@ -280,6 +330,13 @@ const schemes = [
         benefit:"Loan Subsidy",
         applyMode:"Online",
         website:"https://xn--i1bn6adp9emg4dcbcajdeflxp1gua1n7bt10abief.xn--11b7cb3a6a.xn--h2brj9c/offerings/schemes-and-services/details/prime-minister-employment-generation-programme-and-other-credit-support-schemes-1-MDMzETMtQWa",
+        documents: [
+            "Aadhaar Card",
+            "PAN Card",
+            "Project Report",
+            "Bank Account Details"
+        ],
+
         eligibility(user){
             return(
                 user.age>=18 &&
@@ -307,6 +364,13 @@ const schemes = [
         benefit:"Business Loan",
         applyMode:"Online",
         website:"https://www.mudra.org.in",
+        documents: [
+            "Aadhaar Card",
+            "PAN Card",
+            "Business Registration Proof",
+            "Bank Account Details"
+        ],
+
         eligibility(user){
             return(
                 user.age>=18 &&
@@ -334,6 +398,12 @@ const schemes = [
         benefit:"Funding & Recognition",
         applyMode:"Online",
         website:"https://www.startupindia.gov.in",
+        documents: [
+            "Aadhaar Card",
+            "PAN Card",
+            "Certificate of Incorporation"
+        ],
+
         eligibility(user){
             return(
                 user.age>=18 &&
@@ -363,6 +433,14 @@ const schemes = [
         benefit:"Tuition Fee Reimbursement",
         applyMode:"Online",
         website:"https://mahadbt2.maharashtra.gov.in/",
+        documents: [
+            "Aadhaar Card",
+            "Income Certificate",
+            "Domicile Certificate (Maharashtra)",
+            "Previous Year Marksheet",
+            "Bank Account Details"
+        ],
+
         eligibility(user){
             return(
                 user.occupation==="Student" &&
@@ -403,6 +481,11 @@ const schemes = [
         benefit:"Cashless Health Insurance Cover up to ₹5 Lakh per Family per Year",
         applyMode:"Online",
         website:"https://beneficiary.nha.gov.in/",
+        documents: [
+            "Aadhaar Card",
+            "Ration Card / SECC Family ID"
+        ],
+
         eligibility(user){
             return(
                 user.age>=0 &&
@@ -431,6 +514,12 @@ const schemes = [
     benefit:"Cash Assistance for Pregnant and Lactating Mothers",
     applyMode:"Online",
     website:"https://wcd.delhi.gov.in/wcd/pradhan-mantri-matru-vandana-yojana-pmmvy",
+        documents: [
+            "Aadhaar Card",
+            "MCP Card (Mother and Child Protection Card)",
+            "Bank Account Details"
+        ],
+
     eligibility(user){
         return(
             user.gender==="Female" &&

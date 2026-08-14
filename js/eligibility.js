@@ -11,10 +11,13 @@ const progressBar = document.getElementById("progressBar");
 const currentStepText = document.getElementById("currentStep");
 
 const ageInput = document.getElementById("age");
+const ageValueLabel = document.getElementById("ageValueLabel");
 const disabilitySelect = document.getElementById("disabled");
 const occupation = document.getElementById("occupation");
 const studentSection = document.getElementById("studentSection");
 const percentageBox = document.getElementById("percentageBox");
+const percentageInputSlider = document.getElementById("percentage");
+const percentageValueLabel = document.getElementById("percentageValueLabel");
 
 
 let currentStep = 0;
@@ -135,7 +138,7 @@ function validateStep(step){
     for(let input of inputs){
 
         // Skip hidden fields
-        if(input.offsetParent === null && input.type !== "hidden"){
+        if(input.offsetParent === null){
         continue;
         }
 
@@ -230,6 +233,10 @@ if(institutionType.value === "") {
 
 }
 
+// ===============================================
+// AGE SLIDER LIVE UPDATE
+// ===============================================
+
 ageInput.addEventListener("input", function () {
 
     if (this.value > 100) {
@@ -240,7 +247,27 @@ ageInput.addEventListener("input", function () {
         this.value = 1;
     }
 
+    if (ageValueLabel) {
+        ageValueLabel.textContent = this.value;
+    }
+
 });
+
+// ===============================================
+// DISABILITY PERCENTAGE SLIDER LIVE UPDATE
+// ===============================================
+
+if (percentageInputSlider) {
+
+    percentageInputSlider.addEventListener("input", function () {
+
+        if (percentageValueLabel) {
+            percentageValueLabel.textContent = this.value;
+        }
+
+    });
+
+}
 
 
 
@@ -312,6 +339,26 @@ resetBtns.forEach(btn=>{
 
             }
 
+            else if(input.type === "range"){
+
+                input.value = input.id === "age" ? "18" : "1";
+
+                if(input.id === "age" && ageValueLabel){
+                    ageValueLabel.textContent = input.value;
+                }
+
+                if(input.id === "percentage" && percentageValueLabel){
+                    percentageValueLabel.textContent = input.value;
+                }
+
+            }
+
+            else if(input.type === "hidden"){
+
+                input.value="";
+
+            }
+
             else{
 
                 input.value="";
@@ -319,6 +366,11 @@ resetBtns.forEach(btn=>{
             }
 
         });
+
+        // Reset visual selection state for choice buttons in this step
+        steps[currentStep]
+            .querySelectorAll(".gender-option, .area-option, .disability-option, .institution-option")
+            .forEach(opt => opt.classList.remove("active"));
 
     });
 
@@ -366,7 +418,11 @@ document.addEventListener("click", function(e) {
             percentageBox.querySelector("input");
 
         if (percentageInput) {
-            percentageInput.value = "";
+            percentageInput.value = "1";
+
+            if (percentageValueLabel) {
+                percentageValueLabel.textContent = "1";
+            }
         }
 
     }
