@@ -459,3 +459,70 @@ body{
 #schemeModal .modal-body hr {
     margin: 12px 0;
 }
+
+
+/* =========================================
+   TRANSLATE BUTTON
+========================================= */
+
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.translate-btn {
+    height: 46px;
+    padding: 0 18px;
+
+    border: 1.5px solid #2563EB;
+    border-radius: 25px;
+
+    background: white;
+    color: #2563EB;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.translate-btn:hover {
+    background: #EFF6FF;
+    transform: translateY(-2px);
+}
+
+.translate-btn i {
+    margin-right: 6px;
+}
+
+/* =========================================
+   HIDE GOOGLE TRANSLATE BAR
+========================================= */
+
+body {
+    top: 0 !important;
+}
+
+.goog-te-banner-frame {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+}
+
+.goog-te-banner-frame.skiptranslate {
+    display: none !important;
+}
+
+.goog-te-balloon-frame {
+    display: none !important;
+}
+
+.skiptranslate {
+    top: 0 !important;
+}
+
+iframe.goog-te-banner-frame {
+    display: none !important;
+}

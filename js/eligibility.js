@@ -126,111 +126,241 @@ function showStep(step){
 }
 
 
-
 // ===============================================
 // VALIDATION
 // ===============================================
 
-function validateStep(step){
+function validateStep(step) {
 
-    const inputs = steps[step].querySelectorAll("input,select");
+    // ==========================================
+    // STEP 1 - GENDER + AGE
+    // ==========================================
 
-    for(let input of inputs){
+    if (step === 0) {
 
-        // Skip hidden fields
-        if(input.offsetParent === null){
-        continue;
+        const gender = document.getElementById("gender");
+        const age = document.getElementById("age");
+
+        // Gender validation
+        if (!gender || gender.value === "") {
+
+            alert("Please select your gender.");
+
+            return false;
         }
 
-        if(input.tagName === "SELECT"){
+        // Age validation
+        if (!age || age.value === "") {
 
-            if(input.value === ""){
+            alert("Please select your age.");
 
-                alert("Please complete all required fields.");
-
-                input.focus();
-
-                return false;
-
-            }
-
-        }
-        else{
-
-            if(input.value.trim() === ""){
-
-                alert("Please complete all required fields.");
-
-                input.focus();
-
-                return false;
-
-            }
-
+            return false;
         }
 
-    }
+        const ageNumber = Number(age.value);
 
-
-
-    // Age Validation
-    if(step === 0){
-
-        const age = Number(ageInput.value);
-
-        if(age < 1 || age > 100){
+        if (ageNumber < 1 || ageNumber > 100) {
 
             alert("Age must be between 1 and 100.");
 
-            ageInput.focus();
+            age.focus();
 
             return false;
-
         }
 
+        return true;
     }
 
-    if(step===4){
 
-        if(occupation.value === "Student"){
+    // ==========================================
+    // STEP 2 - STATE + AREA
+    // ==========================================
 
-            const studentType = document.getElementById("studentType");
-            const academicLevel = document.getElementById("academicLevel");
-            const course = document.getElementById("course");
+    if (step === 1) {
 
-            if(studentType.value === ""){
+        const state = document.getElementById("state");
+        const area = document.getElementById("area");
+
+        // State validation
+        if (!state || state.value === "Select State / UT") {
+
+            alert("Please select your state.");
+
+            return false;
+        }
+
+        // Area button validation
+        if (!area || area.value === "") {
+
+            alert("Please select Urban or Rural.");
+
+            return false;
+        }
+
+        return true;
+    }
+
+
+    // ==========================================
+    // STEP 3 - CATEGORY
+    // ==========================================
+
+    if (step === 2) {
+
+        const category = document.getElementById("category");
+
+        if (!category || category.value === "") {
+
+            alert("Please select a category.");
+
+            return false;
+        }
+
+        return true;
+    }
+
+
+    // ==========================================
+    // STEP 4 - DISABILITY
+    // ==========================================
+
+    if (step === 3) {
+
+        const disability = document.getElementById("disabled");
+
+        if (!disability || disability.value === "") {
+
+            alert("Please select whether you have a disability.");
+
+            return false;
+        }
+
+        // If Yes, percentage is required
+        if (disability.value === "Yes") {
+
+            const percentage =
+                document.getElementById("percentage");
+
+            if (!percentage || percentage.value === "") {
+
+                alert("Please select your disability percentage.");
+
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+
+    // ==========================================
+    // STEP 5 - OCCUPATION
+    // ==========================================
+
+    if (step === 4) {
+
+        const occupation =
+            document.getElementById("occupation");
+
+        if (!occupation || occupation.value === "") {
+
+            alert("Please select your occupation.");
+
+            return false;
+        }
+
+
+        // ------------------------------
+        // Student
+        // ------------------------------
+
+        if (occupation.value === "Student") {
+
+            const studentType =
+                document.getElementById("studentType");
+
+            const academicLevel =
+                document.getElementById("academicLevel");
+
+            const course =
+                document.getElementById("course");
+
+            const institutionType =
+                document.getElementById("institutionType");
+
+
+            if (!studentType || studentType.value === "") {
+
                 alert("Please select Student Type.");
-                studentType.focus();
+
                 return false;
             }
 
-            if(academicLevel.value === ""){
+
+            if (!academicLevel || academicLevel.value === "") {
+
                 alert("Please select Academic Level.");
-                academicLevel.focus();
+
                 return false;
             }
 
-            if(course.value.trim() === ""){
+
+            if (!course || course.value.trim() === "") {
+
                 alert("Please enter your Course.");
+
                 course.focus();
+
                 return false;
             }
 
-const institutionType = document.getElementById("institutionType");
 
-if(institutionType.value === "") {
+            if (!institutionType ||
+                institutionType.value === "") {
 
-    alert("Please select Institution Type.");
+                alert("Please select Institution Type.");
 
-    return false;
-
-}
+                return false;
+            }
 
         }
+
+        return true;
     }
+
+
+    // ==========================================
+    // STEP 6 - INCOME
+    // ==========================================
+
+    if (step === 5) {
+
+        const income =
+            document.getElementById("income");
+
+        if (!income || income.value.trim() === "") {
+
+            alert("Please enter your annual income.");
+
+            income.focus();
+
+            return false;
+        }
+
+        if (Number(income.value) < 0) {
+
+            alert("Income cannot be negative.");
+
+            income.focus();
+
+            return false;
+        }
+
+        return true;
+    }
+
 
     return true;
-
 }
 
 // ===============================================
