@@ -543,3 +543,511 @@ body {
 iframe.goog-te-banner-frame {
     display: none !important;
 }
+
+
+
+
+/* =========================================================
+   RESPONSIVE DESIGN
+   Desktop → Tablet → Mobile
+   ========================================================= */
+
+
+/* =========================================================
+   TABLET
+   768px - 1199px
+   ========================================================= */
+
+@media (max-width: 1199px) {
+
+    /* -------------------------
+       GENERAL
+    ------------------------- */
+
+    body {
+        overflow-x: hidden;
+    }
+
+    .container {
+        max-width: 95%;
+    }
+
+
+    /* -------------------------
+       NAVBAR
+    ------------------------- */
+
+    .custom-navbar {
+        padding: 15px 0;
+    }
+
+    .logo {
+        font-size: 25px;
+    }
+
+    .nav-link {
+        margin: 0 6px;
+    }
+
+    .login-btn {
+        padding: 9px 20px;
+    }
+
+    .translate-btn {
+        padding: 0 14px;
+        font-size: 14px;
+    }
+
+
+    /* -------------------------
+       HERO
+    ------------------------- */
+
+    .hero {
+        min-height: auto;
+        padding: 70px 0;
+    }
+
+    .hero h1 {
+        font-size: 55px;
+    }
+
+    .hero p {
+        font-size: 17px;
+    }
+
+    .hero-content {
+        padding: 30px;
+    }
+
+
+    /* -------------------------
+       ELIGIBILITY
+    ------------------------- */
+
+    #eligibilityContainer {
+        margin-top: -50px;
+    }
+
+    #eligibilityContainer .wizard-card {
+        max-height: none;
+        overflow: visible;
+    }
+
+
+    /* -------------------------
+       AI SECTION
+    ------------------------- */
+
+    .ai-box {
+        padding: 50px;
+    }
+
+    .ai-icon {
+        font-size: 100px;
+    }
+}
+
+
+
+/* =========================================================
+   MOBILE
+   767px AND BELOW
+   ========================================================= */
+
+@media (max-width: 767px) {
+
+    /* -------------------------
+       GENERAL
+    ------------------------- */
+
+    html,
+    body {
+        width: 100%;
+        min-width: 0;
+        overflow-x: hidden;
+    }
+
+    .container {
+        width: 100%;
+        max-width: 100%;
+        padding-left: 18px;
+        padding-right: 18px;
+    }
+
+
+    /* =====================================================
+       NAVBAR
+       ===================================================== */
+
+    .custom-navbar {
+        padding: 12px 0;
+        position: sticky;
+        top: 0;
+    }
+
+    .custom-navbar .container {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .logo {
+        font-size: 22px;
+        white-space: nowrap;
+    }
+
+    .logo i {
+        margin-right: 6px;
+    }
+
+    /*
+       If Bootstrap navbar toggler exists
+    */
+
+    .navbar-toggler {
+        display: block !important;
+    }
+
+    .navbar-collapse {
+        width: 100%;
+    }
+
+    .navbar-nav {
+        flex-direction: column !important;
+        align-items: center;
+        text-align: center;
+        padding-top: 15px;
+    }
+
+    .nav-link {
+        margin: 8px 0;
+    }
+
+
+    /* -------------------------
+       NAV ACTIONS
+    ------------------------- */
+
+    .nav-actions {
+        gap: 6px;
+    }
+
+    .translate-btn {
+        height: 40px;
+        padding: 0 12px;
+        font-size: 13px;
+    }
+
+    .translate-btn i {
+        margin-right: 4px;
+    }
+
+    .login-btn {
+        padding: 8px 16px;
+        font-size: 13px;
+    }
+
+
+    /* =====================================================
+       HERO
+       ===================================================== */
+
+    .hero {
+        min-height: auto;
+        padding: 50px 0 70px;
+        display: block;
+
+        background-position: center;
+    }
+
+    .hero .row {
+        flex-direction: column;
+    }
+
+    .hero h1 {
+        font-size: 42px;
+        line-height: 1.12;
+        margin-bottom: 20px;
+    }
+
+    .hero p {
+        font-size: 16px;
+        line-height: 1.6;
+        margin-bottom: 25px;
+    }
+
+    .hero-badge {
+        padding: 8px 16px;
+        font-size: 14px;
+        margin-bottom: 18px;
+    }
+
+    .hero-content {
+        padding: 25px 20px;
+        border-radius: 22px;
+    }
+
+
+    /* =====================================================
+       SEARCH
+       ===================================================== */
+
+    .home-search-container {
+        width: 100%;
+        max-width: 100%;
+        margin-bottom: 30px;
+    }
+
+    .search-box {
+        width: 100%;
+        padding: 6px;
+    }
+
+    .search-box input {
+        min-width: 0;
+        padding: 10px 15px;
+        font-size: 14px;
+    }
+
+    .search-box button {
+        width: 48px;
+        height: 48px;
+        flex-shrink: 0;
+    }
+
+    .search-results {
+        max-height: 250px;
+    }
+
+
+    /* =====================================================
+       HERO TAGS
+       ===================================================== */
+
+    .hero-tags {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .hero-tags span {
+        padding: 9px 15px;
+        margin: 5px;
+        font-size: 13px;
+    }
+
+
+    /* =====================================================
+       ELIGIBILITY CONTAINER
+       ===================================================== */
+
+    #eligibilityContainer {
+        width: 100%;
+        min-width: 0;
+        margin-top: -30px;
+    }
+
+    #eligibilityContainer .wizard-card {
+        width: 100%;
+        padding: 22px 18px;
+        border-radius: 22px;
+
+        /*
+           IMPORTANT:
+           Don't create a scrollbar inside the card
+        */
+        max-height: none;
+        overflow: visible;
+    }
+
+    #eligibilityContainer .wizard-card h2 {
+        font-size: 25px;
+        line-height: 1.2;
+    }
+
+    #eligibilityContainer .wizard-card p {
+        font-size: 13px;
+        line-height: 1.5;
+    }
+
+    #eligibilityContainer .wizard-badge {
+        font-size: 11px;
+        padding: 6px 12px;
+    }
+
+    #eligibilityContainer .form-step h4 {
+        font-size: 20px;
+        line-height: 1.3;
+    }
+
+
+    /* =====================================================
+       FORM ELEMENTS
+       ===================================================== */
+
+    #eligibilityContainer .form-control,
+    #eligibilityContainer .form-select {
+        width: 100%;
+        height: 46px;
+        font-size: 14px;
+    }
+
+    #eligibilityContainer .form-label {
+        font-size: 13px;
+    }
+
+
+    /* =====================================================
+       FORM BUTTONS
+       ===================================================== */
+
+    #eligibilityContainer .buttons {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-top: 20px;
+    }
+
+    #eligibilityContainer .buttons .btn {
+        min-width: 85px;
+        height: 42px;
+        font-size: 13px;
+    }
+
+
+    /* =====================================================
+       PERSONALIZED BUTTON
+       ===================================================== */
+
+    .personalized-btn {
+        width: 100%;
+        padding: 14px 20px;
+        font-size: 16px;
+    }
+
+
+    /* =====================================================
+       CATEGORIES
+       ===================================================== */
+
+    .category-card {
+        padding: 25px 18px;
+    }
+
+    .category-icon {
+        width: 65px;
+        height: 65px;
+        font-size: 26px;
+    }
+
+
+    /* =====================================================
+       SCHEME CARDS
+       ===================================================== */
+
+    .scheme-card {
+        padding: 25px 20px;
+    }
+
+    .scheme-card h4 {
+        font-size: 20px;
+    }
+
+    .scheme-footer {
+        margin-top: 20px;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+
+    /* =====================================================
+       AI SECTION
+       ===================================================== */
+
+    .ai-section {
+        padding-bottom: 60px;
+    }
+
+    .ai-box {
+        padding: 35px 22px;
+        border-radius: 22px;
+        text-align: center;
+    }
+
+    .ai-box h2 {
+        font-size: 26px;
+    }
+
+    .ai-box p {
+        font-size: 15px;
+        line-height: 1.6;
+    }
+
+    .ai-icon {
+        font-size: 80px;
+        margin-top: 20px;
+    }
+}
+
+
+
+/* =========================================================
+   SMALL MOBILE
+   480px AND BELOW
+   ========================================================= */
+
+@media (max-width: 480px) {
+
+    .container {
+        padding-left: 14px;
+        padding-right: 14px;
+    }
+
+    .logo {
+        font-size: 20px;
+    }
+
+    .hero {
+        padding-top: 35px;
+    }
+
+    .hero h1 {
+        font-size: 34px;
+    }
+
+    .hero p {
+        font-size: 15px;
+    }
+
+    .hero-content {
+        padding: 20px 15px;
+    }
+
+    #eligibilityContainer .wizard-card {
+        padding: 18px 14px;
+    }
+
+    #eligibilityContainer .wizard-card h2 {
+        font-size: 23px;
+    }
+
+    #eligibilityContainer .form-step h4 {
+        font-size: 18px;
+    }
+
+    .translate-btn {
+        padding: 0 9px;
+        font-size: 12px;
+    }
+
+    .login-btn {
+        padding: 7px 13px;
+        font-size: 12px;
+    }
+}
+
+.hero p {
+    margin-bottom: 60px;
+}

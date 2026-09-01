@@ -1,0 +1,528 @@
+/* =====================================================
+   ONESCHEME - GLOBAL MOBILE RESPONSIVE DESIGN
+===================================================== */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    width: 100%;
+    overflow-x: hidden;
+}
+
+body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+
+/* =====================================================
+   CONTAINERS
+===================================================== */
+
+.container {
+    width: 100%;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+
+/* =====================================================
+   NAVBAR
+===================================================== */
+
+@media (max-width: 768px) {
+
+    .navbar {
+        width: 100%;
+        padding: 10px 15px;
+    }
+
+    .navbar .container {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .navbar-brand {
+        max-width: 70%;
+        font-size: 20px;
+    }
+
+    .navbar-collapse {
+        width: 100%;
+    }
+
+    .navbar-nav {
+        width: 100%;
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    .navbar-nav .nav-item {
+        margin: 4px 0;
+    }
+
+    .navbar-nav .nav-link {
+        padding: 8px 10px;
+    }
+
+    .login-btn,
+    #loginTrigger,
+    #translateBtn {
+        width: 100%;
+        margin: 5px 0;
+    }
+
+}
+
+
+/* =====================================================
+   HEADINGS
+===================================================== */
+
+@media (max-width: 768px) {
+
+    h1 {
+        font-size: clamp(28px, 8vw, 40px);
+    }
+
+    h2 {
+        font-size: clamp(24px, 7vw, 32px);
+    }
+
+    h3 {
+        font-size: clamp(20px, 6vw, 28px);
+    }
+
+    h4 {
+        font-size: 20px;
+    }
+
+    p {
+        font-size: 15px;
+        line-height: 1.6;
+    }
+
+}
+
+
+/* =====================================================
+   HERO / HOME SECTION
+===================================================== */
+
+@media (max-width: 768px) {
+
+    .hero,
+    .hero-section,
+    .home-hero {
+        min-height: auto;
+        height: auto;
+        padding: 70px 20px 60px;
+    }
+
+    .hero-content,
+    .hero-text,
+    .hero-left,
+    .hero-right {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .hero-content {
+        text-align: center;
+    }
+
+    .hero h1 {
+        font-size: clamp(30px, 9vw, 42px);
+        line-height: 1.2;
+    }
+
+    .hero p {
+        font-size: 15px;
+        line-height: 1.7;
+    }
+
+}
+
+
+/* =====================================================
+   GRIDS
+===================================================== */
+
+@media (max-width: 768px) {
+
+    .row {
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    [class*="col-"] {
+        width: 100%;
+    }
+
+    .grid,
+    .cards-grid,
+    .scheme-grid,
+    .features-grid,
+    .role-grid,
+    .orgtype-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+}
+
+
+/* =====================================================
+   CARDS
+===================================================== */
+
+@media (max-width: 768px) {
+
+    .card,
+    .scheme-card,
+    .feature-card,
+    .category-card,
+    .role-card,
+    .orgtype-card {
+        width: 100%;
+        max-width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .scheme-card {
+        padding: 20px;
+        border-radius: 16px;
+    }
+
+    .scheme-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .scheme-details {
+        grid-template-columns: 1fr !important;
+    }
+
+}
+
+
+/* =====================================================
+   BUTTONS
+===================================================== */
+
+@media (max-width: 768px) {
+
+    .btn {
+        max-width: 100%;
+        white-space: normal;
+    }
+
+    .scheme-buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+    }
+
+    .scheme-buttons .btn {
+        width: 100%;
+    }
+
+    .apply-btn,
+    .home-btn {
+        max-width: 100%;
+    }
+
+}
+
+
+/* =====================================================
+   FORMS
+===================================================== */
+
+@media (max-width: 768px) {
+
+    form {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    input,
+    select,
+    textarea {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+    }
+
+    .form-control,
+    .form-select {
+        width: 100%;
+        max-width: 100%;
+    }
+
+}
+
+
+/* =====================================================
+   ELIGIBILITY PAGE
+===================================================== */
+
+@media (max-width: 768px) {
+
+    .eligibility-container,
+    .eligibility-card,
+    .eligibility-box,
+    .eligibility-modal {
+        width: 95%;
+        max-width: 95%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .eligibility-container {
+        padding: 15px;
+    }
+
+    .step-container,
+    .step-content {
+        width: 100%;
+    }
+
+    .option-grid,
+    .options-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .next-btn,
+    .previous-btn,
+    .submit-btn {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+}
+
+
+/* =====================================================
+   RESULTS PAGE
+===================================================== */
+
+@media (max-width: 768px) {
+
+    .compare-toolbar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .compare-toolbar .left,
+    .compare-toolbar .right {
+        width: 100%;
+    }
+
+    .compare-toolbar .right {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .compare-toolbar .btn {
+        width: 100%;
+        margin-left: 0 !important;
+    }
+
+    .scheme-title {
+        font-size: 21px;
+        line-height: 1.3;
+    }
+
+    .scheme-info {
+        width: 100%;
+    }
+
+    .scheme-info p {
+        word-break: break-word;
+    }
+
+}
+
+
+/* =====================================================
+   MODALS - ALL MODALS
+===================================================== */
+
+@media (max-width: 768px) {
+
+    .modal-dialog {
+        width: 95%;
+        max-width: 95%;
+        margin: 10px auto;
+    }
+
+    .modal-content {
+        width: 100%;
+        max-width: 100%;
+        border-radius: 16px;
+    }
+
+    .modal-header {
+        padding: 15px;
+    }
+
+    .modal-body {
+        padding: 20px 15px;
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+
+}
+
+
+/* =====================================================
+   LOGIN / AUTH MODAL
+===================================================== */
+
+@media (max-width: 768px) {
+
+    #authModal .modal-dialog {
+        width: 95%;
+        max-width: 95%;
+    }
+
+    #authModal .modal-content {
+        max-height: 90vh;
+    }
+
+    #authModal .modal-body {
+        overflow-y: auto;
+    }
+
+    #authModal .role-grid,
+    #authModal .orgtype-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    #authModal .role-card,
+    #authModal .orgtype-card {
+        width: 100%;
+    }
+
+}
+
+
+/* =====================================================
+   IMAGES / ICONS
+===================================================== */
+
+@media (max-width: 768px) {
+
+    .logo {
+        max-width: 180px;
+        height: auto;
+    }
+
+    .icon {
+        flex-shrink: 0;
+    }
+
+}
+
+
+/* =====================================================
+   TABLES
+===================================================== */
+
+@media (max-width: 768px) {
+
+    table {
+        width: 100%;
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+}
+
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+@media (max-width: 768px) {
+
+    footer {
+        text-align: center;
+    }
+
+    footer .row {
+        flex-direction: column;
+    }
+
+}
+
+
+/* =====================================================
+   PREVENT COMMON OVERFLOW
+===================================================== */
+
+@media (max-width: 768px) {
+
+    .d-flex {
+        flex-wrap: wrap;
+    }
+
+    .flex-row {
+        flex-wrap: wrap;
+    }
+
+    pre,
+    code {
+        max-width: 100%;
+        overflow-x: auto;
+    }
+
+    .text-nowrap {
+        white-space: normal !important;
+    }
+
+}
+
+
+/* =====================================================
+   SMALL PHONES
+===================================================== */
+
+@media (max-width: 480px) {
+
+    .container {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+    .hero,
+    .hero-section,
+    .home-hero {
+        padding: 50px 15px;
+    }
+
+    .scheme-card {
+        padding: 16px;
+    }
+
+    .modal-dialog {
+        width: 96%;
+        max-width: 96%;
+    }
+
+    .modal-body {
+        padding: 15px 12px;
+    }
+
+}

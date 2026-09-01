@@ -39,6 +39,9 @@
           href="css/style.css">
 
     <link rel="stylesheet" href="css/eligibility.css">
+    <link rel="stylesheet" href="css/auth.css">
+    <link rel="stylesheet" href="css/responsive.css">
+
 
 </head>
 
@@ -101,7 +104,7 @@
                     <span class="translate-text">हिंदी</span>
                 </button>
 
-                <button class="btn login-btn">
+                <button id="loginTrigger" class="btn login-btn" onclick="openAuthModal()">
 
                     Login
 
@@ -353,6 +356,435 @@
 
 </section>
 
+<!-- =======================
+     AUTH MODAL (Login / Register)
+     User | Scheme Provider | Platform Admin
+======================= -->
+
+<div class="modal fade" id="authModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <button type="button" id="authBackBtn" class="auth-back-btn" style="visibility:hidden;">
+                        <i class="bi bi-arrow-left"></i>
+                    </button>
+                    <span id="authModalTitleText">Login / Register</span>
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+
+                <!-- STEP: ROLE SELECTION -->
+                <div class="auth-step active" id="authStep-role">
+                    <p class="auth-subtitle">Choose how you'd like to continue.</p>
+
+                    <div class="role-grid">
+
+                        <button type="button" class="role-card" onclick="goToStep('user-auth')">
+                            <span class="role-emoji">👤</span>
+                            <span class="role-text">
+                                <h6>User</h6>
+                                <p>Search schemes, check eligibility and save favourites.</p>
+                            </span>
+                        </button>
+
+                        <button type="button" class="role-card" onclick="goToStep('provider-orgtype')">
+                            <span class="role-emoji">🏛️</span>
+                            <span class="role-text">
+                                <h6>Scheme Provider</h6>
+                                <p>Government, Private or NGO organizations that publish schemes.</p>
+                            </span>
+                        </button>
+
+                        <button type="button" class="role-card" onclick="goToStep('admin-login')">
+                            <span class="role-emoji">🛡️</span>
+                            <span class="role-text">
+                                <h6>Platform Admin</h6>
+                                <p>Internal, invite-only access for platform administrators.</p>
+                            </span>
+                        </button>
+
+                    </div>
+                </div>
+
+                <!-- STEP: USER - SIGN IN / CREATE ACCOUNT -->
+                <div class="auth-step" id="authStep-user-auth">
+
+                    <div class="auth-tabs">
+                        <button type="button" class="auth-tab-btn active" data-tab="signin">Sign In</button>
+                        <button type="button" class="auth-tab-btn" data-tab="create">Create Account</button>
+                    </div>
+
+                    <!-- Sign In panel -->
+                    <div class="auth-panel active" data-panel="signin">
+
+                        <div class="auth-error text-danger small mb-2" id="signInError" style="display:none;"></div>
+
+                        <form id="signInForm">
+
+                            <label class="form-label">Email / Mobile</label>
+                            <input type="text" class="form-control" id="signInId" placeholder="you@example.com or 98765 43210" required>
+
+                            <label class="form-label">Password</label>
+                            <div class="auth-password-wrap">
+                                <input type="password" class="form-control" id="signInPassword" placeholder="Enter your password" required>
+                                <button type="button" class="auth-toggle-pw" onclick="togglePasswordVisibility('signInPassword', this)">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                            </div>
+
+                            <a class="auth-forgot-link" onclick="goToStep('user-forgot')">Forgot Password?</a>
+
+                            <button type="submit" class="auth-submit-btn">Sign In</button>
+
+                            <p class="auth-switch-line">
+                                New here? <a onclick="switchUserTab('create')">Create Account</a>
+                            </p>
+
+                        </form>
+                    </div>
+
+                    <!-- Create Account panel -->
+                    <div class="auth-panel" data-panel="create">
+
+                        <div class="auth-error text-danger small mb-2" id="createAccountError" style="display:none;"></div>
+
+                        <form id="createAccountForm">
+
+                            <label class="form-label">Full Name</label>
+                            <input type="text" class="form-control" id="caName" placeholder="Your full name" required>
+
+                            <label class="form-label">Email / Mobile</label>
+                            <input type="text" class="form-control" id="caEmail" placeholder="you@example.com or 98765 43210" required>
+
+                            <label class="form-label">Password</label>
+                            <div class="auth-password-wrap">
+                                <input type="password" class="form-control" id="caPassword" placeholder="Create a password" required>
+                                <button type="button" class="auth-toggle-pw" onclick="togglePasswordVisibility('caPassword', this)">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                            </div>
+
+                            <label class="form-label">State</label>
+                            <select class="form-select" id="caState" required></select>
+
+                            <button type="button" class="auth-optional-toggle" id="optionalToggleBtn" onclick="toggleOptionalFields()">
+                                <i class="bi bi-plus-circle"></i> Add optional profile information
+                            </button>
+
+                            <div class="auth-optional-fields" id="optionalProfileFields">
+
+                                <label class="form-label">Date of Birth</label>
+                                <input type="date" class="form-control" id="caDob">
+
+                                <label class="form-label">Gender</label>
+                                <select class="form-select" id="caGender">
+                                    <option value="">Prefer not to say</option>
+                                    <option>Male</option>
+                                    <option>Female</option>
+                                    <option>Other</option>
+                                </select>
+
+                                <label class="form-label">Occupation</label>
+                                <input type="text" class="form-control" id="caOccupation" placeholder="e.g. Student, Farmer, Business Owner">
+
+                            </div>
+
+                            <button type="submit" class="auth-submit-btn">Create Account</button>
+
+                            <p class="auth-switch-line">
+                                Already have an account? <a onclick="switchUserTab('signin')">Sign In</a>
+                            </p>
+
+                        </form>
+                    </div>
+
+                </div>
+
+                <!-- STEP: USER - FORGOT PASSWORD -->
+                <div class="auth-step" id="authStep-user-forgot">
+                    <p class="auth-subtitle">Enter your registered Email or Mobile number and we'll send you reset instructions.</p>
+
+                    <div class="auth-error text-danger small mb-2" id="forgotError" style="display:none;"></div>
+
+                    <div class="alert alert-success small" id="forgotSuccessMsg" style="display:none;">
+                        If an account exists with those details, reset instructions have been sent.
+                    </div>
+
+                    <form id="forgotForm">
+                        <label class="form-label">Email / Mobile</label>
+                        <input type="text" class="form-control" id="forgotIdInput" placeholder="you@example.com or 98765 43210" required>
+                        <button type="submit" class="auth-submit-btn">Send Reset Instructions</button>
+                    </form>
+                </div>
+
+                <!-- STEP: SCHEME PROVIDER - ORG TYPE -->
+                <div class="auth-step" id="authStep-provider-orgtype">
+                    <p class="auth-subtitle">What type of organization are you representing?</p>
+
+                    <div class="orgtype-grid">
+
+                        <button type="button" class="orgtype-card" onclick="selectOrgType('gov', this)">
+                            <span class="orgtype-emoji">🏛️</span>
+                            <span class="orgtype-label">Government Organization</span>
+                        </button>
+
+                        <button type="button" class="orgtype-card" onclick="selectOrgType('private', this)">
+                            <span class="orgtype-emoji">🏢</span>
+                            <span class="orgtype-label">Private Organization</span>
+                        </button>
+
+                        <button type="button" class="orgtype-card" onclick="selectOrgType('ngo', this)">
+                            <span class="orgtype-emoji">🤝</span>
+                            <span class="orgtype-label">NGO / Other Organization</span>
+                        </button>
+
+                        <button type="button" class="orgtype-card" onclick="selectOrgType('other', this)">
+                            <span class="orgtype-emoji">✏️</span>
+                            <span class="orgtype-label">Other</span>
+                        </button>
+
+                    </div>
+
+                    <div id="otherOrgTypeWrap" style="margin-top:18px;">
+                        <label class="form-label">Please specify your organization type</label>
+                        <input type="text" class="form-control" id="customOrgTypeInput" placeholder="e.g. Cooperative Society">
+                        <div class="auth-error text-danger small mb-2" id="customOrgTypeError" style="display:none;"></div>
+                        <button type="button" class="auth-submit-btn" onclick="continueWithCustomOrgType()">Continue</button>
+                    </div>
+
+                </div>
+
+                <!-- STEP: GOVERNMENT ORGANIZATION REGISTRATION -->
+                <div class="auth-step" id="authStep-provider-form-gov">
+
+                    <div class="auth-error text-danger small mb-2" id="govFormError" style="display:none;"></div>
+
+                    <form id="govForm">
+
+                        <div class="auth-form-section-title">Organization Information</div>
+
+                        <label class="form-label">Organization / Department Name</label>
+                        <input type="text" class="form-control" id="govOrgName" required>
+
+                        <label class="form-label">Ministry / Department</label>
+                        <input type="text" class="form-control" id="govMinistry" required>
+
+                        <label class="form-label">State</label>
+                        <select class="form-select" id="govState" required></select>
+
+                        <label class="form-label">Official Website</label>
+                        <input type="url" class="form-control" id="govWebsite" placeholder="https://">
+
+                        <label class="form-label">Official Email</label>
+                        <input type="email" class="form-control" id="govEmail" required>
+
+                        <div class="auth-form-section-title">Representative Information</div>
+
+                        <label class="form-label">Full Name</label>
+                        <input type="text" class="form-control" id="govRepName" required>
+
+                        <label class="form-label">Designation</label>
+                        <input type="text" class="form-control" id="govDesignation" required>
+
+                        <label class="form-label">Official Contact Number</label>
+                        <input type="tel" class="form-control" id="govContact" required>
+
+                        <div class="auth-form-section-title">Verification Information</div>
+
+                        <label class="form-label">Organization Identification / Supporting Information</label>
+                        <input type="text" class="form-control" id="govOrgId" placeholder="e.g. Department ID, Notification No.">
+
+                        <label class="form-label">Official Email Verification</label>
+                        <input type="text" class="form-control" id="govEmailVerify" placeholder="Verification will be sent to your official email" readonly>
+
+                        <label class="form-label">Supporting Document (if required)</label>
+                        <input type="file" class="form-control" id="govDocument">
+
+                        <div class="auth-note-box">
+                            <i class="bi bi-info-circle"></i>
+                            <span>After submission your account status will be <strong>Verification Pending</strong>. You will not receive publishing privileges until our team verifies your organization.</span>
+                        </div>
+
+                        <button type="submit" class="auth-submit-btn">Submit for Verification</button>
+
+                    </form>
+                </div>
+
+                <!-- STEP: PRIVATE ORGANIZATION REGISTRATION -->
+                <div class="auth-step" id="authStep-provider-form-private">
+
+                    <div class="auth-error text-danger small mb-2" id="privateFormError" style="display:none;"></div>
+
+                    <form id="privateForm">
+
+                        <div class="auth-form-section-title">Organization Information</div>
+
+                        <label class="form-label">Organization Name</label>
+                        <input type="text" class="form-control" id="privOrgName" required>
+
+                        <label class="form-label">Organization Type</label>
+                        <input type="text" class="form-control" id="privOrgType" placeholder="e.g. Private Limited, LLP, Partnership" required>
+
+                        <label class="form-label">Registration Number</label>
+                        <input type="text" class="form-control" id="privRegNumber" required>
+
+                        <label class="form-label">Website</label>
+                        <input type="url" class="form-control" id="privWebsite" placeholder="https://">
+
+                        <label class="form-label">Official Email Address</label>
+                        <input type="email" class="form-control" id="privEmail" required>
+
+                        <div class="auth-form-section-title">Representative Information</div>
+
+                        <label class="form-label">Full Name</label>
+                        <input type="text" class="form-control" id="privRepName" required>
+
+                        <label class="form-label">Designation</label>
+                        <input type="text" class="form-control" id="privDesignation" required>
+
+                        <label class="form-label">Contact Number</label>
+                        <input type="tel" class="form-control" id="privContact" required>
+
+                        <div class="auth-form-section-title">Verification</div>
+
+                        <label class="form-label">Registration / Supporting Document</label>
+                        <input type="file" class="form-control" id="privDocument">
+
+                        <label class="form-label">Official Email Verification</label>
+                        <input type="text" class="form-control" id="privEmailVerify" placeholder="Verification will be sent to your official email" readonly>
+
+                        <div class="auth-note-box">
+                            <i class="bi bi-info-circle"></i>
+                            <span>After submission your account status will be <strong>Verification Pending</strong>. You will not receive publishing privileges until our team verifies your organization.</span>
+                        </div>
+
+                        <button type="submit" class="auth-submit-btn">Submit for Verification</button>
+
+                    </form>
+                </div>
+
+                <!-- STEP: NGO / OTHER ORGANIZATION REGISTRATION (also used for custom "Other" org type) -->
+                <div class="auth-step" id="authStep-provider-form-ngo">
+
+                    <div class="auth-error text-danger small mb-2" id="ngoFormError" style="display:none;"></div>
+
+                    <form id="ngoForm">
+
+                        <div class="auth-form-section-title">Organization Information</div>
+
+                        <label class="form-label">Organization Name</label>
+                        <input type="text" class="form-control" id="ngoOrgName" required>
+
+                        <div id="ngoOrgTypeDropdownWrap">
+                            <label class="form-label">Organization Type</label>
+                            <select class="form-select" id="ngoOrgType" onchange="handleNgoOrgTypeChange(this)">
+                                <option value="">Select organization type</option>
+                                <option>NGO</option>
+                                <option>Foundation</option>
+                                <option>Educational Institution</option>
+                                <option>Financial Institution</option>
+                                <option>Corporate / CSR</option>
+                                <option>Other</option>
+                            </select>
+                            <input type="text" class="form-control" id="ngoOtherTypeInput" placeholder="Please specify organization type" style="display:none;">
+                        </div>
+
+                        <div id="ngoOrgTypeCustomWrap" style="display:none;">
+                            <label class="form-label">Organization Type</label>
+                            <input type="text" class="form-control" id="ngoOrgTypeCustomValue" readonly>
+                        </div>
+
+                        <label class="form-label">Registration Number</label>
+                        <input type="text" class="form-control" id="ngoRegNumber">
+
+                        <label class="form-label">Website</label>
+                        <input type="url" class="form-control" id="ngoWebsite" placeholder="https://">
+
+                        <label class="form-label">Official Email</label>
+                        <input type="email" class="form-control" id="ngoEmail" required>
+
+                        <div class="auth-form-section-title">Representative Information</div>
+
+                        <label class="form-label">Full Name</label>
+                        <input type="text" class="form-control" id="ngoRepName" required>
+
+                        <label class="form-label">Designation</label>
+                        <input type="text" class="form-control" id="ngoDesignation" required>
+
+                        <label class="form-label">Contact Number</label>
+                        <input type="tel" class="form-control" id="ngoContact" required>
+
+                        <div class="auth-form-section-title">Verification</div>
+
+                        <label class="form-label">Supporting Document</label>
+                        <input type="file" class="form-control" id="ngoDocument">
+
+                        <label class="form-label">Official Email Verification</label>
+                        <input type="text" class="form-control" id="ngoEmailVerify" placeholder="Verification will be sent to your official email" readonly>
+
+                        <div class="auth-note-box">
+                            <i class="bi bi-info-circle"></i>
+                            <span>After submission your account status will be <strong>Verification Pending</strong>. You will not receive publishing privileges until our team verifies your organization.</span>
+                        </div>
+
+                        <button type="submit" class="auth-submit-btn">Submit for Verification</button>
+
+                    </form>
+                </div>
+
+                <!-- STEP: PROVIDER REGISTRATION SUBMITTED -->
+                <div class="auth-step" id="authStep-provider-pending">
+                    <div class="auth-status-screen">
+                        <div class="auth-status-icon">
+                            <i class="bi bi-hourglass-split"></i>
+                        </div>
+                        <span class="auth-status-badge">Status: Verification Pending</span>
+                        <h5 id="pendingOrgSummary">Organization</h5>
+                        <p>Thank you for registering as a Scheme Provider. Your details have been submitted for review. You will <strong>not</strong> receive publishing privileges until our team verifies your organization — we'll notify you by email once verification is complete.</p>
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Done</button>
+                    </div>
+                </div>
+
+                <!-- STEP: PLATFORM ADMIN LOGIN -->
+                <div class="auth-step" id="authStep-admin-login">
+
+                    <div class="auth-admin-note">
+                        <i class="bi bi-shield-lock"></i>
+                        Platform Admin accounts are provisioned internally and cannot be created from this public page.
+                    </div>
+
+                    <div class="auth-error text-danger small mb-2" id="adminLoginError" style="display:none;"></div>
+
+                    <form id="adminLoginForm">
+
+                        <label class="form-label">Admin ID / Official Email</label>
+                        <input type="text" class="form-control" id="adminId" required>
+
+                        <label class="form-label">Password</label>
+                        <div class="auth-password-wrap">
+                            <input type="password" class="form-control" id="adminPassword" required>
+                            <button type="button" class="auth-toggle-pw" onclick="togglePasswordVisibility('adminPassword', this)">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </div>
+
+                        <a class="auth-forgot-link" onclick="alert('Please contact the platform team to reset your admin password.')">Forgot Password?</a>
+
+                        <button type="submit" class="auth-submit-btn">Sign In</button>
+
+                    </form>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
 <script>
 fetch("pages/eligibility.html")
     .then(response => response.text())
@@ -385,6 +817,7 @@ fetch("pages/eligibility.html")
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
 <script src="js/schemes.js"></script>
 <script src="js/script.js"></script>
+<script src="js/auth.js"></script>
 
 <div id="google_translate_element"></div>
 <script src="js/translate.js"></script>

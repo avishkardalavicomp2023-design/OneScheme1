@@ -16,21 +16,188 @@ body{
 /* ==========================================================
                     NAVBAR
 ========================================================== */
-.navbar{
-    padding:15px 0;
+
+.navbar {
+    padding: 8px 0 !important;
+    background: #ffffff;
+    min-height: 70px;
 }
 
-.navbar-brand{
-    font-size:28px;
-    font-weight:700;
-    color:#2563EB !important;
-    display:flex;
-    align-items:center;
-    gap:10px;
+/* Keep the navbar content centered and compact */
+.navbar .container {
+    min-height: 55px;
+    display: flex;
+    align-items: center;
 }
 
-.navbar-brand img{
-    border-radius:50%;
+/* Logo + title */
+.navbar-brand {
+    font-size: 24px;
+    font-weight: 700;
+    color: #2563EB !important;
+
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    margin: 0;
+    padding: 0;
+}
+
+/* IMPORTANT:
+   Prevent the logo image from making the header huge */
+.navbar-brand img {
+    width: 55px !important;
+    height: 55px !important;
+    max-width: 55px;
+    max-height: 55px;
+    object-fit: contain;
+    border-radius: 0;
+}
+
+/* Navbar links */
+.navbar-nav {
+    align-items: center;
+}
+
+.nav-link {
+    font-weight: 500;
+    margin: 0 8px;
+    color: #333;
+    padding: 8px 10px !important;
+    transition: 0.3s;
+}
+
+.nav-link:hover {
+    color: #2563EB;
+}
+
+/* Buttons in header */
+.navbar .btn {
+    white-space: nowrap;
+}
+
+/* Saved schemes / Home buttons */
+.navbar .btn-outline-primary {
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-size: 14px;
+}
+
+/* ==========================================================
+                    TABLET
+========================================================== */
+
+@media (max-width: 992px) {
+
+    .navbar {
+        padding: 7px 0 !important;
+        min-height: 65px;
+    }
+
+    .navbar-brand {
+        font-size: 22px;
+    }
+
+    .navbar-brand img {
+        width: 48px !important;
+        height: 48px !important;
+        max-width: 48px;
+        max-height: 48px;
+    }
+
+    .nav-link {
+        margin: 0 4px;
+        font-size: 14px;
+    }
+}
+
+
+/* ==========================================================
+                    MOBILE
+========================================================== */
+
+@media (max-width: 768px) {
+
+    .navbar {
+        padding: 8px 0 !important;
+        min-height: 62px;
+    }
+
+    .navbar .container {
+        min-height: 46px;
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    .navbar-brand {
+        font-size: 20px;
+        gap: 7px;
+    }
+
+    .navbar-brand img {
+        width: 42px !important;
+        height: 42px !important;
+        max-width: 42px;
+        max-height: 42px;
+    }
+
+    /* Bootstrap hamburger */
+    .navbar-toggler {
+        padding: 6px 9px;
+        border-radius: 8px;
+    }
+
+    /* Don't let collapsed menu make the header unnecessarily large */
+    .navbar-collapse {
+        margin-top: 10px;
+        padding: 10px 0;
+    }
+
+    .navbar-nav {
+        align-items: flex-start;
+    }
+
+    .nav-link {
+        margin: 2px 0;
+        padding: 8px 0 !important;
+    }
+
+    .navbar .btn {
+        margin-top: 5px;
+    }
+}
+
+
+/* ==========================================================
+                    SMALL MOBILE
+========================================================== */
+
+@media (max-width: 480px) {
+
+    .navbar {
+        min-height: 58px;
+        padding: 6px 0 !important;
+    }
+
+    .navbar .container {
+        min-height: 44px;
+    }
+
+    .navbar-brand {
+        font-size: 18px;
+    }
+
+    .navbar-brand img {
+        width: 38px !important;
+        height: 38px !important;
+        max-width: 38px;
+        max-height: 38px;
+    }
+
+    .navbar-toggler {
+        padding: 5px 8px;
+    }
 }
 
 /* ==========================================================
