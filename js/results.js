@@ -12,7 +12,7 @@ let selectedSchemes = [];
    gender, state, area, student, disability).
 =========================================== */
 
-function calculateMatch(scheme, user){
+function calculateMatch(scheme, user) {
 
     let totalWeight = 0;
     let earnedWeight = 0;
@@ -35,7 +35,7 @@ function calculateMatch(scheme, user){
     }
 
     // Income limit — extra credit the further under the limit you are
-    if(typeof scheme.incomeLimit === "number" && scheme.incomeLimit !== Number.MAX_SAFE_INTEGER){
+    if (typeof scheme.incomeLimit === "number" && scheme.incomeLimit !== Number.MAX_SAFE_INTEGER) {
         totalWeight += 20;
         const margin = Math.max(0, (scheme.incomeLimit - user.income) / scheme.incomeLimit);
         earnedWeight += 20 * Math.min(1, 0.5 + margin);
@@ -43,42 +43,42 @@ function calculateMatch(scheme, user){
     }
 
     // Gender — only counted when the scheme targets a specific gender
-    if(scheme.gender && scheme.gender !== "Any"){
+    if (scheme.gender && scheme.gender !== "Any") {
         totalWeight += 15;
         earnedWeight += 15;
         reasons.push(`Your gender matches this scheme's target group`);
     }
 
     // State — only counted when the scheme is state-specific
-    if(scheme.state && scheme.state !== "All" && scheme.state !== "All India"){
+    if (scheme.state && scheme.state !== "All" && scheme.state !== "All India") {
         totalWeight += 15;
         earnedWeight += 15;
         reasons.push(`You live in ${scheme.state}, where this scheme is available`);
     }
 
     // Area — only counted when the scheme requires a specific area
-    if(scheme.area && scheme.area !== "Any"){
+    if (scheme.area && scheme.area !== "Any") {
         totalWeight += 10;
         earnedWeight += 10;
         reasons.push(`Your area (${user.area}) matches this scheme's requirement`);
     }
 
     // Student status
-    if(scheme.student){
+    if (scheme.student) {
         totalWeight += 10;
         earnedWeight += 10;
         reasons.push(`Your student profile matches this scheme's category`);
     }
 
     // Disability
-    if(scheme.disability){
+    if (scheme.disability) {
         totalWeight += 10;
         earnedWeight += 10;
         reasons.push(`Your disability status matches this scheme's requirement`);
     }
 
     // Category — informational only (not used by scheme eligibility logic)
-    if(user.category && user.category !== "" && user.category !== "General"){
+    if (user.category && user.category !== "" && user.category !== "General") {
         reasons.push(`Your category (${user.category}) has been noted for this scheme`);
     }
 
@@ -89,7 +89,7 @@ function calculateMatch(scheme, user){
     return { percent, reasons };
 }
 
-function buildMatchHTML(percent){
+function buildMatchHTML(percent) {
     return `
     <div class="match-wrap">
         <div class="match-ring" style="background: conic-gradient(#2563EB ${percent * 3.6}deg, #E5E7EB 0deg);">
@@ -100,9 +100,9 @@ function buildMatchHTML(percent){
     `;
 }
 
-function buildWhyEligibleHTML(reasons){
+function buildWhyEligibleHTML(reasons) {
 
-    if(!reasons || reasons.length === 0){
+    if (!reasons || reasons.length === 0) {
         return "";
     }
 
@@ -123,9 +123,9 @@ function buildWhyEligibleHTML(reasons){
         REQUIRED DOCUMENTS (shared helper)
 =========================================== */
 
-function buildDocumentsHTML(scheme){
+function buildDocumentsHTML(scheme) {
 
-    if(scheme.documents && scheme.documents.length > 0){
+    if (scheme.documents && scheme.documents.length > 0) {
 
         const items = scheme.documents
             .map(doc => `<li><i class="bi bi-check-circle-fill"></i> ${doc}</li>`)
@@ -151,9 +151,9 @@ function buildDocumentsHTML(scheme){
         DEADLINE (shared helper)
 =========================================== */
 
-function buildDeadlineHTML(scheme){
+function buildDeadlineHTML(scheme) {
 
-    if(!scheme.deadline){
+    if (!scheme.deadline) {
         return `<p class="deadline-note"><i class="bi bi-calendar3"></i> Check official website for application dates</p>`;
     }
 
@@ -162,20 +162,20 @@ function buildDeadlineHTML(scheme){
     return `<p class="deadline-badge deadline-${state}"><i class="bi bi-alarm-fill"></i> Apply before ${scheme.deadline}</p>`;
 }
 
-function getDeadlineState(deadlineStr){
+function getDeadlineState(deadlineStr) {
 
     const parsed = new Date(deadlineStr);
 
-    if(isNaN(parsed)){
+    if (isNaN(parsed)) {
         return "green";
     }
 
     const daysLeft = Math.ceil((parsed - new Date()) / (1000 * 60 * 60 * 24));
 
-    if(daysLeft <= 7){
+    if (daysLeft <= 7) {
         return "red";
     }
-    else if(daysLeft <= 30){
+    else if (daysLeft <= 30) {
         return "orange";
     }
 
@@ -186,32 +186,32 @@ function getDeadlineState(deadlineStr){
         SAVE / SHORTLIST SCHEME
 =========================================== */
 
-function getSavedSchemes(){
+function getSavedSchemes() {
     return JSON.parse(localStorage.getItem("savedSchemes")) || [];
 }
 
-function isSchemeSaved(id){
+function isSchemeSaved(id) {
     return getSavedSchemes().includes(id);
 }
 
-function toggleSaveScheme(id, btn){
+function toggleSaveScheme(id, btn) {
 
     let saved = getSavedSchemes();
 
-    if(saved.includes(id)){
+    if (saved.includes(id)) {
 
         saved = saved.filter(x => x !== id);
 
-        if(btn){
+        if (btn) {
             btn.classList.remove("saved");
             btn.innerHTML = '<i class="bi bi-heart"></i> Save';
         }
 
-    }else{
+    } else {
 
         saved.push(id);
 
-        if(btn){
+        if (btn) {
             btn.classList.add("saved");
             btn.innerHTML = '<i class="bi bi-heart-fill"></i> Saved';
         }
@@ -221,7 +221,7 @@ function toggleSaveScheme(id, btn){
     localStorage.setItem("savedSchemes", JSON.stringify(saved));
 
     const countEl = document.getElementById("savedCount");
-    if(countEl){
+    if (countEl) {
         countEl.textContent = saved.length;
     }
 }
@@ -236,7 +236,7 @@ const resultContainer = document.getElementById("resultsContainer");
 
 // No data
 
-if(!user){
+if (!user) {
 
     resultContainer.innerHTML = `
         <div class="alert alert-danger">
@@ -253,29 +253,29 @@ if(!user){
 // Find Eligible Schemes
 // =====================================
 
-const eligibleSchemes=[];
+const eligibleSchemes = [];
 
-const notEligible=[];
+const notEligible = [];
 
 
 
-schemes.forEach(scheme=>{
+schemes.forEach(scheme => {
 
     // Ignore schemes that don't match the user's occupation
 
-    if(scheme.occupation !== user.occupation){
+    if (scheme.occupation !== user.occupation) {
 
         return;
 
     }
 
-    if(scheme.eligibility(user)){
+    if (scheme.eligibility(user)) {
 
         eligibleSchemes.push(scheme);
 
     }
 
-    else{
+    else {
 
         notEligible.push(scheme);
 
@@ -293,11 +293,11 @@ console.log("User:", user);
 // Display Results
 // =====================================
 
-let html="";
+let html = "";
 
 
 
-if(eligibleSchemes.length > 0){
+if (eligibleSchemes.length > 0) {
 
     html += `<div class="row">`;
 
@@ -397,7 +397,7 @@ if(eligibleSchemes.length > 0){
 
 
 
-if(eligibleSchemes.length === 0){
+if (eligibleSchemes.length === 0) {
 
     html = `
     <div class="no-result">
@@ -415,7 +415,7 @@ if(eligibleSchemes.length === 0){
 }
 
 
-function showDetails(id){
+function showDetails(id) {
     const scheme = schemes.find(s => s.id === id);
 
     document.getElementById("modalTitle").innerHTML = scheme.schemeName;
@@ -459,7 +459,7 @@ function showDetails(id){
     new bootstrap.Modal(document.getElementById("schemeModal")).show();
 }
 
-resultContainer.innerHTML=html;
+resultContainer.innerHTML = html;
 
 /* ===========================================
             SHOW/HIDE COMPARE OPTION
@@ -467,9 +467,9 @@ resultContainer.innerHTML=html;
 
 const eligibleCards = document.querySelectorAll(".scheme-card");
 
-if(eligibleCards.length <= 1){
+if (eligibleCards.length <= 1) {
     document.getElementById("toggleCompareBtn").style.display = "none";
-}else{
+} else {
     document.getElementById("toggleCompareBtn").style.display = "inline-block";
 }
 
@@ -481,13 +481,13 @@ const toggleCompareBtn = document.getElementById("toggleCompareBtn");
 const compareBtn = document.getElementById("compareBtn");
 const compareCount = document.getElementById("compareCount");
 
-toggleCompareBtn.addEventListener("click", function(){
+toggleCompareBtn.addEventListener("click", function () {
 
     compareMode = !compareMode;
 
     const checkboxes = document.querySelectorAll(".compare-checkbox");
 
-    if(compareMode){
+    if (compareMode) {
 
         checkboxes.forEach(cb => {
             cb.style.display = "block";
@@ -496,7 +496,7 @@ toggleCompareBtn.addEventListener("click", function(){
         toggleCompareBtn.innerHTML =
             '<i class="bi bi-x-circle"></i> Cancel Compare';
 
-    }else{
+    } else {
 
         checkboxes.forEach(cb => {
             cb.checked = false;
@@ -518,11 +518,11 @@ toggleCompareBtn.addEventListener("click", function(){
             SELECT SCHEMES
 =========================================== */
 
-function toggleSchemeSelection(id, checkbox){
+function toggleSchemeSelection(id, checkbox) {
 
-    if(checkbox.checked){
+    if (checkbox.checked) {
 
-        if(selectedSchemes.length >= 4){
+        if (selectedSchemes.length >= 4) {
             alert("You can compare a maximum of 4 schemes.");
             checkbox.checked = false;
             return;
@@ -530,7 +530,7 @@ function toggleSchemeSelection(id, checkbox){
 
         selectedSchemes.push(id);
 
-    }else{
+    } else {
 
         selectedSchemes = selectedSchemes.filter(x => x !== id);
 
@@ -538,9 +538,9 @@ function toggleSchemeSelection(id, checkbox){
 
     compareCount.innerHTML = selectedSchemes.length;
 
-    if(selectedSchemes.length >= 2){
+    if (selectedSchemes.length >= 2) {
         compareBtn.style.display = "inline-block";
-    }else{
+    } else {
         compareBtn.style.display = "none";
     }
 
@@ -571,33 +571,33 @@ let viewingSavedOnly = false;
 const viewSavedBtn = document.getElementById("viewSavedBtn");
 const savedCountLabel = document.getElementById("savedCount");
 
-function refreshSavedCount(){
-    if(savedCountLabel){
+function refreshSavedCount() {
+    if (savedCountLabel) {
         savedCountLabel.textContent = getSavedSchemes().length;
     }
 }
 
 refreshSavedCount();
 
-if(viewSavedBtn){
+if (viewSavedBtn) {
 
-    viewSavedBtn.addEventListener("click", function(){
+    viewSavedBtn.addEventListener("click", function () {
 
         viewingSavedOnly = !viewingSavedOnly;
 
         const savedIds = getSavedSchemes();
         const cardWraps = document.querySelectorAll("[data-scheme-id]");
 
-        if(viewingSavedOnly){
+        if (viewingSavedOnly) {
 
             let anySaved = false;
 
             cardWraps.forEach(wrap => {
                 const id = Number(wrap.dataset.schemeId);
-                if(savedIds.includes(id)){
+                if (savedIds.includes(id)) {
                     wrap.style.display = "";
                     anySaved = true;
-                }else{
+                } else {
                     wrap.style.display = "none";
                 }
             });
@@ -605,11 +605,11 @@ if(viewSavedBtn){
             viewSavedBtn.innerHTML =
                 `<i class="bi bi-x-circle"></i> Show All Schemes`;
 
-            if(!anySaved){
+            if (!anySaved) {
                 alert("You haven't saved any schemes yet. Click the Save button on a scheme to shortlist it.");
             }
 
-        }else{
+        } else {
 
             cardWraps.forEach(wrap => {
                 wrap.style.display = "";

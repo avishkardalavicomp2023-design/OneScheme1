@@ -1,8 +1,150 @@
+/* =========================================================
+   LOAD ADMIN MANAGED SCHEMES
+   ========================================================= */
+
+function getExploreSchemes() {
+
+    const baseSchemes =
+        typeof schemes !== "undefined"
+            ? schemes
+            : [];
+
+
+    let adminSchemes = [];
+
+    let approvedSchemes = [];
+
+    let removedSchemes = [];
+
+
+    try {
+
+        adminSchemes =
+            JSON.parse(
+                localStorage.getItem(
+                    "oneScheme_adminSchemes"
+                ) || "[]"
+            );
+
+        if (!Array.isArray(adminSchemes)) {
+            adminSchemes = [];
+        }
+
+    } catch (error) {
+
+        adminSchemes = [];
+
+    }
+
+
+    try {
+
+        approvedSchemes =
+            JSON.parse(
+                localStorage.getItem(
+                    "oneScheme_approvedSchemes"
+                ) || "[]"
+            );
+
+        if (!Array.isArray(approvedSchemes)) {
+            approvedSchemes = [];
+        }
+
+    } catch (error) {
+
+        approvedSchemes = [];
+
+    }
+
+
+    try {
+
+        removedSchemes =
+            JSON.parse(
+                localStorage.getItem(
+                    "oneScheme_removedSchemes"
+                ) || "[]"
+            );
+
+        if (!Array.isArray(removedSchemes)) {
+            removedSchemes = [];
+        }
+
+    } catch (error) {
+
+        removedSchemes = [];
+
+    }
+
+
+    const combined = [
+        ...baseSchemes,
+        ...adminSchemes,
+        ...approvedSchemes
+    ];
+
+
+    const unique =
+        new Map();
+
+
+    combined.forEach(
+        scheme => {
+
+            if (
+                scheme &&
+                scheme.id !== undefined
+            ) {
+
+                unique.set(
+                    Number(scheme.id),
+                    scheme
+                );
+
+            }
+
+        }
+    );
+
+
+    return Array.from(
+        unique.values()
+    ).filter(
+        scheme =>
+            !removedSchemes.some(
+                id =>
+                    Number(id) ===
+                    Number(scheme.id)
+            )
+    );
+
+}
+
+
+/* =========================================================
+   MAKE AVAILABLE GLOBALLY
+   ========================================================= */
+
+window.loadAdminManagedSchemes =
+    function () {
+
+        if (
+            typeof window.refreshExploreSchemes ===
+            "function"
+        ) {
+
+            window.refreshExploreSchemes();
+
+        }
+
+    };
+
 document.addEventListener("DOMContentLoaded", function () {
 
     // =========================================================
     // ELEMENTS
     // =========================================================
+    let activeSchemes = getExploreSchemes();
 
     const schemeContainer = document.getElementById("schemeContainer");
     const searchInput = document.getElementById("searchInput");
@@ -1257,3 +1399,51 @@ function updateExploreSavedVisibility() {
     }
 
 }
+
+/* =========================================================
+   REFRESH EXPLORE AFTER ADMIN CHANGES
+   ========================================================= */
+
+window.refreshExploreSchemes =
+    function () {
+
+        const container =
+            document.getElementById(
+                "schemeContainer"
+            );
+
+
+        if (!container) {
+            return;
+        }
+
+
+        const freshSchemes =
+            getExploreSchemes();
+
+
+        /*
+         * Update the global schemes reference
+         * used by this page.
+         */
+
+        if (
+            typeof window.activeExploreSchemes !==
+            "undefined"
+        ) {
+
+            window.activeExploreSchemes =
+                freshSchemes;
+
+        }
+
+
+        /*
+         * Reload page because URL filters,
+         * statistics and document filters
+         * all depend on the scheme list.
+         */
+
+        window.location.reload();
+
+    };

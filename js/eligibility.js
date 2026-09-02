@@ -26,7 +26,7 @@ let currentStep = 0;
 // GENDER SELECTION
 // ===============================================
 
-document.addEventListener("click", function(e) {
+document.addEventListener("click", function (e) {
 
     const option = e.target.closest(".gender-option");
 
@@ -53,22 +53,22 @@ document.addEventListener("click", function(e) {
 // OCCUPATION
 // =====================================
 
-occupation.addEventListener("change",()=>{
+occupation.addEventListener("change", () => {
 
-    if(occupation.value==="Student"){
+    if (occupation.value === "Student") {
 
-        studentSection.style.display="block";
+        studentSection.style.display = "block";
 
     }
-    else{
+    else {
 
-        studentSection.style.display="none";
+        studentSection.style.display = "none";
 
     }
 
 });
 
-document.addEventListener("click", function(e) {
+document.addEventListener("click", function (e) {
 
     const option = e.target.closest(".area-option");
 
@@ -105,13 +105,13 @@ showStep(currentStep);
 // SHOW STEP
 // ===============================================
 
-function showStep(step){
+function showStep(step) {
 
-    steps.forEach((item,index)=>{
+    steps.forEach((item, index) => {
 
         item.classList.remove("active");
 
-        if(index===step){
+        if (index === step) {
 
             item.classList.add("active");
 
@@ -119,9 +119,9 @@ function showStep(step){
 
     });
 
-    currentStepText.innerHTML = step+1;
+    currentStepText.innerHTML = step + 1;
 
-    progressBar.style.width=((step+1)/steps.length)*100+"%";
+    progressBar.style.width = ((step + 1) / steps.length) * 100 + "%";
 
 }
 
@@ -405,16 +405,16 @@ if (percentageInputSlider) {
 // NEXT BUTTON
 // ===============================================
 
-nextBtns.forEach(btn=>{
+nextBtns.forEach(btn => {
 
-    btn.addEventListener("click",()=>{
+    btn.addEventListener("click", () => {
 
-        if(!validateStep(currentStep))
+        if (!validateStep(currentStep))
             return;
 
 
 
-        if(currentStep<steps.length-1){
+        if (currentStep < steps.length - 1) {
 
             currentStep++;
 
@@ -432,12 +432,12 @@ nextBtns.forEach(btn=>{
 // PREVIOUS BUTTON
 // ===============================================
 
-prevBtns.forEach(btn=>{
+prevBtns.forEach(btn => {
 
-    btn.addEventListener("click",()=>{
+    btn.addEventListener("click", () => {
 
 
-        if(currentStep>0){
+        if (currentStep > 0) {
 
             currentStep--;
 
@@ -455,43 +455,43 @@ prevBtns.forEach(btn=>{
 // RESET BUTTON
 // ===============================================
 
-resetBtns.forEach(btn=>{
+resetBtns.forEach(btn => {
 
-    btn.addEventListener("click",()=>{
+    btn.addEventListener("click", () => {
 
-        const inputs=steps[currentStep].querySelectorAll("input,select");
+        const inputs = steps[currentStep].querySelectorAll("input,select");
 
-        inputs.forEach(input=>{
+        inputs.forEach(input => {
 
-            if(input.tagName==="SELECT"){
+            if (input.tagName === "SELECT") {
 
-                input.selectedIndex=0;
+                input.selectedIndex = 0;
 
             }
 
-            else if(input.type === "range"){
+            else if (input.type === "range") {
 
                 input.value = input.id === "age" ? "18" : "1";
 
-                if(input.id === "age" && ageValueLabel){
+                if (input.id === "age" && ageValueLabel) {
                     ageValueLabel.textContent = input.value;
                 }
 
-                if(input.id === "percentage" && percentageValueLabel){
+                if (input.id === "percentage" && percentageValueLabel) {
                     percentageValueLabel.textContent = input.value;
                 }
 
             }
 
-            else if(input.type === "hidden"){
+            else if (input.type === "hidden") {
 
-                input.value="";
+                input.value = "";
 
             }
 
-            else{
+            else {
 
-                input.value="";
+                input.value = "";
 
             }
 
@@ -512,7 +512,7 @@ resetBtns.forEach(btn=>{
 // DISABILITY
 // ===============================================
 
-document.addEventListener("click", function(e) {
+document.addEventListener("click", function (e) {
 
     const option = e.target.closest(".disability-option");
 
@@ -564,17 +564,17 @@ document.addEventListener("click", function(e) {
 // OCCUPATION
 // =====================================
 
-occupation.addEventListener("change",()=>{
+occupation.addEventListener("change", () => {
 
-    if(occupation.value==="Student"){
+    if (occupation.value === "Student") {
 
-        studentSection.style.display="block";
+        studentSection.style.display = "block";
 
     }
 
-    else{
+    else {
 
-        studentSection.style.display="none";
+        studentSection.style.display = "none";
 
     }
 
@@ -584,7 +584,7 @@ occupation.addEventListener("change",()=>{
 // INSTITUTION TYPE SELECTION
 // ===============================================
 
-document.addEventListener("click", function(e) {
+document.addEventListener("click", function (e) {
 
     const option = e.target.closest(".institution-option");
 
@@ -614,28 +614,28 @@ document.addEventListener("click", function(e) {
 // SUBMIT
 // ===============================================
 
-document.querySelector(".btn-success").addEventListener("click",(e)=>{
+document.querySelector(".btn-success").addEventListener("click", (e) => {
 
     e.preventDefault();
 
-    if(!validateStep(currentStep))
+    if (!validateStep(currentStep))
         return;
 
-    const user={
+    const user = {
 
-        gender:document.getElementById("gender").value,
+        gender: document.getElementById("gender").value,
 
-        age:Number(document.getElementById("age").value),
+        age: Number(document.getElementById("age").value),
 
-        state:document.getElementById("state").value,
+        state: document.getElementById("state").value,
 
-        area:document.getElementById("area").value,
+        area: document.getElementById("area").value,
 
-        category:document.getElementById("category").value,
+        category: document.getElementById("category").value,
 
-        disabled:document.getElementById("disabled").value==="Yes",
+        disabled: document.getElementById("disabled").value === "Yes",
 
-        disabilityPercentage:Number(document.getElementById("percentage").value||0),
+        disabilityPercentage: Number(document.getElementById("percentage").value || 0),
 
         occupation: document.getElementById("occupation").value,
 
@@ -651,8 +651,8 @@ document.querySelector(".btn-success").addEventListener("click",(e)=>{
 
     };
 
-    localStorage.setItem("userData",JSON.stringify(user));
+    localStorage.setItem("userData", JSON.stringify(user));
 
-    window.location.href="pages/results.html";
+    window.location.href = "pages/results.html";
 
 });

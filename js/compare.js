@@ -14,7 +14,7 @@ const compareTable = document.getElementById("compareTable");
                 NO SCHEMES SELECTED
 ===================================================== */
 
-if(selectedSchemes.length < 2){
+if (selectedSchemes.length < 2) {
 
     compareTable.innerHTML = `
         <tr>
@@ -30,7 +30,7 @@ if(selectedSchemes.length < 2){
         </tr>
     `;
 
-}else{
+} else {
 
     generateComparison();
 
@@ -40,50 +40,50 @@ if(selectedSchemes.length < 2){
                 GENERATE TABLE
 ===================================================== */
 
-function generateComparison(){
+function generateComparison() {
 
     const features = [
         {
-            title:"Scheme Name",
-            key:"schemeName"
+            title: "Scheme Name",
+            key: "schemeName"
         },
         {
-            title:"Organization",
-            key:"organization"
+            title: "Organization",
+            key: "organization"
         },
         {
-            title:"Category",
-            key:"category"
+            title: "Category",
+            key: "category"
         },
         {
-            title:"Scheme Type",
-            key:"schemeType"
+            title: "Scheme Type",
+            key: "schemeType"
         },
         {
-            title:"Occupation",
-            key:"occupation"
+            title: "Occupation",
+            key: "occupation"
         },
         {
-            title:"Benefit",
-            key:"benefit"
+            title: "Benefit",
+            key: "benefit"
         },
         {
-            title:"State",
-            key:"state"
+            title: "State",
+            key: "state"
         },
         {
-            title:"Gender",
-            key:"gender"
+            title: "Gender",
+            key: "gender"
         },
         {
-            title:"Age",
+            title: "Age",
             custom: scheme => `${scheme.minAge} - ${scheme.maxAge}`
         },
         {
-            title:"Income Limit",
+            title: "Income Limit",
             custom: scheme => {
 
-                if(scheme.incomeLimit === Number.MAX_SAFE_INTEGER){
+                if (scheme.incomeLimit === Number.MAX_SAFE_INTEGER) {
                     return "No Income Limit";
                 }
 
@@ -92,11 +92,11 @@ function generateComparison(){
             }
         },
         {
-            title:"Apply Mode",
-            key:"applyMode"
+            title: "Apply Mode",
+            key: "applyMode"
         },
         {
-            title:"Website",
+            title: "Website",
             custom: scheme => `
                 <a
                     href="${scheme.website}"
@@ -148,9 +148,9 @@ function generateComparison(){
 
             let value = "";
 
-            if(feature.key){
+            if (feature.key) {
                 value = scheme[feature.key];
-            }else{
+            } else {
                 value = feature.custom(scheme);
             }
 

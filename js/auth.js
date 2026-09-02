@@ -395,22 +395,20 @@ function clearSession() {
 function updateNavbarForSession() {
 
     const loginBtn =
-        document.getElementById(
-            "loginTrigger"
-        );
+        document.getElementById("loginTrigger");
 
     const savedNav =
-        document.getElementById(
-            "savedSchemesNav"
-        );
+        document.getElementById("savedSchemesNav");
 
     const session =
         getSession();
 
 
-    /* -----------------------------------------------------
-       SAVED SCHEMES VISIBILITY
-    ----------------------------------------------------- */
+    /* =====================================================
+       SAVED SCHEMES
+
+       ONLY regular users can see this.
+    ===================================================== */
 
     if (savedNav) {
 
@@ -423,37 +421,75 @@ function updateNavbarForSession() {
 
         } else {
 
-            savedNav.style.display =
-                "none";
+            savedNav.style.display = "none";
+
         }
     }
 
-
-    /* -----------------------------------------------------
-       LOGIN BUTTON
-    ----------------------------------------------------- */
 
     if (!loginBtn) {
         return;
     }
 
 
-    if (session) {
+    /* =====================================================
+       LOGGED OUT
+    ===================================================== */
 
-        loginBtn.classList.add(
-            "is-logged-in"
-        );
+    if (!session) {
 
-        const firstName =
-            session.name
-                ? session.name.split(" ")[0]
-                : "Account";
+        loginBtn.classList.remove("is-logged-in");
 
         loginBtn.innerHTML = `
-            <i class="bi bi-person-circle"></i>
-            ${firstName}
+            Login
         `;
 
+        loginBtn.onclick = openAuthModal;
+
+        return;
+    }
+
+
+    /* =====================================================
+       PLATFORM ADMIN
+    ===================================================== */
+
+    if (session.role === "admin") {
+
+        loginBtn.classList.add("is-logged-in");
+
+        loginBtn.innerHTML = `
+            <i class="bi bi-shield-check"></i>
+            Platform
+            <i class="bi bi-chevron-down ms-1"></i>
+        `;
+
+        loginBtn.onclick = function (event) {
+
+            event.preventDefault();
+            event.stopPropagation();
+
+            toggleAdminMenu();
+
+        };
+
+        return;
+    }
+
+
+    /* =====================================================
+       SCHEME PROVIDER
+    ===================================================== */
+
+    if (session.role === "provider") {
+
+        loginBtn.classList.add("is-logged-in");
+
+        loginBtn.innerHTML = `
+            <i class="bi bi-building"></i>
+            ${getFirstName(session.name)}
+            <i class="bi bi-chevron-down ms-1"></i>
+        `;
 
         loginBtn.onclick = function () {
 
@@ -463,29 +499,83 @@ function updateNavbarForSession() {
                 )
             ) {
 
-                clearSession();
+                logoutUser();
 
-
-                if (savedNav) {
-
-                    savedNav.style.display =
-                        "none";
-                }
-
-
-                loginBtn.classList.remove(
-                    "is-logged-in"
-                );
-
-                loginBtn.innerHTML =
-                    "Login";
-
-                loginBtn.onclick =
-                    openAuthModal;
             }
+
         };
 
-    } else {
+        return;
+    }
+
+
+    /* =====================================================
+       REGULAR USER
+    ===================================================== */
+
+    loginBtn.classList.add("is-logged-in");
+
+    loginBtn.innerHTML = `
+        <i class="bi bi-person-circle"></i>
+        ${getFirstName(session.name)}
+        <i class="bi bi-chevron-down ms-1"></i>
+    `;
+
+    loginBtn.onclick = function () {
+
+        if (
+            confirm(
+                "Log out of your account?"
+            )
+        ) {
+
+            logoutUser();
+
+        }
+
+    };
+
+}
+
+
+/* =========================================================
+   FIRST NAME
+   ========================================================= */
+
+function getFirstName(name) {
+
+    if (!name) {
+        return "Account";
+    }
+
+    return String(name)
+        .trim()
+        .split(" ")[0];
+
+}
+
+
+/* =========================================================
+   LOGOUT
+   ========================================================= */
+
+function logoutUser() {
+
+    clearSession();
+
+    const savedNav =
+        document.getElementById("savedSchemesNav");
+
+    const loginBtn =
+        document.getElementById("loginTrigger");
+
+
+    if (savedNav) {
+        savedNav.style.display = "none";
+    }
+
+
+    if (loginBtn) {
 
         loginBtn.classList.remove(
             "is-logged-in"
@@ -496,8 +586,1978 @@ function updateNavbarForSession() {
 
         loginBtn.onclick =
             openAuthModal;
+
     }
+
+
+    closeAdminMenu();
+
 }
+
+/* =========================================================
+   PLATFORM ADMIN MENU
+   ========================================================= */
+
+let adminMenuElement = null;
+
+
+/* =========================================================
+   CREATE ADMIN MENU
+   ========================================================= */
+
+function createAdminMenu() {
+
+    if (adminMenuElement) {
+        return;
+    }
+
+
+    adminMenuElement =
+        document.createElement("div");
+
+    adminMenuElement.id =
+        "platformAdminMenu";
+
+    adminMenuElement.innerHTML = `
+
+        <div class="admin-menu-header">
+
+            <div class="admin-menu-icon">
+                <i class="bi bi-shield-lock-fill"></i>
+            </div>
+
+            <div>
+                <strong>Platform Admin</strong>
+
+                <small>
+                    Administration Panel
+                </small>
+            </div>
+
+        </div>
+
+
+        <button
+            type="button"
+            class="admin-menu-item"
+            onclick="openManageSchemes()">
+
+            <i class="bi bi-collection"></i>
+
+            <span>
+                <strong>Manage Schemes</strong>
+                <small>Add or remove schemes</small>
+            </span>
+
+        </button>
+
+
+        <button
+            type="button"
+            class="admin-menu-item"
+            onclick="openApproveSchemes()">
+
+            <i class="bi bi-check2-circle"></i>
+
+            <span>
+                <strong>Approve Schemes</strong>
+                <small>Review provider submissions</small>
+            </span>
+
+            <span
+                id="pendingSchemeBadge"
+                class="pending-badge">
+                0
+            </span>
+
+        </button>
+
+
+        <div class="admin-menu-divider"></div>
+
+
+        <button
+            type="button"
+            class="admin-menu-item admin-logout"
+            onclick="adminLogout()">
+
+            <i class="bi bi-box-arrow-right"></i>
+
+            <span>
+                <strong>Log Out</strong>
+                <small>Sign out from admin account</small>
+            </span>
+
+        </button>
+
+    `;
+
+
+    document.body.appendChild(
+        adminMenuElement
+    );
+
+
+    updatePendingSchemeBadge();
+
+}
+
+
+/* =========================================================
+   TOGGLE ADMIN MENU
+   ========================================================= */
+
+function toggleAdminMenu() {
+
+    const session =
+        getSession();
+
+
+    if (
+        !session ||
+        session.role !== "admin"
+    ) {
+
+        return;
+
+    }
+
+
+    createAdminMenu();
+
+
+    if (
+        adminMenuElement.classList.contains(
+            "show"
+        )
+    ) {
+
+        closeAdminMenu();
+
+    } else {
+
+        positionAdminMenu();
+
+        adminMenuElement.classList.add(
+            "show"
+        );
+
+        updatePendingSchemeBadge();
+
+    }
+
+}
+
+
+/* =========================================================
+   POSITION ADMIN MENU
+   ========================================================= */
+
+function positionAdminMenu() {
+
+    const loginBtn =
+        document.getElementById(
+            "loginTrigger"
+        );
+
+    if (
+        !loginBtn ||
+        !adminMenuElement
+    ) {
+
+        return;
+
+    }
+
+
+    const rect =
+        loginBtn.getBoundingClientRect();
+
+
+    adminMenuElement.style.top =
+        `${rect.bottom + 10}px`;
+
+    adminMenuElement.style.right =
+        `${window.innerWidth - rect.right}px`;
+
+}
+
+
+/* =========================================================
+   CLOSE ADMIN MENU
+   ========================================================= */
+
+function closeAdminMenu() {
+
+    if (adminMenuElement) {
+
+        adminMenuElement.classList.remove(
+            "show"
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   ADMIN LOGOUT
+   ========================================================= */
+
+function adminLogout() {
+
+    if (
+        !confirm(
+            "Are you sure you want to log out from the Platform Admin account?"
+        )
+    ) {
+
+        return;
+
+    }
+
+
+    logoutUser();
+
+}
+
+
+/* =========================================================
+   CLOSE MENU WHEN CLICKING OUTSIDE
+   ========================================================= */
+
+document.addEventListener(
+    "click",
+    function (event) {
+
+        const loginBtn =
+            document.getElementById(
+                "loginTrigger"
+            );
+
+
+        if (
+            adminMenuElement &&
+            !adminMenuElement.contains(event.target) &&
+            event.target !== loginBtn
+        ) {
+
+            closeAdminMenu();
+
+        }
+
+    }
+);
+
+/* =========================================================
+   ADMIN SCHEME STORAGE
+   ========================================================= */
+
+function getAdminAddedSchemes() {
+
+    try {
+
+        const data =
+            JSON.parse(
+                localStorage.getItem(
+                    "oneScheme_adminSchemes"
+                ) || "[]"
+            );
+
+        return Array.isArray(data)
+            ? data
+            : [];
+
+    } catch (error) {
+
+        console.error(
+            "Unable to read admin schemes:",
+            error
+        );
+
+        return [];
+
+    }
+
+}
+
+
+function saveAdminAddedSchemes(data) {
+
+    localStorage.setItem(
+        "oneScheme_adminSchemes",
+        JSON.stringify(data)
+    );
+
+}
+
+
+/* =========================================================
+   REMOVED SCHEMES
+   ========================================================= */
+
+function getRemovedSchemes() {
+
+    try {
+
+        const data =
+            JSON.parse(
+                localStorage.getItem(
+                    "oneScheme_removedSchemes"
+                ) || "[]"
+            );
+
+        return Array.isArray(data)
+            ? data
+            : [];
+
+    } catch (error) {
+
+        return [];
+
+    }
+
+}
+
+
+function saveRemovedSchemes(data) {
+
+    localStorage.setItem(
+        "oneScheme_removedSchemes",
+        JSON.stringify(data)
+    );
+
+}
+
+
+/* =========================================================
+   GET ALL ADMIN-MANAGED SCHEMES
+   ========================================================= */
+
+function getAdminManagedSchemes() {
+
+    const baseSchemes =
+        typeof schemes !== "undefined"
+            ? schemes
+            : [];
+
+
+    const addedSchemes =
+        getAdminAddedSchemes();
+
+
+    const removed =
+        getRemovedSchemes()
+            .map(id => Number(id));
+
+
+    return [
+        ...baseSchemes,
+        ...addedSchemes
+    ].filter(
+        scheme =>
+            !removed.includes(
+                Number(scheme.id)
+            )
+    );
+
+}
+
+
+/* =========================================================
+   OPEN MANAGE SCHEMES
+   ========================================================= */
+
+function openManageSchemes() {
+
+    closeAdminMenu();
+
+
+    const session =
+        getSession();
+
+
+    if (
+        !session ||
+        session.role !== "admin"
+    ) {
+
+        alert(
+            "Only Platform Admin can access Manage Schemes."
+        );
+
+        return;
+
+    }
+
+
+    const schemesList =
+        getAdminManagedSchemes();
+
+
+    let html = `
+
+        <div class="admin-panel">
+
+            <div class="admin-panel-header">
+
+                <div>
+
+                    <h3>
+                        <i class="bi bi-collection"></i>
+                        Manage Schemes
+                    </h3>
+
+                    <p>
+                        Add, view and remove platform schemes.
+                    </p>
+
+                </div>
+
+                <button
+                    type="button"
+                    class="admin-close-btn"
+                    onclick="closeAdminPanel()">
+
+                    <i class="bi bi-x-lg"></i>
+
+                </button>
+
+            </div>
+
+
+            <div class="admin-panel-actions">
+
+                <button
+                    type="button"
+                    class="btn btn-primary"
+                    onclick="showAddSchemeForm()">
+
+                    <i class="bi bi-plus-circle"></i>
+                    Add New Scheme
+
+                </button>
+
+            </div>
+
+
+            <div
+                id="adminSchemeList"
+                class="admin-scheme-list">
+
+    `;
+
+
+    if (schemesList.length === 0) {
+
+        html += `
+
+            <div class="admin-empty">
+
+                <i class="bi bi-inbox"></i>
+
+                <h5>No Schemes Available</h5>
+
+                <p>
+                    Add a scheme to the platform.
+                </p>
+
+            </div>
+
+        `;
+
+    } else {
+
+        schemesList.forEach(
+            scheme => {
+
+                html += `
+
+                    <div
+                        class="admin-scheme-card">
+
+                        <div>
+
+                            <span class="admin-scheme-category">
+                                ${escapeAdminHTML(
+                    scheme.category || "General"
+                )}
+                            </span>
+
+                            <h5>
+                                ${escapeAdminHTML(
+                    scheme.schemeName || "Unnamed Scheme"
+                )}
+                            </h5>
+
+                            <p>
+                                <strong>Organization:</strong>
+                                ${escapeAdminHTML(
+                    scheme.organization || "Not specified"
+                )}
+                            </p>
+
+                            <p>
+                                <strong>Type:</strong>
+                                ${escapeAdminHTML(
+                    scheme.schemeType || "Not specified"
+                )}
+                            </p>
+
+                        </div>
+
+
+                        <button
+                            type="button"
+                            class="btn btn-outline-danger"
+                            onclick="removeAdminScheme(${Number(scheme.id)})">
+
+                            <i class="bi bi-trash"></i>
+                            Remove
+
+                        </button>
+
+                    </div>
+
+                `;
+
+            }
+        );
+
+    }
+
+
+    html += `
+
+            </div>
+
+        </div>
+
+    `;
+
+
+    openAdminPanel(
+        "Manage Schemes",
+        html
+    );
+
+}
+
+
+/* =========================================================
+   ADD SCHEME FORM
+   ========================================================= */
+
+function showAddSchemeForm() {
+
+    const html = `
+
+        <div class="admin-add-form">
+
+            <div class="admin-panel-header">
+
+                <div>
+
+                    <h3>
+                        <i class="bi bi-plus-circle"></i>
+                        Add New Scheme
+                    </h3>
+
+                    <p>
+                        Enter the scheme information.
+                    </p>
+
+                </div>
+
+                <button
+                    type="button"
+                    class="admin-close-btn"
+                    onclick="closeAdminPanel()">
+
+                    <i class="bi bi-x-lg"></i>
+
+                </button>
+
+            </div>
+
+
+            <form
+                id="adminAddSchemeForm">
+
+
+                <div class="row g-3">
+
+
+                    <div class="col-md-6">
+
+                        <label>
+                            Scheme Name
+                        </label>
+
+                        <input
+                            id="adminSchemeName"
+                            class="form-control"
+                            required>
+
+                    </div>
+
+
+                    <div class="col-md-6">
+
+                        <label>
+                            Organization
+                        </label>
+
+                        <input
+                            id="adminSchemeOrganization"
+                            class="form-control"
+                            required>
+
+                    </div>
+
+
+                    <div class="col-md-6">
+
+                        <label>
+                            Scheme Type
+                        </label>
+
+                        <select
+                            id="adminSchemeType"
+                            class="form-select"
+                            required>
+
+                            <option value="">
+                                Select Type
+                            </option>
+
+                            <option value="Government">
+                                Government
+                            </option>
+
+                            <option value="Private">
+                                Private
+                            </option>
+
+                            <option value="CSR">
+                                CSR
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="col-md-6">
+
+                        <label>
+                            Category
+                        </label>
+
+                        <select
+                            id="adminSchemeCategory"
+                            class="form-select"
+                            required>
+
+                            <option value="">
+                                Select Category
+                            </option>
+
+                            <option>Education</option>
+                            <option>Agriculture</option>
+                            <option>Employment</option>
+                            <option>Finance</option>
+                            <option>Startup</option>
+                            <option>Healthcare</option>
+                            <option>Housing</option>
+                            <option>Women</option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="col-md-6">
+
+                        <label>
+                            Occupation
+                        </label>
+
+                        <input
+                            id="adminSchemeOccupation"
+                            class="form-control"
+                            placeholder="e.g. Student">
+
+                    </div>
+
+
+                    <div class="col-md-6">
+
+                        <label>
+                            State
+                        </label>
+
+                        <input
+                            id="adminSchemeState"
+                            class="form-control"
+                            value="All">
+
+                    </div>
+
+
+                    <div class="col-md-6">
+
+                        <label>
+                            Minimum Age
+                        </label>
+
+                        <input
+                            type="number"
+                            id="adminSchemeMinAge"
+                            class="form-control"
+                            min="0"
+                            max="100"
+                            value="0"
+                            required>
+
+                    </div>
+
+
+                    <div class="col-md-6">
+
+                        <label>
+                            Maximum Age
+                        </label>
+
+                        <input
+                            type="number"
+                            id="adminSchemeMaxAge"
+                            class="form-control"
+                            min="0"
+                            max="100"
+                            value="100"
+                            required>
+
+                    </div>
+
+
+                    <div class="col-md-6">
+
+                        <label>
+                            Gender
+                        </label>
+
+                        <select
+                            id="adminSchemeGender"
+                            class="form-select">
+
+                            <option>Any</option>
+                            <option>Male</option>
+                            <option>Female</option>
+                            <option>Other</option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="col-md-6">
+
+                        <label>
+                            Income Limit
+                        </label>
+
+                        <input
+                            type="number"
+                            id="adminSchemeIncome"
+                            class="form-control"
+                            min="0"
+                            value="0">
+
+                    </div>
+
+
+                    <div class="col-md-6">
+
+                        <label>
+                            Benefit
+                        </label>
+
+                        <input
+                            id="adminSchemeBenefit"
+                            class="form-control"
+                            required>
+
+                    </div>
+
+
+                    <div class="col-md-6">
+
+                        <label>
+                            Apply Mode
+                        </label>
+
+                        <select
+                            id="adminSchemeApplyMode"
+                            class="form-select">
+
+                            <option>Online</option>
+                            <option>Offline</option>
+                            <option>Online / Offline</option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="col-12">
+
+                        <label>
+                            Official Website
+                        </label>
+
+                        <input
+                            type="url"
+                            id="adminSchemeWebsite"
+                            class="form-control"
+                            placeholder="https://example.com"
+                            required>
+
+                    </div>
+
+
+                    <div class="col-12">
+
+                        <label>
+                            Required Documents
+                        </label>
+
+                        <textarea
+                            id="adminSchemeDocuments"
+                            class="form-control"
+                            rows="5"
+                            placeholder="Enter one document per line"
+                            required></textarea>
+
+                    </div>
+
+
+                </div>
+
+
+                <div
+                    id="adminAddSchemeError"
+                    class="text-danger mt-3"
+                    style="display:none;">
+                </div>
+
+
+                <div class="admin-form-buttons">
+
+                    <button
+                        type="button"
+                        class="btn btn-secondary"
+                        onclick="openManageSchemes()">
+
+                        Cancel
+
+                    </button>
+
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary">
+
+                        <i class="bi bi-check-circle"></i>
+                        Add Scheme
+
+                    </button>
+
+                </div>
+
+
+            </form>
+
+        </div>
+
+    `;
+
+
+    openAdminPanel(
+        "Add Scheme",
+        html
+    );
+
+
+    document
+        .getElementById(
+            "adminAddSchemeForm"
+        )
+        .addEventListener(
+            "submit",
+            handleAdminAddScheme
+        );
+
+}
+
+
+/* =========================================================
+   ADD SCHEME
+   ========================================================= */
+
+function handleAdminAddScheme(event) {
+
+    event.preventDefault();
+
+
+    const name =
+        document.getElementById(
+            "adminSchemeName"
+        ).value.trim();
+
+
+    const organization =
+        document.getElementById(
+            "adminSchemeOrganization"
+        ).value.trim();
+
+
+    const type =
+        document.getElementById(
+            "adminSchemeType"
+        ).value;
+
+
+    const category =
+        document.getElementById(
+            "adminSchemeCategory"
+        ).value;
+
+
+    const occupation =
+        document.getElementById(
+            "adminSchemeOccupation"
+        ).value.trim();
+
+
+    const state =
+        document.getElementById(
+            "adminSchemeState"
+        ).value.trim() || "All";
+
+
+    const minAge =
+        Number(
+            document.getElementById(
+                "adminSchemeMinAge"
+            ).value
+        );
+
+
+    const maxAge =
+        Number(
+            document.getElementById(
+                "adminSchemeMaxAge"
+            ).value
+        );
+
+
+    const gender =
+        document.getElementById(
+            "adminSchemeGender"
+        ).value;
+
+
+    const income =
+        Number(
+            document.getElementById(
+                "adminSchemeIncome"
+            ).value
+        ) || 0;
+
+
+    const benefit =
+        document.getElementById(
+            "adminSchemeBenefit"
+        ).value.trim();
+
+
+    const applyMode =
+        document.getElementById(
+            "adminSchemeApplyMode"
+        ).value;
+
+
+    const website =
+        document.getElementById(
+            "adminSchemeWebsite"
+        ).value.trim();
+
+
+    const documents =
+        document.getElementById(
+            "adminSchemeDocuments"
+        ).value
+            .split("\n")
+            .map(doc => doc.trim())
+            .filter(Boolean);
+
+
+    const error =
+        document.getElementById(
+            "adminAddSchemeError"
+        );
+
+
+    if (
+        !name ||
+        !organization ||
+        !type ||
+        !category ||
+        !benefit ||
+        !website ||
+        documents.length === 0
+    ) {
+
+        error.textContent =
+            "Please fill all required fields.";
+
+        error.style.display =
+            "block";
+
+        return;
+
+    }
+
+
+    if (
+        minAge < 0 ||
+        minAge > 100 ||
+        maxAge < 0 ||
+        maxAge > 100
+    ) {
+
+        error.textContent =
+            "Age must be between 0 and 100.";
+
+        error.style.display =
+            "block";
+
+        return;
+
+    }
+
+
+    if (minAge > maxAge) {
+
+        error.textContent =
+            "Minimum age cannot be greater than maximum age.";
+
+        error.style.display =
+            "block";
+
+        return;
+
+    }
+
+
+    const allSchemes =
+        getAdminManagedSchemes();
+
+
+    const numericIds =
+        allSchemes
+            .map(
+                scheme =>
+                    Number(scheme.id)
+            )
+            .filter(
+                id =>
+                    !Number.isNaN(id)
+            );
+
+
+    const newId =
+        numericIds.length
+            ? Math.max(...numericIds) + 1
+            : 1;
+
+
+    const newScheme = {
+
+        id: newId,
+
+        schemeName: name,
+
+        occupation:
+            occupation || "Any",
+
+        organization,
+
+        schemeType: type,
+
+        category,
+
+        state,
+
+        gender,
+
+        minAge,
+
+        maxAge,
+
+        student: false,
+
+        studentType: "Any",
+
+        academicLevel: "Any",
+
+        course: "Any",
+
+        institutionType: "Any",
+
+        incomeLimit:
+            income === 0
+                ? Number.MAX_SAFE_INTEGER
+                : income,
+
+        disability: false,
+
+        disabilityPercentage: 0,
+
+        benefit,
+
+        applyMode,
+
+        website,
+
+        documents,
+
+        verificationStatus:
+            "approved",
+
+        publishingAllowed:
+            true,
+
+        addedBy:
+            "admin"
+
+    };
+
+
+    const adminSchemes =
+        getAdminAddedSchemes();
+
+
+    adminSchemes.push(
+        newScheme
+    );
+
+
+    saveAdminAddedSchemes(
+        adminSchemes
+    );
+
+
+    alert(
+        "Scheme added successfully."
+    );
+
+
+    closeAdminPanel();
+
+
+    refreshExploreIfAvailable();
+
+}
+
+
+/* =========================================================
+   REMOVE SCHEME
+   ========================================================= */
+
+function removeAdminScheme(id) {
+
+    if (
+        !confirm(
+            "Are you sure you want to remove this scheme?"
+        )
+    ) {
+
+        return;
+
+    }
+
+
+    let removed =
+        getRemovedSchemes();
+
+
+    if (
+        !removed.some(
+            existing =>
+                Number(existing) ===
+                Number(id)
+        )
+    ) {
+
+        removed.push(
+            Number(id)
+        );
+
+    }
+
+
+    saveRemovedSchemes(
+        removed
+    );
+
+
+    /* Remove from admin-added schemes too */
+
+    let added =
+        getAdminAddedSchemes();
+
+
+    added =
+        added.filter(
+            scheme =>
+                Number(scheme.id) !==
+                Number(id)
+        );
+
+
+    saveAdminAddedSchemes(
+        added
+    );
+
+
+    alert(
+        "Scheme removed successfully."
+    );
+
+
+    openManageSchemes();
+
+    refreshExploreIfAvailable();
+
+}
+
+
+/* =========================================================
+   REFRESH EXPLORE PAGE
+   ========================================================= */
+
+function refreshExploreIfAvailable() {
+
+    if (
+        typeof window.loadAdminManagedSchemes ===
+        "function"
+    ) {
+
+        window.loadAdminManagedSchemes();
+
+    }
+
+}
+
+/* =========================================================
+   APPROVE SCHEMES
+   ========================================================= */
+
+function getProviderSchemes() {
+
+    try {
+
+        const data =
+            JSON.parse(
+                localStorage.getItem(
+                    "oneScheme_providerSchemes"
+                ) || "[]"
+            );
+
+        return Array.isArray(data)
+            ? data
+            : [];
+
+    } catch (error) {
+
+        return [];
+
+    }
+
+}
+
+
+function saveProviderSchemes(data) {
+
+    localStorage.setItem(
+        "oneScheme_providerSchemes",
+        JSON.stringify(data)
+    );
+
+}
+
+
+/* =========================================================
+   PENDING COUNT
+   ========================================================= */
+
+function updatePendingSchemeBadge() {
+
+    const badge =
+        document.getElementById(
+            "pendingSchemeBadge"
+        );
+
+
+    if (!badge) {
+        return;
+    }
+
+
+    const pending =
+        getProviderSchemes()
+            .filter(
+                scheme =>
+                    scheme.verificationStatus ===
+                    "pending"
+            );
+
+
+    badge.textContent =
+        pending.length;
+
+
+    badge.style.display =
+        pending.length > 0
+            ? "inline-flex"
+            : "none";
+
+}
+
+
+/* =========================================================
+   OPEN APPROVE SCHEMES
+   ========================================================= */
+
+function openApproveSchemes() {
+
+    closeAdminMenu();
+
+
+    const session =
+        getSession();
+
+
+    if (
+        !session ||
+        session.role !== "admin"
+    ) {
+
+        alert(
+            "Only Platform Admin can access Approve Schemes."
+        );
+
+        return;
+
+    }
+
+
+    const providerSchemes =
+        getProviderSchemes();
+
+
+    const pendingSchemes =
+        providerSchemes.filter(
+            scheme =>
+                scheme.verificationStatus ===
+                "pending"
+        );
+
+
+    let html = `
+
+        <div class="admin-panel">
+
+            <div class="admin-panel-header">
+
+                <div>
+
+                    <h3>
+                        <i class="bi bi-check2-circle"></i>
+                        Approve Schemes
+                    </h3>
+
+                    <p>
+                        Review schemes submitted by Scheme Providers.
+                    </p>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    class="admin-close-btn"
+                    onclick="closeAdminPanel()">
+
+                    <i class="bi bi-x-lg"></i>
+
+                </button>
+
+            </div>
+
+
+            <div class="provider-approval-list">
+
+    `;
+
+
+    if (pendingSchemes.length === 0) {
+
+        html += `
+
+            <div class="admin-empty">
+
+                <i class="bi bi-check-circle"></i>
+
+                <h5>No Pending Schemes</h5>
+
+                <p>
+                    There are currently no scheme provider submissions waiting for verification.
+                </p>
+
+            </div>
+
+        `;
+
+    } else {
+
+        pendingSchemes.forEach(
+            scheme => {
+
+                const provider =
+                    scheme.providerOrganization
+                        ? scheme.providerOrganization
+                        : {};
+
+
+                html += `
+
+                    <div
+                        class="provider-approval-card">
+
+                        <div class="approval-card-header">
+
+                            <div>
+
+                                <span class="admin-scheme-category">
+                                    ${escapeAdminHTML(
+                    scheme.category || "General"
+                )}
+                                </span>
+
+                                <h4>
+                                    ${escapeAdminHTML(
+                    scheme.schemeName || "Unnamed Scheme"
+                )}
+                                </h4>
+
+                            </div>
+
+                            <span class="approval-pending">
+                                <i class="bi bi-hourglass-split"></i>
+                                Pending
+                            </span>
+
+                        </div>
+
+
+                        <div class="approval-details">
+
+                            <div>
+                                <strong>Organization</strong>
+                                <span>
+                                    ${escapeAdminHTML(
+                    scheme.organization || provider.organization || "Not specified"
+                )}
+                                </span>
+                            </div>
+
+
+                            <div>
+                                <strong>Organization Type</strong>
+                                <span>
+                                    ${escapeAdminHTML(
+                    provider.organizationType || "Not specified"
+                )}
+                                </span>
+                            </div>
+
+
+                            <div>
+                                <strong>Scheme Type</strong>
+                                <span>
+                                    ${escapeAdminHTML(
+                    scheme.schemeType || "Not specified"
+                )}
+                                </span>
+                            </div>
+
+
+                            <div>
+                                <strong>Occupation</strong>
+                                <span>
+                                    ${escapeAdminHTML(
+                    scheme.occupation || "Any"
+                )}
+                                </span>
+                            </div>
+
+
+                            <div>
+                                <strong>Age</strong>
+                                <span>
+                                    ${scheme.minAge ?? 0}
+                                    -
+                                    ${scheme.maxAge ?? 100}
+                                </span>
+                            </div>
+
+
+                            <div>
+                                <strong>Benefit</strong>
+                                <span>
+                                    ${escapeAdminHTML(
+                    scheme.benefit || "Not specified"
+                )}
+                                </span>
+                            </div>
+
+
+                            <div>
+                                <strong>State</strong>
+                                <span>
+                                    ${escapeAdminHTML(
+                    scheme.state || "All"
+                )}
+                                </span>
+                            </div>
+
+
+                            <div>
+                                <strong>Website</strong>
+                                <span>
+                                    ${escapeAdminHTML(
+                    scheme.website || "Not specified"
+                )}
+                                </span>
+                            </div>
+
+                        </div>
+
+
+                        <div class="approval-actions">
+
+                            <button
+                                type="button"
+                                class="btn btn-success"
+                                onclick="approveProviderScheme(${Number(scheme.id)})">
+
+                                <i class="bi bi-check-lg"></i>
+                                Approve
+
+                            </button>
+
+
+                            <button
+                                type="button"
+                                class="btn btn-outline-danger"
+                                onclick="rejectProviderScheme(${Number(scheme.id)})">
+
+                                <i class="bi bi-x-lg"></i>
+                                Reject
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                `;
+
+            }
+        );
+
+    }
+
+
+    html += `
+
+            </div>
+
+        </div>
+
+    `;
+
+
+    openAdminPanel(
+        "Approve Schemes",
+        html
+    );
+
+}
+
+
+/* =========================================================
+   APPROVE PROVIDER SCHEME
+   ========================================================= */
+
+function approveProviderScheme(id) {
+
+    let providerSchemes =
+        getProviderSchemes();
+
+
+    const index =
+        providerSchemes.findIndex(
+            scheme =>
+                Number(scheme.id) ===
+                Number(id)
+        );
+
+
+    if (index === -1) {
+
+        alert(
+            "Scheme not found."
+        );
+
+        return;
+
+    }
+
+
+    const scheme =
+        providerSchemes[index];
+
+
+    scheme.verificationStatus =
+        "approved";
+
+
+    scheme.publishingAllowed =
+        true;
+
+
+    scheme.approvedBy =
+        "Platform Admin";
+
+
+    scheme.approvedAt =
+        new Date().toISOString();
+
+
+    providerSchemes[index] =
+        scheme;
+
+
+    saveProviderSchemes(
+        providerSchemes
+    );
+
+
+    /* Add to approved schemes */
+
+    let approved =
+        getApprovedSchemes();
+
+
+    approved =
+        approved.filter(
+            existing =>
+                Number(existing.id) !==
+                Number(scheme.id)
+        );
+
+
+    approved.push(
+        scheme
+    );
+
+
+    saveApprovedSchemes(
+        approved
+    );
+
+
+    alert(
+        "Scheme approved successfully. It is now available on the platform."
+    );
+
+
+    updatePendingSchemeBadge();
+
+    openApproveSchemes();
+
+    refreshExploreIfAvailable();
+
+}
+
+
+/* =========================================================
+   APPROVED SCHEMES STORAGE
+   ========================================================= */
+
+function getApprovedSchemes() {
+
+    try {
+
+        const data =
+            JSON.parse(
+                localStorage.getItem(
+                    "oneScheme_approvedSchemes"
+                ) || "[]"
+            );
+
+        return Array.isArray(data)
+            ? data
+            : [];
+
+    } catch (error) {
+
+        return [];
+
+    }
+
+}
+
+
+function saveApprovedSchemes(data) {
+
+    localStorage.setItem(
+        "oneScheme_approvedSchemes",
+        JSON.stringify(data)
+    );
+
+}
+
+
+/* =========================================================
+   REJECT PROVIDER SCHEME
+   ========================================================= */
+
+function rejectProviderScheme(id) {
+
+    if (
+        !confirm(
+            "Reject this scheme submission?"
+        )
+    ) {
+
+        return;
+
+    }
+
+
+    let providerSchemes =
+        getProviderSchemes();
+
+
+    const index =
+        providerSchemes.findIndex(
+            scheme =>
+                Number(scheme.id) ===
+                Number(id)
+        );
+
+
+    if (index === -1) {
+        return;
+    }
+
+
+    providerSchemes[index]
+        .verificationStatus =
+        "rejected";
+
+
+    providerSchemes[index]
+        .publishingAllowed =
+        false;
+
+
+    providerSchemes[index]
+        .rejectedBy =
+        "Platform Admin";
+
+
+    providerSchemes[index]
+        .rejectedAt =
+        new Date().toISOString();
+
+
+    saveProviderSchemes(
+        providerSchemes
+    );
+
+
+    /* Remove from approved if previously present */
+
+    let approved =
+        getApprovedSchemes();
+
+
+    approved =
+        approved.filter(
+            scheme =>
+                Number(scheme.id) !==
+                Number(id)
+        );
+
+
+    saveApprovedSchemes(
+        approved
+    );
+
+
+    alert(
+        "Scheme rejected."
+    );
+
+
+    updatePendingSchemeBadge();
+
+    openApproveSchemes();
+
+    refreshExploreIfAvailable();
+
+}
+
+
+/* =========================================================
+   ADMIN PANEL MODAL
+   ========================================================= */
+
+function openAdminPanel(title, content) {
+
+    closeAdminPanel();
+
+
+    const overlay =
+        document.createElement("div");
+
+
+    overlay.id =
+        "adminPanelOverlay";
+
+
+    overlay.innerHTML = `
+
+        <div
+            class="admin-panel-window">
+
+            ${content}
+
+        </div>
+
+    `;
+
+
+    overlay.addEventListener(
+        "click",
+        function (event) {
+
+            if (
+                event.target ===
+                overlay
+            ) {
+
+                closeAdminPanel();
+
+            }
+
+        }
+    );
+
+
+    document.body.appendChild(
+        overlay
+    );
+
+
+    document.body.style.overflow =
+        "hidden";
+
+}
+
+
+function closeAdminPanel() {
+
+    const overlay =
+        document.getElementById(
+            "adminPanelOverlay"
+        );
+
+
+    if (overlay) {
+
+        overlay.remove();
+
+    }
+
+
+    document.body.style.overflow =
+        "";
+
+}
+
+
+/* =========================================================
+   HTML ESCAPE
+   ========================================================= */
+
+function escapeAdminHTML(value) {
+
+    return String(value ?? "")
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+
+/* =========================================================
+   INITIALIZE
+   ========================================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        updateNavbarForSession();
+
+        updatePendingSchemeBadge();
+
+    }
+);
 
 
 /* =========================================================
@@ -921,9 +2981,9 @@ function handleSignIn(e) {
             return (
                 user.email &&
                 user.email.toLowerCase() ===
-                    idVal.toLowerCase() &&
+                idVal.toLowerCase() &&
                 user.password ===
-                    pwVal
+                pwVal
             );
         });
 
@@ -1049,7 +3109,7 @@ function handleCreateAccount(e) {
             user =>
                 user.email &&
                 user.email.toLowerCase() ===
-                    email.toLowerCase()
+                email.toLowerCase()
         )
     ) {
 
@@ -1679,14 +3739,14 @@ function handleProviderSchemeSubmit(
 
     const organization =
         authState.providerOrganization &&
-        authState.providerOrganization.organization
+            authState.providerOrganization.organization
             ? String(
                 authState.providerOrganization.organization
-              ).trim()
+            ).trim()
             : getValue(
                 "schemeOrganizationInput",
                 ""
-              );
+            );
 
 
     const schemeType =
@@ -2059,7 +4119,7 @@ function handleProviderSchemeSubmit(
 
     const existingIds =
         typeof schemes !== "undefined" &&
-        Array.isArray(schemes)
+            Array.isArray(schemes)
             ? schemes
                 .map(
                     scheme =>
@@ -2318,7 +4378,7 @@ function showProviderPending(
             (
                 labelMap[kind] ||
                 labelMap[
-                    authState.providerOrgKind
+                authState.providerOrgKind
                 ] ||
                 "Organization"
             );
@@ -2388,9 +4448,9 @@ function handleAdminLogin(e) {
 
     if (
         idVal.toLowerCase() ===
-            DEMO_ADMIN.id &&
+        DEMO_ADMIN.id &&
         pwVal ===
-            DEMO_ADMIN.password
+        DEMO_ADMIN.password
     ) {
 
         setSession({
@@ -3132,7 +5192,7 @@ document.addEventListener(
 
                     const kind =
                         authState.providerOrgKind ===
-                        "other"
+                            "other"
                             ? "other"
                             : "ngo";
 

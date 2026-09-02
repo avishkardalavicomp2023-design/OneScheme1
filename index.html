@@ -930,111 +930,103 @@
      STUDENT ELIGIBILITY
 ========================================================= -->
 
-<div class="auth-form-section-title">
-    Student Eligibility
-</div>
+                            <div class="auth-form-section-title">
+                                Student Eligibility
+                            </div>
 
-<label class="form-label">
-    Is this scheme for students?
-</label>
+                            <label class="form-label">
+                                Is this scheme for students?
+                            </label>
 
-<select class="form-select" id="schemeStudentInput" required>
-    <option value="">Select</option>
-    <option value="true">Yes</option>
-    <option value="false">No</option>
-</select>
-
-
-<!-- STUDENT-SPECIFIC FIELDS -->
-
-<div id="studentEligibilityFields">
-
-    <label class="form-label">
-        Student Type
-    </label>
-
-    <select class="form-select" id="schemeStudentTypeInput">
-        <option value="Any">Any</option>
-        <option>School Student</option>
-        <option>College Student</option>
-        <option>University Student</option>
-    </select>
+                            <select class="form-select" id="schemeStudentInput" required>
+                                <option value="">Select</option>
+                                <option value="true">Yes</option>
+                                <option value="false">No</option>
+                            </select>
 
 
-    <label class="form-label">
-        Academic Level
-    </label>
+                            <!-- STUDENT-SPECIFIC FIELDS -->
 
-    <select class="form-select" id="schemeAcademicLevelInput">
-        <option>Any</option>
-        <option>School</option>
-        <option>Undergraduate</option>
-        <option>Postgraduate</option>
-        <option>PhD</option>
-    </select>
+                            <div id="studentEligibilityFields">
 
+                                <label class="form-label">
+                                    Student Type
+                                </label>
 
-    <label class="form-label">
-        Course
-    </label>
-
-    <input
-        type="text"
-        class="form-control"
-        id="schemeCourseInput"
-        placeholder="e.g. Engineering, Medical, Any">
+                                <select class="form-select" id="schemeStudentTypeInput">
+                                    <option value="Any">Any</option>
+                                    <option>School Student</option>
+                                    <option>College Student</option>
+                                    <option>University Student</option>
+                                </select>
 
 
-    <label class="form-label">
-        Institution Type
-    </label>
+                                <label class="form-label">
+                                    Academic Level
+                                </label>
 
-    <select class="form-select" id="schemeInstitutionInput">
-        <option>Any</option>
-        <option>Government</option>
-        <option>Private</option>
-        <option>Aided</option>
-    </select>
+                                <select class="form-select" id="schemeAcademicLevelInput">
+                                    <option>Any</option>
+                                    <option>School</option>
+                                    <option>Undergraduate</option>
+                                    <option>Postgraduate</option>
+                                    <option>PhD</option>
+                                </select>
 
-</div>
+
+                                <label class="form-label">
+                                    Course
+                                </label>
+
+                                <input type="text" class="form-control" id="schemeCourseInput"
+                                    placeholder="e.g. Engineering, Medical, Any">
+
+
+                                <label class="form-label">
+                                    Institution Type
+                                </label>
+
+                                <select class="form-select" id="schemeInstitutionInput">
+                                    <option>Any</option>
+                                    <option>Government</option>
+                                    <option>Private</option>
+                                    <option>Aided</option>
+                                </select>
+
+                            </div>
 
 
                             <!-- =========================================================
      DISABILITY ELIGIBILITY
 ========================================================= -->
 
-<div class="auth-form-section-title">
-    Disability Eligibility
-</div>
+                            <div class="auth-form-section-title">
+                                Disability Eligibility
+                            </div>
 
-<label class="form-label">
-    Is disability eligibility required?
-</label>
+                            <label class="form-label">
+                                Is disability eligibility required?
+                            </label>
 
-<select class="form-select" id="schemeDisabilityInput" required>
-    <option value="">Select</option>
-    <option value="false">No</option>
-    <option value="true">Yes</option>
-</select>
+                            <select class="form-select" id="schemeDisabilityInput" required>
+                                <option value="">Select</option>
+                                <option value="false">No</option>
+                                <option value="true">Yes</option>
+                            </select>
 
 
-<!-- DISABILITY PERCENTAGE -->
+                            <!-- DISABILITY PERCENTAGE -->
 
-<div id="disabilityPercentageFields">
+                            <div id="disabilityPercentageFields">
 
-    <label class="form-label">
-        Minimum Disability Percentage
-    </label>
+                                <label class="form-label">
+                                    Minimum Disability Percentage
+                                </label>
 
-    <input
-        type="number"
-        class="form-control"
-        id="schemeDisabilityPercentageInput"
-        min="0"
-        max="100"
-        value="0">
+                                <input type="number" class="form-control" id="schemeDisabilityPercentageInput" min="0"
+                                    max="100" value="0">
 
-</div>
+                            </div>
 
 
                             <div class="auth-form-section-title">
@@ -1135,61 +1127,58 @@
      VERIFICATION PENDING MODAL
      ========================================================= -->
 
-<div class="modal fade" id="verificationPendingModal" tabindex="-1"
-     aria-labelledby="verificationPendingModalLabel"
-     aria-hidden="true">
+                    <div class="modal fade" id="verificationPendingModal" tabindex="-1"
+                        aria-labelledby="verificationPendingModalLabel" aria-hidden="true">
 
-    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-dialog modal-dialog-centered">
 
-        <div class="modal-content verification-modal">
+                            <div class="modal-content verification-modal">
 
-            <div class="modal-body text-center p-5">
+                                <div class="modal-body text-center p-5">
 
-                <!-- ICON -->
-                <div class="verification-icon">
-                    <i class="bi bi-hourglass-split"></i>
-                </div>
+                                    <!-- ICON -->
+                                    <div class="verification-icon">
+                                        <i class="bi bi-hourglass-split"></i>
+                                    </div>
 
-                <!-- TITLE -->
-                <h3 id="verificationPendingModalLabel">
-                    Verification Pending
-                </h3>
+                                    <!-- TITLE -->
+                                    <h3 id="verificationPendingModalLabel">
+                                        Verification Pending
+                                    </h3>
 
-                <!-- MESSAGE -->
-                <p class="verification-message">
-                    Your organization registration and scheme details
-                    have been submitted successfully.
-                </p>
+                                    <!-- MESSAGE -->
+                                    <p class="verification-message">
+                                        Your organization registration and scheme details
+                                        have been submitted successfully.
+                                    </p>
 
-                <p class="verification-message">
-                    You will not receive publishing privileges until our
-                    team verifies your organization.
-                </p>
+                                    <p class="verification-message">
+                                        You will not receive publishing privileges until our
+                                        team verifies your organization.
+                                    </p>
 
-                <!-- STATUS -->
-                <div class="verification-status">
-                    <i class="bi bi-clock"></i>
-                    Verification in progress
-                </div>
+                                    <!-- STATUS -->
+                                    <div class="verification-status">
+                                        <i class="bi bi-clock"></i>
+                                        Verification in progress
+                                    </div>
 
-                <!-- BUTTON -->
-                <button
-                    type="button"
-                    class="btn btn-primary verification-btn"
-                    data-bs-dismiss="modal">
+                                    <!-- BUTTON -->
+                                    <button type="button" class="btn btn-primary verification-btn"
+                                        data-bs-dismiss="modal">
 
-                    <i class="bi bi-check-circle"></i>
-                    Okay
+                                        <i class="bi bi-check-circle"></i>
+                                        Okay
 
-                </button>
+                                    </button>
 
-            </div>
+                                </div>
 
-        </div>
+                            </div>
 
-    </div>
+                        </div>
 
-</div>
+                    </div>
 
                     <!-- STEP: PROVIDER REGISTRATION SUBMITTED -->
                     <div class="auth-step" id="authStep-provider-pending">

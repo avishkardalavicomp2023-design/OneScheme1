@@ -2,18 +2,18 @@
    Google Font & Global
 =================================================== */
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Poppins',sans-serif;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
 }
 
-body{
+body {
 
-    background:#F4F8FD;
+    background: #F4F8FD;
 
-    color:#222;
+    color: #222;
 
 }
 
@@ -22,21 +22,21 @@ body{
    Navbar
 =================================================== */
 
-.navbar{
+.navbar {
 
-    padding:18px 0;
-
-}
-
-.navbar-brand{
-
-    color:#2563EB !important;
+    padding: 18px 0;
 
 }
 
-.navbar-brand i{
+.navbar-brand {
 
-    margin-right:8px;
+    color: #2563EB !important;
+
+}
+
+.navbar-brand i {
+
+    margin-right: 8px;
 
 }
 
@@ -45,15 +45,15 @@ body{
    Main Section
 =================================================== */
 
-.wizard-section{
+.wizard-section {
 
-    min-height:100vh;
+    min-height: 100vh;
 
-    display:flex;
+    display: flex;
 
-    align-items:center;
+    align-items: center;
 
-    padding:70px 0;
+    padding: 70px 0;
 
 }
 
@@ -62,17 +62,17 @@ body{
    Wizard Card
 =================================================== */
 
-.wizard-card{
+.wizard-card {
 
-    background:#fff;
+    background: #fff;
 
-    border-radius:30px;
+    border-radius: 30px;
 
-    padding:50px;
+    padding: 50px;
 
-    box-shadow:0 20px 50px rgba(0,0,0,.08);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, .08);
 
-    overflow:hidden;
+    overflow: hidden;
 
 }
 
@@ -81,21 +81,21 @@ body{
    Badge
 =================================================== */
 
-.wizard-badge{
+.wizard-badge {
 
-    display:inline-block;
+    display: inline-block;
 
-    padding:10px 20px;
+    padding: 10px 20px;
 
-    border-radius:30px;
+    border-radius: 30px;
 
-    background:#DBEAFE;
+    background: #DBEAFE;
 
-    color:#2563EB;
+    color: #2563EB;
 
-    font-weight:600;
+    font-weight: 600;
 
-    margin-bottom:20px;
+    margin-bottom: 20px;
 
 }
 
@@ -104,23 +104,23 @@ body{
    Heading
 =================================================== */
 
-.wizard-card h2{
+.wizard-card h2 {
 
-    font-size:42px;
+    font-size: 42px;
 
-    font-weight:700;
+    font-weight: 700;
 
-    margin-bottom:15px;
+    margin-bottom: 15px;
 
 }
 
-.wizard-card p{
+.wizard-card p {
 
-    color:#666;
+    color: #666;
 
-    font-size:17px;
+    font-size: 17px;
 
-    margin-bottom:35px;
+    margin-bottom: 35px;
 
 }
 
@@ -129,39 +129,39 @@ body{
    Progress
 =================================================== */
 
-.progress-container{
+.progress-container {
 
-    margin-bottom:45px;
-
-}
-
-.progress{
-
-    height:12px;
-
-    border-radius:20px;
-
-    background:#E5E7EB;
+    margin-bottom: 45px;
 
 }
 
-.progress-bar{
+.progress {
 
-    width:16.66%;
+    height: 12px;
 
-    background:linear-gradient(90deg,#2563EB,#7C3AED);
+    border-radius: 20px;
 
-    transition:.4s;
+    background: #E5E7EB;
 
 }
 
-.step-text{
+.progress-bar {
 
-    margin-top:12px;
+    width: 16.66%;
 
-    font-weight:600;
+    background: linear-gradient(90deg, #2563EB, #7C3AED);
 
-    color:#555;
+    transition: .4s;
+
+}
+
+.step-text {
+
+    margin-top: 12px;
+
+    font-weight: 600;
+
+    color: #555;
 
 }
 
@@ -170,35 +170,35 @@ body{
    Form Steps
 =================================================== */
 
-.form-step{
+.form-step {
 
-    display:none;
+    display: none;
 
-    animation:fade .4s ease;
-
-}
-
-.form-step.active{
-
-    display:block;
+    animation: fade .4s ease;
 
 }
 
-@keyframes fade{
+.form-step.active {
 
-    from{
+    display: block;
 
-        opacity:0;
+}
 
-        transform:translateX(30px);
+@keyframes fade {
+
+    from {
+
+        opacity: 0;
+
+        transform: translateX(30px);
 
     }
 
-    to{
+    to {
 
-        opacity:1;
+        opacity: 1;
 
-        transform:translateX(0);
+        transform: translateX(0);
 
     }
 
@@ -209,13 +209,13 @@ body{
    Step Heading
 =================================================== */
 
-.form-step h4{
+.form-step h4 {
 
-    font-size:28px;
+    font-size: 28px;
 
-    font-weight:700;
+    font-weight: 700;
 
-    margin-bottom:35px;
+    margin-bottom: 35px;
 
 }
 
@@ -224,11 +224,11 @@ body{
    Labels
 =================================================== */
 
-.form-label{
+.form-label {
 
-    font-weight:600;
+    font-weight: 600;
 
-    margin-bottom:10px;
+    margin-bottom: 10px;
 
 }
 
@@ -239,29 +239,29 @@ body{
 
 .form-control,
 
-.form-select{
+.form-select {
 
-    height:58px;
+    height: 58px;
 
-    border-radius:15px;
+    border-radius: 15px;
 
-    border:1px solid #D9DCE3;
+    border: 1px solid #D9DCE3;
 
-    padding:12px 18px;
+    padding: 12px 18px;
 
-    transition:.3s;
+    transition: .3s;
 
-    font-size:16px;
+    font-size: 16px;
 
 }
 
 .form-control:focus,
 
-.form-select:focus{
+.form-select:focus {
 
-    border-color:#2563EB;
+    border-color: #2563EB;
 
-    box-shadow:0 0 0 .2rem rgba(37,99,235,.15);
+    box-shadow: 0 0 0 .2rem rgba(37, 99, 235, .15);
 
 }
 
@@ -270,27 +270,27 @@ body{
    Buttons
 =================================================== */
 
-.buttons{
+.buttons {
 
-    display:flex;
+    display: flex;
 
-    justify-content:flex-end;
+    justify-content: flex-end;
 
-    gap:15px;
+    gap: 15px;
 
-    margin-top:40px;
+    margin-top: 40px;
 
 }
 
-.buttons .btn{
+.buttons .btn {
 
-    min-width:130px;
+    min-width: 130px;
 
-    height:48px;
+    height: 48px;
 
-    border-radius:30px;
+    border-radius: 30px;
 
-    font-weight:600;
+    font-weight: 600;
 
 }
 
@@ -299,17 +299,17 @@ body{
    Primary
 =================================================== */
 
-.btn-primary{
+.btn-primary {
 
-    background:#2563EB;
+    background: #2563EB;
 
-    border:none;
+    border: none;
 
 }
 
-.btn-primary:hover{
+.btn-primary:hover {
 
-    background:#1D4ED8;
+    background: #1D4ED8;
 
 }
 
@@ -318,17 +318,17 @@ body{
    Success
 =================================================== */
 
-.btn-success{
+.btn-success {
 
-    background:#10B981;
+    background: #10B981;
 
-    border:none;
+    border: none;
 
 }
 
-.btn-success:hover{
+.btn-success:hover {
 
-    background:#059669;
+    background: #059669;
 
 }
 
@@ -337,11 +337,11 @@ body{
    Reset
 =================================================== */
 
-.btn-secondary{
+.btn-secondary {
 
-    background:#6B7280;
+    background: #6B7280;
 
-    border:none;
+    border: none;
 
 }
 
@@ -350,9 +350,9 @@ body{
    Previous
 =================================================== */
 
-.btn-outline-primary{
+.btn-outline-primary {
 
-    border-radius:30px;
+    border-radius: 30px;
 
 }
 
@@ -361,9 +361,9 @@ body{
    Percentage Box
 =================================================== */
 
-#percentageBox{
+#percentageBox {
 
-    display:none;
+    display: none;
 
 }
 
@@ -372,15 +372,15 @@ body{
    Hover
 =================================================== */
 
-.btn{
+.btn {
 
-    transition:.3s;
+    transition: .3s;
 
 }
 
-.btn:hover{
+.btn:hover {
 
-    transform:translateY(-3px);
+    transform: translateY(-3px);
 
 }
 
@@ -389,91 +389,91 @@ body{
    Responsive
 =================================================== */
 
-@media(max-width:992px){
+@media(max-width:992px) {
 
-    .wizard-card{
+    .wizard-card {
 
-        padding:35px;
-
-    }
-
-    .wizard-card h2{
-
-        font-size:34px;
+        padding: 35px;
 
     }
 
-}
+    .wizard-card h2 {
 
-@media(max-width:768px){
-
-    .wizard-card{
-
-        padding:25px;
-
-    }
-
-    .wizard-card h2{
-
-        font-size:28px;
-
-    }
-
-    .form-step h4{
-
-        font-size:22px;
-
-    }
-
-    .buttons{
-
-        flex-direction:column;
-
-    }
-
-    .buttons .btn{
-
-        width:100%;
+        font-size: 34px;
 
     }
 
 }
 
-@media(max-width:576px){
+@media(max-width:768px) {
 
-    .wizard-card{
+    .wizard-card {
 
-        border-radius:20px;
-
-    }
-
-    .wizard-badge{
-
-        font-size:14px;
+        padding: 25px;
 
     }
 
-    .wizard-card p{
+    .wizard-card h2 {
 
-        font-size:15px;
+        font-size: 28px;
+
+    }
+
+    .form-step h4 {
+
+        font-size: 22px;
+
+    }
+
+    .buttons {
+
+        flex-direction: column;
+
+    }
+
+    .buttons .btn {
+
+        width: 100%;
 
     }
 
 }
 
-#studentSection{
+@media(max-width:576px) {
 
-    display:none;
+    .wizard-card {
 
-    margin-top:35px;
+        border-radius: 20px;
 
-    padding:30px;
+    }
 
-    border-radius:20px;
+    .wizard-badge {
 
-    background:#F8FAFC;
+        font-size: 14px;
 
-    border:1px solid #E5E7EB;
+    }
+
+    .wizard-card p {
+
+        font-size: 15px;
+
+    }
+
+}
+
+#studentSection {
+
+    display: none;
+
+    margin-top: 35px;
+
+    padding: 30px;
+
+    border-radius: 20px;
+
+    background: #F8FAFC;
+
+    border: 1px solid #E5E7EB;
 
 }
 
@@ -838,4 +838,3 @@ body{
 #percentageBox {
     animation: fade .35s ease;
 }
-
