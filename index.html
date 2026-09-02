@@ -622,7 +622,10 @@
                                     verifies your organization.</span>
                             </div>
 
-                            <button type="submit" class="auth-submit-btn">Submit for Verification</button>
+                            <button type="button" class="auth-submit-btn" onclick="goToSchemeAttributes('gov')">
+                                Next
+                                <i class="bi bi-arrow-right"></i>
+                            </button>
 
                         </form>
                     </div>
@@ -680,7 +683,10 @@
                                     verifies your organization.</span>
                             </div>
 
-                            <button type="submit" class="auth-submit-btn">Submit for Verification</button>
+                            <button type="button" class="auth-submit-btn" onclick="goToSchemeAttributes('private')">
+                                Next
+                                <i class="bi bi-arrow-right"></i>
+                            </button>
 
                         </form>
                     </div>
@@ -753,10 +759,437 @@
                                     verifies your organization.</span>
                             </div>
 
-                            <button type="submit" class="auth-submit-btn">Submit for Verification</button>
-
+                            <button type="button" class="auth-submit-btn" onclick="goToSchemeAttributes(
+        authState.providerOrgKind === 'other' ? 'other' : 'ngo'
+    )">
+                                Next
+                                <i class="bi bi-arrow-right"></i>
+                            </button>
                         </form>
                     </div>
+
+                    <!-- =========================================================
+     STEP: SCHEME ATTRIBUTES
+========================================================= -->
+                    <div class="auth-step" id="authStep-provider-scheme">
+
+                        <div class="auth-error text-danger small mb-2" id="schemeFormError" style="display:none;">
+                        </div>
+
+                        <form id="providerSchemeForm">
+
+                            <div class="auth-form-section-title">
+                                Scheme Information
+                            </div>
+
+                            <label class="form-label">
+                                Scheme Name
+                            </label>
+
+                            <input type="text" class="form-control" id="schemeNameInput"
+                                placeholder="e.g. HDFC Bank Parivartan ECSS" required>
+
+
+                            <label class="form-label">
+                                Scheme Type
+                            </label>
+
+                            <select class="form-select" id="schemeTypeInput" required>
+
+                                <option value="">
+                                    Select Scheme Type
+                                </option>
+
+                                <option value="Government">
+                                    Government
+                                </option>
+
+                                <option value="Private">
+                                    Private
+                                </option>
+
+                                <option value="CSR">
+                                    CSR
+                                </option>
+
+                            </select>
+
+
+                            <label class="form-label">
+                                Category
+                            </label>
+
+                            <select class="form-select" id="schemeCategoryInput" required>
+
+                                <option value="">
+                                    Select Category
+                                </option>
+
+                                <option>Education</option>
+                                <option>Agriculture</option>
+                                <option>Employment</option>
+                                <option>Finance</option>
+                                <option>Startup</option>
+                                <option>Healthcare</option>
+                                <option>Housing</option>
+                                <option>Women</option>
+
+                            </select>
+
+
+                            <label class="form-label">
+                                Occupation
+                            </label>
+
+                            <select class="form-select" id="schemeOccupationInput" required>
+
+                                <option value="">
+                                    Select Occupation
+                                </option>
+
+                                <option>Student</option>
+                                <option>Farmer</option>
+                                <option>Employee</option>
+                                <option>Self Employed</option>
+                                <option>Business Owner</option>
+                                <option>Unemployed</option>
+                                <option>Any</option>
+
+                            </select>
+
+
+                            <label class="form-label">
+                                State / UT
+                            </label>
+
+                            <select class="form-select" id="schemeStateInput" required>
+
+                            </select>
+
+
+                            <label class="form-label">
+                                Gender Eligibility
+                            </label>
+
+                            <select class="form-select" id="schemeGenderInput" required>
+
+                                <option value="">
+                                    Select Gender
+                                </option>
+
+                                <option>Any</option>
+                                <option>Male</option>
+                                <option>Female</option>
+                                <option>Other</option>
+
+                            </select>
+
+
+                            <div class="auth-form-section-title">
+                                Age & Income Eligibility
+                            </div>
+
+
+                            <div class="row">
+
+                                <div class="col-md-6">
+
+                                    <label class="form-label">
+                                        Minimum Age
+                                    </label>
+
+                                    <input type="number" class="form-control" id="schemeMinAgeInput" min="0" max="100"
+                                        value="0" required>
+
+                                </div>
+
+
+                                <div class="col-md-6">
+
+                                    <label class="form-label">
+                                        Maximum Age
+                                    </label>
+
+                                    <input type="number" class="form-control" id="schemeMaxAgeInput" min="0" max="100"
+                                        value="100" required>
+
+                                </div>
+
+                            </div>
+
+
+                            <label class="form-label">
+                                Maximum Annual Family Income
+                            </label>
+
+                            <input type="number" class="form-control" id="schemeIncomeInput" min="0"
+                                placeholder="Enter 0 if there is no income limit" required>
+
+
+                            <!-- =========================================================
+     STUDENT ELIGIBILITY
+========================================================= -->
+
+<div class="auth-form-section-title">
+    Student Eligibility
+</div>
+
+<label class="form-label">
+    Is this scheme for students?
+</label>
+
+<select class="form-select" id="schemeStudentInput" required>
+    <option value="">Select</option>
+    <option value="true">Yes</option>
+    <option value="false">No</option>
+</select>
+
+
+<!-- STUDENT-SPECIFIC FIELDS -->
+
+<div id="studentEligibilityFields">
+
+    <label class="form-label">
+        Student Type
+    </label>
+
+    <select class="form-select" id="schemeStudentTypeInput">
+        <option value="Any">Any</option>
+        <option>School Student</option>
+        <option>College Student</option>
+        <option>University Student</option>
+    </select>
+
+
+    <label class="form-label">
+        Academic Level
+    </label>
+
+    <select class="form-select" id="schemeAcademicLevelInput">
+        <option>Any</option>
+        <option>School</option>
+        <option>Undergraduate</option>
+        <option>Postgraduate</option>
+        <option>PhD</option>
+    </select>
+
+
+    <label class="form-label">
+        Course
+    </label>
+
+    <input
+        type="text"
+        class="form-control"
+        id="schemeCourseInput"
+        placeholder="e.g. Engineering, Medical, Any">
+
+
+    <label class="form-label">
+        Institution Type
+    </label>
+
+    <select class="form-select" id="schemeInstitutionInput">
+        <option>Any</option>
+        <option>Government</option>
+        <option>Private</option>
+        <option>Aided</option>
+    </select>
+
+</div>
+
+
+                            <!-- =========================================================
+     DISABILITY ELIGIBILITY
+========================================================= -->
+
+<div class="auth-form-section-title">
+    Disability Eligibility
+</div>
+
+<label class="form-label">
+    Is disability eligibility required?
+</label>
+
+<select class="form-select" id="schemeDisabilityInput" required>
+    <option value="">Select</option>
+    <option value="false">No</option>
+    <option value="true">Yes</option>
+</select>
+
+
+<!-- DISABILITY PERCENTAGE -->
+
+<div id="disabilityPercentageFields">
+
+    <label class="form-label">
+        Minimum Disability Percentage
+    </label>
+
+    <input
+        type="number"
+        class="form-control"
+        id="schemeDisabilityPercentageInput"
+        min="0"
+        max="100"
+        value="0">
+
+</div>
+
+
+                            <div class="auth-form-section-title">
+                                Scheme Benefit & Application
+                            </div>
+
+
+                            <label class="form-label">
+                                Benefit
+                            </label>
+
+                            <input type="text" class="form-control" id="schemeBenefitInput"
+                                placeholder="e.g. ₹15,000 - ₹75,000" required>
+
+
+                            <label class="form-label">
+                                Apply Mode
+                            </label>
+
+                            <select class="form-select" id="schemeApplyModeInput" required>
+
+                                <option value="">
+                                    Select Apply Mode
+                                </option>
+
+                                <option>Online</option>
+                                <option>Offline</option>
+                                <option>Online / Offline</option>
+
+                            </select>
+
+
+                            <label class="form-label">
+                                Official Scheme Website
+                            </label>
+
+                            <input type="url" class="form-control" id="schemeWebsiteInput" placeholder="https://"
+                                required>
+
+
+                            <label class="form-label">
+                                Application Deadline
+                            </label>
+
+                            <input type="date" class="form-control" id="schemeDeadlineInput">
+
+
+                            <div class="auth-form-section-title">
+                                Required Documents
+                            </div>
+
+
+                            <label class="form-label">
+                                Required Documents
+                            </label>
+
+                            <textarea class="form-control" id="schemeDocumentsInput" rows="6"
+                                placeholder="Enter one document per line&#10;Aadhaar Card&#10;Income Certificate&#10;Previous Year Marksheet&#10;Bank Account Details"
+                                required></textarea>
+
+
+                            <div class="auth-note-box">
+
+                                <i class="bi bi-info-circle"></i>
+
+                                <span>
+                                    Enter each required document on a separate line.
+                                    These documents will be displayed to users on the scheme details page.
+                                </span>
+
+                            </div>
+
+
+                            <div class="d-flex gap-2" style="margin-top:20px;">
+
+                                <button type="button" class="btn btn-outline-primary" onclick="goBack()">
+
+                                    <i class="bi bi-arrow-left"></i>
+                                    Back
+
+                                </button>
+
+
+                                <button type="submit" class="auth-submit-btn" style="flex:1;">
+
+                                    Submit Scheme
+                                    <i class="bi bi-check-circle"></i>
+
+                                </button>
+
+                            </div>
+
+                        </form>
+
+                    </div>
+
+                    <!-- =========================================================
+     VERIFICATION PENDING MODAL
+     ========================================================= -->
+
+<div class="modal fade" id="verificationPendingModal" tabindex="-1"
+     aria-labelledby="verificationPendingModalLabel"
+     aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content verification-modal">
+
+            <div class="modal-body text-center p-5">
+
+                <!-- ICON -->
+                <div class="verification-icon">
+                    <i class="bi bi-hourglass-split"></i>
+                </div>
+
+                <!-- TITLE -->
+                <h3 id="verificationPendingModalLabel">
+                    Verification Pending
+                </h3>
+
+                <!-- MESSAGE -->
+                <p class="verification-message">
+                    Your organization registration and scheme details
+                    have been submitted successfully.
+                </p>
+
+                <p class="verification-message">
+                    You will not receive publishing privileges until our
+                    team verifies your organization.
+                </p>
+
+                <!-- STATUS -->
+                <div class="verification-status">
+                    <i class="bi bi-clock"></i>
+                    Verification in progress
+                </div>
+
+                <!-- BUTTON -->
+                <button
+                    type="button"
+                    class="btn btn-primary verification-btn"
+                    data-bs-dismiss="modal">
+
+                    <i class="bi bi-check-circle"></i>
+                    Okay
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
 
                     <!-- STEP: PROVIDER REGISTRATION SUBMITTED -->
                     <div class="auth-step" id="authStep-provider-pending">
