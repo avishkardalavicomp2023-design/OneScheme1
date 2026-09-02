@@ -120,26 +120,123 @@ function clearSession(){
     localStorage.removeItem("oneScheme_session");
 }
 
-function updateNavbarForSession(){
-    const btn = document.getElementById("loginTrigger");
-    if(!btn) return;
-    const session = getSession();
-    if(session){
-        btn.classList.add("is-logged-in");
-        btn.innerHTML = `<i class="bi bi-person-circle"></i> ${session.name.split(" ")[0]}`;
-        btn.onclick = function(){
-            if(confirm("Log out of your account?")){
-                clearSession();
-                btn.classList.remove("is-logged-in");
-                btn.innerHTML = "Login";
-                btn.onclick = openAuthModal;
-            }
-        };
-    } else {
-        btn.classList.remove("is-logged-in");
-        btn.innerHTML = "Login";
-        btn.onclick = openAuthModal;
+function updateNavbarForSession() {
+
+    const loginBtn =
+        document.getElementById("loginTrigger");
+
+    const savedNav =
+        document.getElementById("savedSchemesNav");
+
+
+    const session =
+        getSession();
+
+
+    /* =====================================================
+       SAVED SCHEMES VISIBILITY
+
+       Visible ONLY for:
+       role = user
+
+       Hidden for:
+       - logged out
+       - scheme provider
+       - admin
+    ===================================================== */
+
+    if (savedNav) {
+
+        if (
+            session &&
+            session.role === "user"
+        ) {
+
+            savedNav.style.display = "";
+
+        } else {
+
+            savedNav.style.display = "none";
+
+        }
+
     }
+
+
+    /* =====================================================
+       LOGIN BUTTON
+    ===================================================== */
+
+    if (!loginBtn) {
+        return;
+    }
+
+
+    if (session) {
+
+        loginBtn.classList.add(
+            "is-logged-in"
+        );
+
+
+        loginBtn.innerHTML = `
+            <i class="bi bi-person-circle"></i>
+            ${session.name.split(" ")[0]}
+        `;
+
+
+        loginBtn.onclick = function () {
+
+            if (
+                confirm(
+                    "Log out of your account?"
+                )
+            ) {
+
+                clearSession();
+
+
+                /* Immediately hide Saved Schemes */
+
+                if (savedNav) {
+
+                    savedNav.style.display =
+                        "none";
+
+                }
+
+
+                /* Reset login button */
+
+                loginBtn.classList.remove(
+                    "is-logged-in"
+                );
+
+                loginBtn.innerHTML =
+                    "Login";
+
+                loginBtn.onclick =
+                    openAuthModal;
+
+            }
+
+        };
+
+
+    } else {
+
+        loginBtn.classList.remove(
+            "is-logged-in"
+        );
+
+        loginBtn.innerHTML =
+            "Login";
+
+        loginBtn.onclick =
+            openAuthModal;
+
+    }
+
 }
 
 let authModalInstance = null;
@@ -266,7 +363,7 @@ function handleSignIn(e){
         return;
     }
 
-    setSession({ name: match.name, email: match.email });
+    setSession({ name: match.name, email: match.email, role: "user" });
     updateNavbarForSession();
     authModalInstance.hide();
 }
@@ -299,7 +396,7 @@ function handleCreateAccount(e){
     };
     users.push(newUser);
     saveUsers(users);
-    setSession({ name: newUser.name, email: newUser.email });
+    setSession({ name: newUser.name, email: newUser.email, role: "user" });
     updateNavbarForSession();
     authModalInstance.hide();
 }

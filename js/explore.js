@@ -18,6 +18,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const savedCount = document.getElementById("savedCount");
 
 
+    updateExploreSavedVisibility();
+
+
     // =========================================================
     // SAFETY CHECK
     // =========================================================
@@ -50,23 +53,119 @@ document.addEventListener("DOMContentLoaded", function () {
 
         try {
 
-            const saved = JSON.parse(
-                localStorage.getItem("savedSchemes")
-            );
+            const raw =
+                localStorage.getItem("savedSchemes");
 
-            return Array.isArray(saved) ? saved : [];
+            if (!raw) {
+                return [];
+            }
+
+            const saved = JSON.parse(raw);
+
+            if (!Array.isArray(saved)) {
+                return [];
+            }
+
+            return saved
+                .map(item => {
+
+                    if (
+                        item &&
+                        typeof item === "object" &&
+                        item.id !== undefined
+                    ) {
+                        return Number(item.id);
+                    }
+
+                    return Number(item);
+
+                })
+                .filter(id => !Number.isNaN(id));
 
         } catch (error) {
 
-            console.warn("Invalid savedSchemes data. Resetting.");
-
-            localStorage.removeItem("savedSchemes");
+            console.error(
+                "Error reading saved schemes:",
+                error
+            );
 
             return [];
+        }
+    }
+
+
+    function isSchemeSaved(id) {
+
+        return getSavedSchemes().some(
+            savedId =>
+                Number(savedId) === Number(id)
+        );
+    }
+
+    function updateSavedCount() {
+
+        const savedCount =
+            document.getElementById("savedCount");
+
+        if (savedCount) {
+
+            savedCount.textContent =
+                getSavedSchemes().length;
 
         }
 
     }
+
+
+    window.toggleSaveScheme = function (id, button) {
+
+        let saved =
+            getSavedSchemes();
+
+        const numericId =
+            Number(id);
+
+
+        const index =
+            saved.findIndex(
+                savedId =>
+                    Number(savedId) === numericId
+            );
+
+
+        if (index !== -1) {
+
+            /* UNSAVE */
+
+            saved.splice(index, 1);
+
+        } else {
+
+            /* SAVE */
+
+            saved.push(numericId);
+
+        }
+
+
+        localStorage.setItem(
+            "savedSchemes",
+            JSON.stringify(saved)
+        );
+
+
+        updateSavedCount();
+
+
+        /*
+         * Re-render the page.
+         * If Saved Schemes mode is active,
+         * the removed card disappears immediately.
+         */
+
+        filterSchemes();
+
+    };
 
 
     function isSchemeSaved(id) {
@@ -130,14 +229,11 @@ document.addEventListener("DOMContentLoaded", function () {
     // URL CATEGORY
     // =========================================================
 
-    const params =
-        new URLSearchParams(window.location.search);
+    const params = new URLSearchParams(window.location.search);
 
-    const urlCategory =
-        params.get("category");
-
-    const urlScheme =
-        params.get("scheme");
+    const urlCategory = params.get("category");
+    const urlScheme = params.get("scheme");
+    const showSavedFromHome = params.get("saved") === "true";
 
 
     // =========================================================
@@ -483,7 +579,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // SEARCH + FILTER
     // =========================================================
 
-    let showSavedOnly = false;
+    let showSavedOnly = showSavedFromHome;
 
 
     function filterSchemes() {
@@ -495,14 +591,12 @@ document.addEventListener("DOMContentLoaded", function () {
                     .toLowerCase()
                 : "";
 
-
         const category =
             categoryFilter
                 ? categoryFilter.value
                     .trim()
                     .toLowerCase()
                 : "all";
-
 
         const documentValue =
             documentFilter
@@ -512,13 +606,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 : "all";
 
 
-        const saved =
-            getSavedSchemes();
-
-
         const filtered =
             schemes.filter(scheme => {
-
 
                 const name =
                     String(scheme.schemeName || "")
@@ -532,7 +621,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         .toLowerCase();
 
 
-                const schemeDocuments =
+                const documents =
                     Array.isArray(scheme.documents)
                         ? scheme.documents
                         : [];
@@ -549,7 +638,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 const matchDocument =
                     documentValue === "all" ||
-                    schemeDocuments.some(
+                    documents.some(
                         document =>
                             String(document)
                                 .trim()
@@ -560,11 +649,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 const matchSaved =
                     !showSavedOnly ||
-                    saved.some(
-                        id =>
-                            Number(id) ===
-                            Number(scheme.id)
-                    );
+                    isSchemeSaved(scheme.id);
 
 
                 return (
@@ -578,7 +663,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
         displaySchemes(filtered);
-
     }
 
 
@@ -937,20 +1021,19 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (showSavedOnly) {
 
                     viewSavedBtn.innerHTML = `
-                        <i class="bi bi-x-circle"></i>
-                        Show All Schemes
-                    `;
+                    <i class="bi bi-x-circle"></i>
+                    Show All Schemes
+                `;
 
                 } else {
 
                     viewSavedBtn.innerHTML = `
-                        <i class="bi bi-heart"></i>
-                        Saved Schemes
-                        (<span id="savedCount">
-                            ${getSavedSchemes().length}
-                        </span>)
-                    `;
-
+                    <i class="bi bi-heart"></i>
+                    Saved Schemes
+                    (<span id="savedCount">
+                        ${getSavedSchemes().length}
+                    </span>)
+                `;
                 }
 
 
@@ -958,7 +1041,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
             }
         );
-
     }
 
 
@@ -967,34 +1049,40 @@ document.addEventListener("DOMContentLoaded", function () {
     // =========================================================
 
     updateStatistics();
-
     populateDocumentFilter();
-
     updateSavedCount();
 
 
     // =========================================================
-    // CATEGORY FROM URL
+    // URL PARAMETERS
     // =========================================================
 
-    if (urlCategory) {
+    if (showSavedFromHome) {
+
+        // Open Saved Schemes directly
+        showSavedOnly = true;
+
+        if (viewSavedBtn) {
+            viewSavedBtn.innerHTML = `
+            <i class="bi bi-x-circle"></i>
+            Show All Schemes
+        `;
+        }
+
+        filterSchemes();
+
+    }
+    else if (urlCategory) {
 
         const decodedCategory =
-            decodeURIComponent(urlCategory)
-                .trim();
-
+            decodeURIComponent(urlCategory).trim();
 
         const matchingOption =
-            [...categoryFilter.options]
-                .find(
-                    option =>
-                        option.value
-                            .trim()
-                            .toLowerCase() ===
-                        decodedCategory
-                            .toLowerCase()
-                );
-
+            [...categoryFilter.options].find(
+                option =>
+                    option.value.trim().toLowerCase() ===
+                    decodedCategory.toLowerCase()
+            );
 
         if (matchingOption) {
 
@@ -1003,28 +1091,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
         } else {
 
-            // If category exists in schemes but
-            // is missing from dropdown, add it.
-
             const matchingScheme =
                 schemes.find(
                     scheme =>
-                        String(
-                            scheme.category || ""
-                        )
+                        String(scheme.category || "")
                             .trim()
                             .toLowerCase() ===
-                        decodedCategory
-                            .toLowerCase()
+                        decodedCategory.toLowerCase()
                 );
-
 
             if (matchingScheme) {
 
                 const option =
-                    document.createElement(
-                        "option"
-                    );
+                    document.createElement("option");
 
                 option.value =
                     matchingScheme.category;
@@ -1032,18 +1111,53 @@ document.addEventListener("DOMContentLoaded", function () {
                 option.textContent =
                     matchingScheme.category;
 
-                categoryFilter.appendChild(
-                    option
-                );
+                categoryFilter.appendChild(option);
 
                 categoryFilter.value =
                     matchingScheme.category;
-
             }
+        }
+
+        filterSchemes();
+
+    }
+    else if (urlScheme) {
+
+        const scheme =
+            schemes.find(
+                scheme =>
+                    Number(scheme.id) ===
+                    Number(urlScheme)
+            );
+
+        if (scheme) {
+
+            displaySchemes([scheme]);
+
+        } else {
+
+            displaySchemes([]);
 
         }
 
     }
+    else {
+
+        // Normal Explore page
+        filterSchemes();
+
+    }
+
+
+    console.log(
+        "Explore page initialized successfully.",
+        "Schemes:",
+        schemes.length,
+        "Category:",
+        urlCategory || "All",
+        "Saved:",
+        showSavedFromHome
+    );
 
 
     // =========================================================
@@ -1091,3 +1205,55 @@ document.addEventListener("DOMContentLoaded", function () {
     );
 
 });
+
+
+function updateExploreSavedVisibility() {
+
+    const savedButton =
+        document.getElementById(
+            "viewSavedBtn"
+        );
+
+
+    if (!savedButton) {
+        return;
+    }
+
+
+    let session = null;
+
+    try {
+
+        session =
+            JSON.parse(
+                localStorage.getItem(
+                    "oneScheme_session"
+                )
+            );
+
+    } catch (error) {
+
+        session = null;
+
+    }
+
+
+    /*
+     * Only normal users see Saved Schemes.
+     */
+
+    if (
+        session &&
+        session.role === "user"
+    ) {
+
+        savedButton.style.display = "";
+
+    } else {
+
+        savedButton.style.display =
+            "none";
+
+    }
+
+}

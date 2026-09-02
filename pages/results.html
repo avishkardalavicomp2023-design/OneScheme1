@@ -2,110 +2,104 @@
 
 <html>
 
-    <head>
+<head>
 
-        <title>Eligible Schemes</title>
-        <link rel="icon" type="image/png" href="../images/logo.png">
+    <title>Eligible Schemes</title>
+    <link rel="icon" type="image/png" href="../images/logo.png">
 
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
-        <link rel="stylesheet" href="../css/results.css">
-        <link rel="stylesheet" href="../css/explore.css">
-        <link rel="stylesheet" href="../css/responsive.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/results.css">
+    <link rel="stylesheet" href="../css/explore.css">
+    <link rel="stylesheet" href="../css/responsive.css">
 
-    </head>
+</head>
 
-    <body>
+<body>
 
-        <div class="container my-5">
+    <div class="container my-5">
 
-            <!-- =========================
+        <!-- =========================
             Compare Toolbar
             ========================= -->
-            <div id="compareToolbar" class="compare-toolbar">
+        <div id="compareToolbar" class="compare-toolbar">
 
-                <div class="left">
-                    <h2>Eligible Schemes</h2>
-                </div>
+            <div class="left">
+                <h2>Eligible Schemes</h2>
+            </div>
 
-                <div class="right">
+            <div class="right">
 
-                    <button id="translateBtn" class="translate-btn notranslate">
-                        <i class="bi bi-translate"></i>
-                        <span class="translate-text">हिंदी</span>
-                    </button>
+                <button id="translateBtn" class="translate-btn notranslate">
+                    <i class="bi bi-translate"></i>
+                    <span class="translate-text">हिंदी</span>
+                </button>
 
-                    <button
-                        id="viewSavedBtn"
-                        class="btn btn-outline-primary">
-                        <i class="bi bi-heart"></i>
-                        Saved Schemes (<span id="savedCount">0</span>)
-                    </button>
+                <button id="viewSavedBtn" class="btn btn-outline-primary">
+                    <i class="bi bi-heart"></i>
+                    Saved Schemes (<span id="savedCount">0</span>)
+                </button>
 
-                    <button
-                        id="toggleCompareBtn"
-                        class="btn btn-outline-primary">
-                        <i class="bi bi-ui-checks-grid"></i>
-                        Enable Compare
-                    </button>
+                <button id="toggleCompareBtn" class="btn btn-outline-primary">
+                    <i class="bi bi-ui-checks-grid"></i>
+                    Enable Compare
+                </button>
 
-                    <button
-                        id="compareBtn"
-                        class="btn btn-primary ms-2"
-                        style="display:none;">
-                        <i class="bi bi-columns-gap"></i>
-                        Compare Selected (<span id="compareCount">0</span>)
-                    </button>
-
-                </div>
+                <button id="compareBtn" class="btn btn-primary ms-2" style="display:none;">
+                    <i class="bi bi-columns-gap"></i>
+                    Compare Selected (<span id="compareCount">0</span>)
+                </button>
 
             </div>
 
-            <hr class="mb-4">
-
-            <!-- Results -->
-            <div id="resultsContainer"></div>
-
         </div>
 
-        <div class="modal fade" id="schemeModal" tabindex="-1">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
+        <hr class="mb-4">
 
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="modalTitle">
-                            Scheme
-                        </h5>
+        <!-- Results -->
+        <div id="resultsContainer"></div>
 
-                        <button class="btn-close" data-bs-dismiss="modal"></button>
-                    </div>
+    </div>
 
-                    <div class="modal-body" id="modalBody"></div>
+    <div class="modal fade" id="schemeModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
 
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTitle">
+                        Scheme
+                    </h5>
+
+                    <button class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
+
+                <div class="modal-body" id="modalBody"></div>
+
             </div>
         </div>
+    </div>
 
-        <!-- ==========================================
+    <!-- ==========================================
                 HOME BUTTON
         ========================================== -->
 
-        <div class="container text-center my-5">
+    <div class="container text-center my-5">
 
-            <a href="../index.html" class="btn home-btn">
-                <i class="bi bi-house-door-fill"></i>
-                Back to Home
-            </a>
+        <a href="../index.html" class="btn home-btn">
+            <i class="bi bi-house-door-fill"></i>
+            Back to Home
+        </a>
 
-        </div>
+    </div>
 
-        <script src="../js/schemes.js"></script>
-        <script src="../js/results.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/schemes.js"></script>
+    <script src="../js/results.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/session.js"></script>
 
-        <div id="google_translate_element"></div>
-        <script src="../js/translate.js"></script>
-        <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <div id="google_translate_element"></div>
+    <script src="../js/translate.js"></script>
+    <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
-    </body>
+</body>
 
 </html>
