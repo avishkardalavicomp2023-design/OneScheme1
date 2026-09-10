@@ -121,6 +121,10 @@ function getExploreSchemes() {
 }
 
 
+// Make the same active scheme list available to the mobile navigation.
+window.getExploreSchemes = getExploreSchemes;
+
+
 /* =========================================================
    MAKE AVAILABLE GLOBALLY
    ========================================================= */
@@ -192,180 +196,61 @@ document.addEventListener("DOMContentLoaded", function () {
     // =========================================================
 
     function getSavedSchemes() {
-
         try {
-
-            const raw =
-                localStorage.getItem("savedSchemes");
-
-            if (!raw) {
-                return [];
-            }
+            const raw = localStorage.getItem("savedSchemes");
+            if (!raw) return [];
 
             const saved = JSON.parse(raw);
+            if (!Array.isArray(saved)) return [];
 
-            if (!Array.isArray(saved)) {
-                return [];
-            }
-
-            return saved
-                .map(item => {
-
-                    if (
-                        item &&
-                        typeof item === "object" &&
-                        item.id !== undefined
-                    ) {
-                        return Number(item.id);
-                    }
-
-                    return Number(item);
-
-                })
-                .filter(id => !Number.isNaN(id));
-
+            return [...new Set(saved.map(item => {
+                if (item && typeof item === "object" && item.id !== undefined) {
+                    return Number(item.id);
+                }
+                return Number(item);
+            }).filter(id => !Number.isNaN(id)))];
         } catch (error) {
-
-            console.error(
-                "Error reading saved schemes:",
-                error
-            );
-
+            console.error("Error reading saved schemes:", error);
             return [];
         }
     }
 
-
     function isSchemeSaved(id) {
-
-        return getSavedSchemes().some(
-            savedId =>
-                Number(savedId) === Number(id)
-        );
+        return getSavedSchemes().includes(Number(id));
     }
 
     function updateSavedCount() {
+        if (!savedCount) return;
 
-        const savedCount =
-            document.getElementById("savedCount");
+        const savedIds = getSavedSchemes();
+        const validSavedCount = activeSchemes.filter(scheme =>
+            savedIds.includes(Number(scheme.id))
+        ).length;
 
-        if (savedCount) {
-
-            savedCount.textContent =
-                getSavedSchemes().length;
-
-        }
-
+        savedCount.textContent = validSavedCount;
     }
 
-
-    window.toggleSaveScheme = function (id, button) {
-
-        let saved =
-            getSavedSchemes();
-
-        const numericId =
-            Number(id);
-
-
-        const index =
-            saved.findIndex(
-                savedId =>
-                    Number(savedId) === numericId
-            );
-
-
-        if (index !== -1) {
-
-            /* UNSAVE */
-
-            saved.splice(index, 1);
-
-        } else {
-
-            /* SAVE */
-
-            saved.push(numericId);
-
-        }
-
-
-        localStorage.setItem(
-            "savedSchemes",
-            JSON.stringify(saved)
-        );
-
-
-        updateSavedCount();
-
-
-        /*
-         * Re-render the page.
-         * If Saved Schemes mode is active,
-         * the removed card disappears immediately.
-         */
-
-        filterSchemes();
-
-    };
-
-
-    function isSchemeSaved(id) {
-
-        return getSavedSchemes().some(
-            savedId => Number(savedId) === Number(id)
-        );
-
-    }
-
-
-    function updateSavedCount() {
-
-        if (savedCount) {
-            savedCount.textContent =
-                getSavedSchemes().length;
-        }
-
-    }
-
-
-    window.toggleSaveScheme = function (id, button) {
-
+    window.toggleSaveScheme = function (id) {
         let saved = getSavedSchemes();
-
         const numericId = Number(id);
 
-        const exists = saved.some(
-            savedId => Number(savedId) === numericId
-        );
-
-
-        if (exists) {
-
-            saved = saved.filter(
-                savedId => Number(savedId) !== numericId
-            );
-
+        if (saved.includes(numericId)) {
+            saved = saved.filter(savedId => savedId !== numericId);
         } else {
-
             saved.push(numericId);
-
         }
 
-
-        localStorage.setItem(
-            "savedSchemes",
-            JSON.stringify(saved)
-        );
-
+        saved = [...new Set(saved)];
+        localStorage.setItem("savedSchemes", JSON.stringify(saved));
 
         updateSavedCount();
-
-        // Re-render current results
         filterSchemes();
 
+        // Keep the mobile badge synchronized immediately.
+        if (typeof window.updateMobileSavedBadge === "function") {
+            window.updateMobileSavedBadge();
+        }
     };
-
 
     // =========================================================
     // URL CATEGORY
@@ -749,7 +634,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
         const filtered =
-            schemes.filter(scheme => {
+            activeSchemes.filter(scheme => {
 
                 const name =
                     String(scheme.schemeName || "")
@@ -1421,6 +1306,8 @@ window.refreshExploreSchemes =
         const freshSchemes =
             getExploreSchemes();
 
+        // Keep this page's filtering source in sync with the latest data.
+        activeSchemes = freshSchemes;
 
         /*
          * Update the global schemes reference

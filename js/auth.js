@@ -346,6 +346,9 @@ function setSession(user) {
         "oneScheme_session",
         JSON.stringify(user)
     );
+
+    // Keep the mobile role-based navigation in sync immediately.
+    window.dispatchEvent(new Event("oneSchemeSessionChanged"));
 }
 
 
@@ -379,6 +382,9 @@ function clearSession() {
     localStorage.removeItem(
         "oneScheme_session"
     );
+
+    // Keep the mobile navigation in sync immediately after logout.
+    window.dispatchEvent(new Event("oneSchemeSessionChanged"));
 }
 
 
@@ -521,21 +527,129 @@ function updateNavbarForSession() {
         <i class="bi bi-chevron-down ms-1"></i>
     `;
 
-    loginBtn.onclick = function () {
+    loginBtn.onclick = function (event) {
 
-        if (
-            confirm(
-                "Log out of your account?"
-            )
-        ) {
+        event.preventDefault();
+        event.stopPropagation();
 
-            logoutUser();
-
-        }
+        toggleRegularUserMenu();
 
     };
 
 }
+
+
+/* =========================================================
+   REGULAR USER ACCOUNT MENU
+   ========================================================= */
+
+let regularUserMenuElement = null;
+
+function createRegularUserMenu() {
+
+    if (regularUserMenuElement) return regularUserMenuElement;
+
+    const menu = document.createElement("div");
+    menu.id = "regularUserAccountMenu";
+    menu.className = "regular-user-account-menu";
+
+    menu.innerHTML = `
+        <button type="button" class="account-menu-item" id="editProfileMenuItem">
+            <i class="bi bi-person-vcard"></i>
+            <span>Edit Your Profile</span>
+        </button>
+        <div class="account-menu-divider"></div>
+        <button type="button" class="account-menu-item account-menu-logout" id="logoutMenuItem">
+            <i class="bi bi-box-arrow-right"></i>
+            <span>Log Out</span>
+        </button>
+    `;
+
+    document.body.appendChild(menu);
+    regularUserMenuElement = menu;
+
+    document.getElementById("editProfileMenuItem").addEventListener("click", function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        closeRegularUserMenu();
+
+        if (typeof window.openProfileSetupModal === "function") {
+            window.openProfileSetupModal({
+                mode: "edit",
+                profile: typeof window.getSavedUserProfile === "function"
+                    ? window.getSavedUserProfile()
+                    : null
+            });
+        }
+    });
+
+    document.getElementById("logoutMenuItem").addEventListener("click", function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        if (confirm("Are you sure you want to log out of your account?")) {
+            closeRegularUserMenu();
+            logoutUser();
+        }
+    });
+
+    return menu;
+}
+
+function positionRegularUserMenu() {
+
+    const loginBtn = document.getElementById("loginTrigger");
+    if (!loginBtn || !regularUserMenuElement) return;
+
+    const rect = loginBtn.getBoundingClientRect();
+    const menuWidth = 220;
+
+    regularUserMenuElement.style.top = `${rect.bottom + 10}px`;
+    regularUserMenuElement.style.right = `${Math.max(12, window.innerWidth - rect.right)}px`;
+    regularUserMenuElement.style.minWidth = `${menuWidth}px`;
+}
+
+function toggleRegularUserMenu() {
+
+    const session = getSession();
+    if (!session || session.role !== "user") return;
+
+    const menu = createRegularUserMenu();
+
+    if (menu.classList.contains("show")) {
+        closeRegularUserMenu();
+        return;
+    }
+
+    closeAdminMenu();
+    positionRegularUserMenu();
+    menu.classList.add("show");
+}
+
+function closeRegularUserMenu() {
+    if (regularUserMenuElement) {
+        regularUserMenuElement.classList.remove("show");
+    }
+}
+
+/* Close account menu when clicking elsewhere. */
+document.addEventListener("click", function (event) {
+    const loginBtn = document.getElementById("loginTrigger");
+
+    if (
+        regularUserMenuElement &&
+        !regularUserMenuElement.contains(event.target) &&
+        event.target !== loginBtn
+    ) {
+        closeRegularUserMenu();
+    }
+});
+
+window.addEventListener("resize", function () {
+    if (regularUserMenuElement && regularUserMenuElement.classList.contains("show")) {
+        positionRegularUserMenu();
+    }
+});
 
 
 /* =========================================================
@@ -561,6 +675,7 @@ function getFirstName(name) {
 
 function logoutUser() {
 
+    closeRegularUserMenu();
     clearSession();
 
     const savedNav =
@@ -3008,7 +3123,10 @@ function handleSignIn(e) {
             match.email,
 
         role:
-            "user"
+            "user",
+
+        profile:
+            match.profile || null
     });
 
 
@@ -3017,6 +3135,16 @@ function handleSignIn(e) {
 
     if (authModalInstance) {
         authModalInstance.hide();
+    }
+
+    // A normal user's eligibility profile is collected after login.
+    if (typeof window.openProfileSetupModal === "function") {
+        setTimeout(function () {
+            window.openProfileSetupModal({
+                mode: match.profile ? "edit" : "setup",
+                profile: match.profile || null
+            });
+        }, 250);
     }
 }
 
@@ -3187,7 +3315,10 @@ function handleCreateAccount(e) {
             newUser.email,
 
         role:
-            "user"
+            "user",
+
+        profile:
+            null
     });
 
 
@@ -3196,6 +3327,15 @@ function handleCreateAccount(e) {
 
     if (authModalInstance) {
         authModalInstance.hide();
+    }
+
+    if (typeof window.openProfileSetupModal === "function") {
+        setTimeout(function () {
+            window.openProfileSetupModal({
+                mode: "setup",
+                profile: null
+            });
+        }, 250);
     }
 }
 

@@ -34,6 +34,7 @@
     <link rel="stylesheet" href="css/eligibility.css">
     <link rel="stylesheet" href="css/auth.css">
     <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/mobile-enhance.css">
 
 
 </head>
@@ -56,9 +57,29 @@
 
             </a>
 
-            <button type="button" id="mobileHeaderSearch" class="mobile-header-search" aria-label="Search">
+            <!-- Mobile-only search trigger. The desktop navbar remains unchanged. -->
+            <button type="button" class="mobile-search-toggle" id="mobileSearchToggle" aria-label="Search schemes"
+                aria-expanded="false">
                 <i class="bi bi-search"></i>
             </button>
+
+            <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#menu">
+
+                <span class="navbar-toggler-icon"></span>
+
+            </button>
+
+            <!-- Mobile-only search panel -->
+            <div class="mobile-search-panel" id="mobileSearchPanel">
+                <div class="mobile-search-box">
+                    <input type="text" id="mobileHomeSearch" class="form-control" placeholder="Search any scheme..."
+                        autocomplete="off">
+                    <button type="button" id="mobileSearchBtn" aria-label="Search">
+                        <i class="bi bi-search"></i>
+                    </button>
+                </div>
+                <div id="mobileSearchResults" class="mobile-search-results"></div>
+            </div>
 
             <div class="collapse navbar-collapse" id="menu">
 
@@ -112,24 +133,6 @@
 
     </nav>
 
-    <!-- MOBILE SEARCH -->
-    <div id="mobileSearchPanel" class="mobile-search-panel">
-
-        <div class="search-box">
-
-            <input type="text" id="homeSearch" class="form-control" placeholder="Search any scheme..."
-                autocomplete="off">
-
-            <button type="button" id="searchBtn" aria-label="Search">
-                <i class="bi bi-search"></i>
-            </button>
-
-        </div>
-
-        <div id="searchResults" class="search-results"></div>
-
-    </div>
-
     <!-- Hero -->
 
     <section class="hero">
@@ -161,18 +164,23 @@
 
                     </p>
 
-                    <a href="pages/eligibility.html" class="mobile-eligibility-arrow"
-                        aria-label="Open Eligibility Checker">
-                        <span>Check Your Eligibility</span>
-                        <i class="bi bi-arrow-right"></i>
-                    </a>
-
                 </div>
-
-
 
                 <!-- RIGHT SIDE - EXISTING ELIGIBILITY FORM -->
                 <div class="col-lg-5">
+
+                    <!-- Mobile-only: collapsed by default, expands to reveal
+                         the exact same wizard below (see mobile-enhance.css) -->
+                    <button type="button" class="mobile-eligibility-toggle" id="eligToggleBtn">
+                        <span class="met-left">
+                            <i class="bi bi-clipboard2-check"></i>
+                            <span>
+                                Check Your Eligibility
+                                <small>Get schemes matched to your profile</small>
+                            </span>
+                        </span>
+                        <i class="bi bi-chevron-down met-chevron"></i>
+                    </button>
 
                     <div id="eligibilityContainer"></div>
 
@@ -191,7 +199,22 @@
 ======================= -->
 
     <section class="categories py-5">
+
         <div class="container">
+
+            <div class="search-box">
+
+                <input type="text" id="homeSearch" class="form-control" placeholder="Search any scheme...">
+
+                <button>
+
+                    <i class="bi bi-search"></i>
+
+                </button>
+
+            </div>
+
+            <div id="searchResults" class="search-results"></div>
 
             <br><br>
             <div class="section-title text-center mb-5">
@@ -1245,8 +1268,6 @@
         </div>
     </div>
 
-
-
     <script>
         fetch("pages/eligibility.html")
             .then(response => response.text())
@@ -1276,145 +1297,78 @@
             });
     </script>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
+    <!-- =======================
+     Mobile Bottom Navigation
+     (hidden on desktop, see mobile-enhance.css)
+======================= -->
+    <nav class="liquid-bottom-nav" id="mobileBottomNav">
 
-            const roleTab = document.getElementById("liquidRoleTab");
-            const roleLabel = document.getElementById("liquidRoleLabel");
+        <!-- 1. HOME -->
+        <a href="index.html" class="liquid-nav-item" data-page="home">
 
-            if (!roleTab || !roleLabel) return;
+            <span class="liquid-icon">
+                <i class="bi bi-house-fill"></i>
+            </span>
 
+            <span class="liquid-label">Home</span>
 
-            /*
-             * Read logged-in user
-             */
-            let user = null;
-
-            try {
-                user = JSON.parse(
-                    localStorage.getItem("currentUser")
-                );
-            } catch (error) {
-                user = null;
-            }
+        </a>
 
 
-            /*
-             * No logged-in user
-             */
-            if (!user) {
+        <!-- 2. EXPLORE -->
+        <a href="pages/explore.html" class="liquid-nav-item" data-page="explore">
 
-                roleTab.href = "pages/explore.html";
+            <span class="liquid-icon">
+                <i class="bi bi-compass-fill"></i>
+            </span>
 
-                roleLabel.textContent = "Login";
+            <span class="liquid-label">Explore</span>
 
-                const icon = roleTab.querySelector("i");
-
-                if (icon) {
-                    icon.className = "bi bi-person-fill";
-                }
-
-                return;
-            }
+        </a>
 
 
-            /*
-             * Get role
-             */
-            const role =
-                String(
-                    user.role ||
-                    user.userType ||
-                    user.accountType ||
-                    ""
-                ).toLowerCase();
+        <!-- 3. ROLE BASED -->
+        <button type="button" class="liquid-nav-item liquid-role-item" id="mnavRoleButton"
+            onclick="handleMobileRoleAction()">
+
+            <span class="liquid-icon">
+
+                <i class="bi bi-box-arrow-in-right"></i>
+
+                <span class="liquid-badge" id="mnavSavedCount" style="display:none;"></span>
+
+            </span>
+
+            <span class="liquid-label" id="mnavRoleLabel">
+                Login
+            </span>
+
+        </button>
 
 
-            /*
-             * NORMAL USER
-             */
-            if (
-                role === "user" ||
-                role === "regular" ||
-                role === "normal"
-            ) {
+        <!-- 4. SETTINGS -->
+        <button type="button" class="liquid-nav-item" id="mnavSettingsButton" data-page="settings"
+            onclick="toggleMobileSettings(event)">
 
-                roleTab.href =
-                    "pages/explore.html?saved=true";
+            <span class="liquid-icon">
+                <i class="bi bi-gear-fill"></i>
+            </span>
 
-                roleLabel.textContent =
-                    "Saved";
+            <span class="liquid-label">
+                Settings
+            </span>
 
-                const icon =
-                    roleTab.querySelector("i");
+        </button>
 
-                if (icon) {
-                    icon.className =
-                        "bi bi-heart-fill";
-                }
-
-            }
-
-
-            /*
-             * SCHEME PROVIDER
-             */
-            else if (
-                role === "scheme provider" ||
-                role === "schemeprovider" ||
-                role === "provider"
-            ) {
-
-                roleTab.href =
-                    "pages/provider.html";
-
-                roleLabel.textContent =
-                    "My Schemes";
-
-                const icon =
-                    roleTab.querySelector("i");
-
-                if (icon) {
-                    icon.className =
-                        "bi bi-file-earmark-text-fill";
-                }
-
-            }
-
-
-            /*
-             * ADMIN
-             */
-            else if (
-                role === "admin" ||
-                role === "platform admin" ||
-                role === "platformadmin"
-            ) {
-
-                roleTab.href =
-                    "pages/admin.html";
-
-                roleLabel.textContent =
-                    "Admin";
-
-                const icon =
-                    roleTab.querySelector("i");
-
-                if (icon) {
-                    icon.className =
-                        "bi bi-shield-fill-check";
-                }
-
-            }
-
-        });
-    </script>
+    </nav>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/schemes.js"></script>
     <script src="js/script.js"></script>
     <script src="js/auth.js"></script>
     <script src="js/session.js"></script>
+    <script src="js/mobile-nav.js"></script>
+    <script src="js/profile.js"></script>
 
     <div id="google_translate_element"></div>
     <script src="js/translate.js"></script>

@@ -89,17 +89,6 @@ function calculateMatch(scheme, user) {
     return { percent, reasons };
 }
 
-function buildMatchHTML(percent) {
-    return `
-    <div class="match-wrap">
-        <div class="match-ring" style="background: conic-gradient(#2563EB ${percent * 3.6}deg, #E5E7EB 0deg);">
-            <div class="match-ring-inner">${percent}%</div>
-        </div>
-        <div class="match-label">Match</div>
-    </div>
-    `;
-}
-
 function buildWhyEligibleHTML(reasons) {
 
     if (!reasons || reasons.length === 0) {
@@ -191,40 +180,46 @@ function getSavedSchemes() {
 }
 
 function isSchemeSaved(id) {
-    return getSavedSchemes().includes(id);
+    return getSavedSchemes().some(
+        savedId => Number(savedId) === Number(id)
+    );
 }
 
 function toggleSaveScheme(id, btn) {
 
-    let saved = getSavedSchemes();
+    let saved = getSavedSchemes()
+        .map(Number)
+        .filter(id => !Number.isNaN(id));
 
-    if (saved.includes(id)) {
+    const numericId = Number(id);
 
-        saved = saved.filter(x => x !== id);
+    if (saved.includes(numericId)) {
+        saved = saved.filter(x => x !== numericId);
 
         if (btn) {
             btn.classList.remove("saved");
             btn.innerHTML = '<i class="bi bi-heart"></i> Save';
         }
-
     } else {
-
-        saved.push(id);
+        saved.push(numericId);
 
         if (btn) {
             btn.classList.add("saved");
             btn.innerHTML = '<i class="bi bi-heart-fill"></i> Saved';
         }
-
     }
 
+    saved = [...new Set(saved)];
     localStorage.setItem("savedSchemes", JSON.stringify(saved));
 
     const countEl = document.getElementById("savedCount");
-    if (countEl) {
-        countEl.textContent = saved.length;
+    if (countEl) countEl.textContent = saved.length;
+
+    if (typeof window.updateMobileSavedBadge === "function") {
+        window.updateMobileSavedBadge();
     }
 }
+
 
 
 // =====================================
@@ -339,7 +334,6 @@ if (eligibleSchemes.length > 0) {
                     ${scheme.schemeName}
                 </h4>
 
-                ${buildMatchHTML(match.percent)}
 
                 <div class="scheme-info">
                     <p>

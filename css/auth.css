@@ -483,3 +483,81 @@
 
     font-weight: 600;
 }
+
+/* =========================================================
+   REGULAR USER ACCOUNT DROPDOWN
+   ========================================================= */
+
+.regular-user-account-menu {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 220px;
+    padding: 8px;
+    display: block;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-6px) scale(.98);
+    transform-origin: top right;
+    transition: opacity .18s ease, transform .18s ease, visibility .18s ease;
+    background: rgba(255, 255, 255, .96);
+    border: 1px solid rgba(37, 99, 235, .10);
+    border-radius: 16px;
+    box-shadow: 0 16px 40px rgba(15, 23, 42, .16);
+    z-index: 10050;
+}
+
+.regular-user-account-menu.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+}
+
+.account-menu-item {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 11px 12px;
+    border: 0;
+    border-radius: 11px;
+    background: transparent;
+    color: #1f2937;
+    text-align: left;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background .18s ease, color .18s ease;
+}
+
+.account-menu-item:hover {
+    background: #eef4ff;
+    color: #2563eb;
+}
+
+.account-menu-item i {
+    width: 18px;
+    font-size: 17px;
+}
+
+.account-menu-divider {
+    height: 1px;
+    margin: 4px 6px;
+    background: #e5e7eb;
+}
+
+.account-menu-item.account-menu-logout {
+    color: #dc2626;
+}
+
+.account-menu-item.account-menu-logout:hover {
+    background: #fef2f2;
+    color: #b91c1c;
+}
+
+@media (max-width: 991.98px) {
+    .regular-user-account-menu {
+        display: none !important;
+    }
+}

@@ -125,6 +125,32 @@ function showStep(step) {
 
 }
 
+// ===============================================
+// JUMP DIRECTLY TO FINAL STEP
+// Used by the saved-profile flow. The profile has
+// already supplied all previous step values, so the
+// user should not have to press Next five times.
+// ===============================================
+
+window.goToFinalEligibilityStep = function () {
+
+    if (!steps || steps.length === 0) return;
+
+    currentStep = steps.length - 1;
+
+    showStep(currentStep);
+
+    // Keep the final step visible even on the mobile
+    // dynamically inserted wizard.
+    const finalStep = steps[currentStep];
+    if (finalStep) {
+        finalStep.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+        });
+    }
+};
+
 
 // ===============================================
 // VALIDATION
