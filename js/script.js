@@ -268,3 +268,212 @@ document.addEventListener(
 
     }
 );
+
+/* =========================================================
+   MOBILE HEADER SEARCH
+   ========================================================= */
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const button = document.getElementById("mobileHeaderSearch");
+    const panel = document.getElementById("mobileSearchPanel");
+    const input = document.getElementById("homeSearch");
+
+    console.log("Mobile search setup started");
+
+    if (!button) {
+        console.error("ERROR: #mobileHeaderSearch not found");
+        return;
+    }
+
+    if (!panel) {
+        console.error("ERROR: #mobileSearchPanel not found");
+        return;
+    }
+
+    if (!input) {
+        console.error("ERROR: #homeSearch not found");
+        return;
+    }
+
+
+    /* =====================================================
+       BUTTON CLICK
+       ===================================================== */
+
+    button.addEventListener("click", function (event) {
+
+        event.preventDefault();
+        event.stopPropagation();
+
+        console.log("SEARCH BUTTON CLICKED");
+
+
+        const currentlyOpen =
+            panel.classList.contains("search-visible");
+
+
+        if (currentlyOpen) {
+
+            /* CLOSE SEARCH */
+
+            panel.classList.remove("search-visible");
+
+            input.blur();
+
+            console.log("Search closed");
+
+        } else {
+
+            /* OPEN SEARCH */
+
+            panel.classList.add("search-visible");
+
+            console.log("Search opened");
+
+            /*
+             * IMPORTANT:
+             * There is NO scrollIntoView().
+             * The page must NOT move.
+             */
+
+            setTimeout(function () {
+
+                input.focus();
+
+            }, 100);
+
+        }
+
+    });
+
+});
+
+/* =========================================================
+   GLOBAL MOBILE BOTTOM NAVIGATION
+   Works on ALL pages
+   Mobile view ONLY
+   ========================================================= */
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    // Prevent duplicate navigation
+    if (document.getElementById("mobileLiquidNav")) {
+        return;
+    }
+
+    const path = window.location.pathname.toLowerCase();
+
+    // Check whether current page is inside /pages/
+    const insidePagesFolder = path.includes("/pages/");
+
+    // Correct paths depending on current page
+    const homeURL = insidePagesFolder
+        ? "../index.html"
+        : "index.html";
+
+    const exploreURL = insidePagesFolder
+        ? "explore.html"
+        : "pages/explore.html";
+
+    const loginURL = insidePagesFolder
+        ? "login.html"
+        : "pages/login.html";
+
+    const settingsURL = insidePagesFolder
+        ? "settings.html"
+        : "pages/settings.html";
+
+
+    // Determine active page
+    let activePage = "home";
+
+    if (path.includes("explore")) {
+        activePage = "explore";
+    }
+    else if (
+        path.includes("login") ||
+        path.includes("auth")
+    ) {
+        activePage = "login";
+    }
+    else if (path.includes("settings")) {
+        activePage = "settings";
+    }
+
+
+    // Create navigation
+    const nav = document.createElement("nav");
+
+    nav.id = "mobileLiquidNav";
+    nav.className = "mobile-liquid-nav";
+
+
+    nav.innerHTML = `
+
+        <!-- HOME -->
+        <a
+            href="${homeURL}"
+            class="liquid-nav-item ${activePage === "home" ? "active" : ""}"
+        >
+            <span class="liquid-icon">
+                <i class="bi bi-house-fill"></i>
+            </span>
+
+            <span class="liquid-label">
+                Home
+            </span>
+        </a>
+
+
+        <!-- EXPLORE -->
+        <a
+            href="${exploreURL}"
+            class="liquid-nav-item ${activePage === "explore" ? "active" : ""}"
+        >
+            <span class="liquid-icon">
+                <i class="bi bi-search"></i>
+            </span>
+
+            <span class="liquid-label">
+                Explore
+            </span>
+        </a>
+
+
+        <!-- LOGIN -->
+        <a
+            href="${loginURL}"
+            class="liquid-nav-item ${activePage === "login" ? "active" : ""}"
+        >
+            <span class="liquid-icon">
+                <i class="bi bi-person-fill"></i>
+            </span>
+
+            <span class="liquid-label">
+                Login
+            </span>
+        </a>
+
+
+        <!-- SETTINGS -->
+        <a
+            href="${settingsURL}"
+            class="liquid-nav-item ${activePage === "settings" ? "active" : ""}"
+        >
+            <span class="liquid-icon">
+                <i class="bi bi-gear-fill"></i>
+            </span>
+
+            <span class="liquid-label">
+                Settings
+            </span>
+        </a>
+
+    `;
+
+
+    // Add navigation to current page
+    document.body.appendChild(nav);
+
+});

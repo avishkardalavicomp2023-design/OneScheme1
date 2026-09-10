@@ -56,10 +56,8 @@
 
             </a>
 
-            <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#menu">
-
-                <span class="navbar-toggler-icon"></span>
-
+            <button type="button" id="mobileHeaderSearch" class="mobile-header-search" aria-label="Search">
+                <i class="bi bi-search"></i>
             </button>
 
             <div class="collapse navbar-collapse" id="menu">
@@ -114,6 +112,24 @@
 
     </nav>
 
+    <!-- MOBILE SEARCH -->
+    <div id="mobileSearchPanel" class="mobile-search-panel">
+
+        <div class="search-box">
+
+            <input type="text" id="homeSearch" class="form-control" placeholder="Search any scheme..."
+                autocomplete="off">
+
+            <button type="button" id="searchBtn" aria-label="Search">
+                <i class="bi bi-search"></i>
+            </button>
+
+        </div>
+
+        <div id="searchResults" class="search-results"></div>
+
+    </div>
+
     <!-- Hero -->
 
     <section class="hero">
@@ -145,7 +161,15 @@
 
                     </p>
 
+                    <a href="pages/eligibility.html" class="mobile-eligibility-arrow"
+                        aria-label="Open Eligibility Checker">
+                        <span>Check Your Eligibility</span>
+                        <i class="bi bi-arrow-right"></i>
+                    </a>
+
                 </div>
+
+
 
                 <!-- RIGHT SIDE - EXISTING ELIGIBILITY FORM -->
                 <div class="col-lg-5">
@@ -167,22 +191,7 @@
 ======================= -->
 
     <section class="categories py-5">
-
         <div class="container">
-
-            <div class="search-box">
-
-                <input type="text" id="homeSearch" class="form-control" placeholder="Search any scheme...">
-
-                <button>
-
-                    <i class="bi bi-search"></i>
-
-                </button>
-
-            </div>
-
-            <div id="searchResults" class="search-results"></div>
 
             <br><br>
             <div class="section-title text-center mb-5">
@@ -1236,6 +1245,8 @@
         </div>
     </div>
 
+
+
     <script>
         fetch("pages/eligibility.html")
             .then(response => response.text())
@@ -1263,6 +1274,140 @@
             .catch(error => {
                 console.error("Error loading eligibility form:", error);
             });
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const roleTab = document.getElementById("liquidRoleTab");
+            const roleLabel = document.getElementById("liquidRoleLabel");
+
+            if (!roleTab || !roleLabel) return;
+
+
+            /*
+             * Read logged-in user
+             */
+            let user = null;
+
+            try {
+                user = JSON.parse(
+                    localStorage.getItem("currentUser")
+                );
+            } catch (error) {
+                user = null;
+            }
+
+
+            /*
+             * No logged-in user
+             */
+            if (!user) {
+
+                roleTab.href = "pages/explore.html";
+
+                roleLabel.textContent = "Login";
+
+                const icon = roleTab.querySelector("i");
+
+                if (icon) {
+                    icon.className = "bi bi-person-fill";
+                }
+
+                return;
+            }
+
+
+            /*
+             * Get role
+             */
+            const role =
+                String(
+                    user.role ||
+                    user.userType ||
+                    user.accountType ||
+                    ""
+                ).toLowerCase();
+
+
+            /*
+             * NORMAL USER
+             */
+            if (
+                role === "user" ||
+                role === "regular" ||
+                role === "normal"
+            ) {
+
+                roleTab.href =
+                    "pages/explore.html?saved=true";
+
+                roleLabel.textContent =
+                    "Saved";
+
+                const icon =
+                    roleTab.querySelector("i");
+
+                if (icon) {
+                    icon.className =
+                        "bi bi-heart-fill";
+                }
+
+            }
+
+
+            /*
+             * SCHEME PROVIDER
+             */
+            else if (
+                role === "scheme provider" ||
+                role === "schemeprovider" ||
+                role === "provider"
+            ) {
+
+                roleTab.href =
+                    "pages/provider.html";
+
+                roleLabel.textContent =
+                    "My Schemes";
+
+                const icon =
+                    roleTab.querySelector("i");
+
+                if (icon) {
+                    icon.className =
+                        "bi bi-file-earmark-text-fill";
+                }
+
+            }
+
+
+            /*
+             * ADMIN
+             */
+            else if (
+                role === "admin" ||
+                role === "platform admin" ||
+                role === "platformadmin"
+            ) {
+
+                roleTab.href =
+                    "pages/admin.html";
+
+                roleLabel.textContent =
+                    "Admin";
+
+                const icon =
+                    roleTab.querySelector("i");
+
+                if (icon) {
+                    icon.className =
+                        "bi bi-shield-fill-check";
+                }
+
+            }
+
+        });
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
